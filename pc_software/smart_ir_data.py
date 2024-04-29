@@ -47,9 +47,9 @@ def generate_base_appliance(name):
     controls = []
     for i in range(6):
         # Add basic controls
-        control = Control(f"Control {i}", bytes.fromhex("FFFFFF"), 3, [0, 0, 255])
+        control = Control(f"Control {i+1}", bytes.fromhex("FFFFFF"), 3, [0, 0, 255])
         controls.append(control)
 
-    appliance = Appliance(name, 0, controls)
+    appliance = Appliance(name, ORIENTATION_UP, controls)
 
     return appliance

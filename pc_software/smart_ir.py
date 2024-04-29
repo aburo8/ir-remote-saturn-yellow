@@ -38,12 +38,19 @@ connectionStatus = 1  # 1 represent no connection; 2 represent connected sucessf
 class MainWindow(QMainWindow):
     # Class Private Variables
     configData: ControllerConfig
+    currentApplianceIndex: int
+    selectedControlIndex: int
 
     def __init__(self):
         super(MainWindow, self).__init__()
 
         # Load in the UI File
         loadUi(os.path.abspath("pc_software/ui/mainScreenUI.ui"), self)
+        
+        # Init Data
+        self.configData = ControllerConfig(VERSION, [])
+        self.currentApplianceIndex = 0 # Not selected
+        self.selectedControlIndex = -1 # Not selected
 
         # Initialise UI Elements
         self.port_select_c = self.findChild(QComboBox, "PortSelect_C")
@@ -72,6 +79,12 @@ class MainWindow(QMainWindow):
         self.connectB.clicked.connect(self.connect_to_port)
         self.scanPortsB.clicked.connect(self.serial_scan_handler)
         self.addApplianceB.clicked.connect(self.add_appliance)
+        self.controlB_1.clicked.connect(lambda: self.control_selected(0))
+        self.controlB_2.clicked.connect(lambda: self.control_selected(1))
+        self.controlB_3.clicked.connect(lambda: self.control_selected(2))
+        self.controlB_4.clicked.connect(lambda: self.control_selected(3))
+        self.controlB_5.clicked.connect(lambda: self.control_selected(4))
+        self.controlB_6.clicked.connect(lambda: self.control_selected(5))
 
         # Serial Port Connection Timers
         self.connection_timer = QTimer(self)
@@ -90,9 +103,6 @@ class MainWindow(QMainWindow):
 
         # Graceful Close
         QCoreApplication.instance().aboutToQuit.connect(self.close_window)
-        
-        # Init Data
-        self.configData = ControllerConfig(VERSION, [])
 
     def add_appliance(self):
         """
@@ -138,16 +148,17 @@ class MainWindow(QMainWindow):
 
         # Re-Populate GUI Fields
         # Appliance Selector
-        self.selectedApplianceC.clear()
-        for i in range(len(data.appliances)):
-            self.selectedApplianceC.addItem(data.appliances[i].name)
+        if len(data.appliances) > 0:
+            self.selectedApplianceC.clear()
+            for i in range(len(data.appliances)):
+                self.selectedApplianceC.addItem(data.appliances[i].name)
 
-        # Appliance Global Settings
-        self.orientationC.setCurrentIndex(data.appliances[self.currentApplianceIndex].orientation)
+            # Appliance Global Settings
+            self.orientationC.setCurrentIndex(data.appliances[self.currentApplianceIndex].orientation)
         
-        # Controls
-        for idx, control in enumerate(data.appliances[self.currentApplianceIndex].controls):
-            self.update_control_ui(idx, control.label, control.colour)
+            # Controls
+            for idx, control in enumerate(data.appliances[self.currentApplianceIndex].controls):
+                self.update_control_ui(idx, control.label, control.colour)
 
     def update_control_ui(self, index, label, colour):
         """
@@ -174,6 +185,17 @@ class MainWindow(QMainWindow):
         elif index == 5:
             self.controlB_6.setStyleSheet(styleSheet)
             self.controlB_6.setText(label)
+
+    def control_selected(self, idx):
+        """
+        Executes when a device control is selected
+        """
+        # Set selected index
+        self.selectedControlIndex = idx
+        print(f"Control Selected: {self.configData.appliances[self.currentApplianceIndex].controls[idx].label}")
+        
+        # Reload the configuration
+        self.reload_configuration_data(applianceIndex=self.currentApplianceIndex)
 
     def fetch_serial(self):
         """
