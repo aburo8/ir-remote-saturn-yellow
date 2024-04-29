@@ -266,13 +266,13 @@ color:rgb(0,0,0);</string>
 color:rgb(0,0,0);</string>
      </property>
      <property name="text">
-      <string>Name:</string>
+      <string>Control Label:</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
-    <widget class="QTextEdit" name="bleMac_t">
+    <widget class="QTextEdit" name="controlLabel_t">
      <property name="geometry">
       <rect>
        <x>200</x>
@@ -285,14 +285,14 @@ color:rgb(0,0,0);</string>
       <string>Use format &quot;XX:XX:XX:XX:XX:XX&quot;</string>
      </property>
      <property name="readOnly">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <property name="html">
       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:12pt; font-weight:600; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8.25pt; font-weight:400;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QLabel" name="staticProSplit_L_6">
@@ -315,7 +315,7 @@ color:rgb(0,0,0);</string>
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
-    <widget class="QTextEdit" name="bleMajor_t">
+    <widget class="QTextEdit" name="irCode_t">
      <property name="geometry">
       <rect>
        <x>200</x>
@@ -337,14 +337,14 @@ color:rgb(0,0,0);</string>
       <string/>
      </property>
      <property name="readOnly">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <property name="html">
       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:12pt; font-weight:600; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8.25pt; font-weight:400;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QLabel" name="staticProSplit_L_7">
@@ -367,7 +367,7 @@ color:rgb(0,0,0);</string>
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
-    <widget class="QComboBox" name="bleName_C">
+    <widget class="QComboBox" name="selectedAppliance_c">
      <property name="geometry">
       <rect>
        <x>200</x>
@@ -432,7 +432,7 @@ color:rgb(0,0,0);</string>
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
-    <widget class="QComboBox" name="removeNode_C">
+    <widget class="QComboBox" name="orientation_c">
      <property name="geometry">
       <rect>
        <x>200</x>
@@ -530,8 +530,8 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:12pt; font-weight:600; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8.25pt; font-weight:400;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QLabel" name="staticProSplit_L_13">
@@ -554,7 +554,7 @@ color:rgb(0,0,0);</string>
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
-    <widget class="QTextEdit" name="bleMac_t_2">
+    <widget class="QTextEdit" name="applianceNameAdd_t">
      <property name="geometry">
       <rect>
        <x>170</x>
@@ -567,17 +567,17 @@ color:rgb(0,0,0);</string>
       <string>Use format &quot;XX:XX:XX:XX:XX:XX&quot;</string>
      </property>
      <property name="readOnly">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <property name="html">
       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:12pt; font-weight:600; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8.25pt; font-weight:400;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="connectB_2">
+    <widget class="QPushButton" name="applianceAdd_b">
      <property name="geometry">
       <rect>
        <x>400</x>
@@ -595,7 +595,7 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
       <string>Add Appliance</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="connectB_3">
+    <widget class="QPushButton" name="updateControllers_b">
      <property name="geometry">
       <rect>
        <x>660</x>
@@ -646,7 +646,7 @@ color:rgb(0,0,0);</string>
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
-    <widget class="QPushButton" name="connectB_4">
+    <widget class="QPushButton" name="colourSelector_b">
      <property name="geometry">
       <rect>
        <x>200</x>
@@ -664,7 +664,7 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
       <string>Select Colour</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="connectB_5">
+    <widget class="QPushButton" name="delAppliance_b">
      <property name="geometry">
       <rect>
        <x>50</x>
@@ -715,7 +715,7 @@ color:rgb(0,0,0);</string>
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
-    <widget class="QPushButton" name="ScanPorts_B_2">
+    <widget class="QPushButton" name="control1_B">
      <property name="geometry">
       <rect>
        <x>560</x>
@@ -733,7 +733,7 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
       <string>Scan</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="ScanPorts_B_3">
+    <widget class="QPushButton" name="control4_B">
      <property name="geometry">
       <rect>
        <x>560</x>
@@ -751,7 +751,7 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
       <string>Scan</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="ScanPorts_B_4">
+    <widget class="QPushButton" name="control2_B">
      <property name="geometry">
       <rect>
        <x>710</x>
@@ -769,7 +769,7 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
       <string>Scan</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="ScanPorts_B_5">
+    <widget class="QPushButton" name="control3_B">
      <property name="geometry">
       <rect>
        <x>860</x>
@@ -787,7 +787,7 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
       <string>Scan</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="ScanPorts_B_6">
+    <widget class="QPushButton" name="control5_B">
      <property name="geometry">
       <rect>
        <x>710</x>
@@ -805,7 +805,7 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
       <string>Scan</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="ScanPorts_B_7">
+    <widget class="QPushButton" name="control6_B">
      <property name="geometry">
       <rect>
        <x>860</x>
@@ -887,9 +887,9 @@ color:rgb(0,0,0);</string>
      <property name="geometry">
       <rect>
        <x>200</x>
-       <y>580</y>
-       <width>141</width>
-       <height>21</height>
+       <y>570</y>
+       <width>191</width>
+       <height>31</height>
       </rect>
      </property>
      <property name="text">
@@ -948,8 +948,8 @@ color:rgb(0,0,0);</string>
       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:12pt; font-weight:600; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8.25pt; font-weight:400;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </widget>
