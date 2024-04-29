@@ -35,7 +35,7 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__()
 
         # Load in the UI File
-        loadUi(os.path.abspath("ui/mainScreenUI.ui"), self)
+        loadUi(os.path.abspath("pc_software/ui/mainScreenUI.ui"), self)
 
         # Initialise UI Elements
         self.port_select_c = self.findChild(QComboBox, "PortSelect_C")
@@ -64,7 +64,6 @@ class MainWindow(QMainWindow):
         self.signaller = Signaller()
         self.signaller.port_scan_complete.connect(self.update_ports_list)
 
-        # Kalman Filter
         QCoreApplication.instance().aboutToQuit.connect(self.close_window)
         
 
