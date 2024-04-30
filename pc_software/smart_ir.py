@@ -85,6 +85,7 @@ class MainWindow(QMainWindow):
         self.controlB_4.clicked.connect(lambda: self.control_selected(3))
         self.controlB_5.clicked.connect(lambda: self.control_selected(4))
         self.controlB_6.clicked.connect(lambda: self.control_selected(5))
+        self.selectedApplianceC.currentIndexChanged.connect(self.change_selected_appliance)
 
         # Serial Port Connection Timers
         self.connection_timer = QTimer(self)
@@ -125,6 +126,22 @@ class MainWindow(QMainWindow):
         # Refresh UI
         self.reload_configuration_data()
 
+    def change_selected_appliance(self):
+        """
+        Updates the selected appliance
+        """
+        self.currentApplianceIndex = self.selectedApplianceC.currentIndex()
+        
+        # Clear Fields
+        self.clear_fields()
+
+    def clear_fields(self):
+        """
+        Clear fields
+        """
+        self.controlLabelT.clear()
+        self.irCodeT.clear()
+
     def reload_configuration_data(self, applianceName=None, applianceIndex=None, controlIndex=None):
         """
         Reload the configuration currently stored in memory into the GUI
@@ -159,6 +176,12 @@ class MainWindow(QMainWindow):
             # Controls
             for idx, control in enumerate(data.appliances[self.currentApplianceIndex].controls):
                 self.update_control_ui(idx, control.label, control.colour)
+        
+            # Control Fields
+            if (self.selectedControlIndex >= 0):
+                # Populate the Fields
+                self.controlLabelT.setPlainText(data.appliances[self.currentApplianceIndex].controls[self.selectedControlIndex].label)
+                self.irCodeT.setPlainText(str(data.appliances[self.currentApplianceIndex].controls[self.selectedControlIndex].irCode))
 
     def update_control_ui(self, index, label, colour):
         """

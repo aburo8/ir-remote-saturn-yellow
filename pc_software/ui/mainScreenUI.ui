@@ -730,7 +730,7 @@ background-color:rgb(78, 66, 245);
 font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
      <property name="text">
-      <string>Scan</string>
+      <string/>
      </property>
     </widget>
     <widget class="QPushButton" name="control4_B">
@@ -748,7 +748,7 @@ background-color:rgb(78, 66, 245);
 font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
      <property name="text">
-      <string>Scan</string>
+      <string/>
      </property>
     </widget>
     <widget class="QPushButton" name="control2_B">
@@ -766,7 +766,7 @@ background-color:rgb(78, 66, 245);
 font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
      <property name="text">
-      <string>Scan</string>
+      <string/>
      </property>
     </widget>
     <widget class="QPushButton" name="control3_B">
@@ -784,7 +784,7 @@ background-color:rgb(78, 66, 245);
 font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
      <property name="text">
-      <string>Scan</string>
+      <string/>
      </property>
     </widget>
     <widget class="QPushButton" name="control5_B">
@@ -802,7 +802,7 @@ background-color:rgb(78, 66, 245);
 font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
      <property name="text">
-      <string>Scan</string>
+      <string/>
      </property>
     </widget>
     <widget class="QPushButton" name="control6_B">
@@ -820,7 +820,7 @@ background-color:rgb(78, 66, 245);
 font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
      <property name="text">
-      <string>Scan</string>
+      <string/>
      </property>
     </widget>
     <widget class="QLabel" name="staticProSplit_L_20">
