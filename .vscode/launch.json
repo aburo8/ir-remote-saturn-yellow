@@ -1,0 +1,34 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "cortex-debug",
+            "request": "attach",
+            "name": "Debug J-Link",
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceRoot}/build/zephyr/zephyr.elf",
+            "serverpath": "/opt/SEGGER/JLink/JLinkGDBServerCLExe", 
+            "device":"nRF52840_xxAA",
+            "servertype": "jlink",
+            "interface": "jtag",
+            "armToolchainPath": "/usr/bin/",
+            "svdFile": "${workspaceRoot}/SVD/nrf52840.svd" 
+        },
+        {
+            "type": "cortex-debug",
+            "request": "attach",
+            "name": "Debug Thingy:52",
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceRoot}/build/zephyr/zephyr.elf",
+            "serverpath": "/opt/SEGGER/JLink/JLinkGDBServerCLExe", 
+            "device":"nRF52832_xxAA",
+            "servertype": "jlink",
+            "interface": "jtag",
+            "armToolchainPath": "/usr/bin/",
+            "svdFile": "${workspaceRoot}/SVD/nrf52.svd" 
+        }
+    ]
+}
