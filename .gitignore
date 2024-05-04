@@ -61,9 +61,6 @@ modules/
 # Alex's Extra Files
 /*_txradio.c
 /*_txradio.h
-transmitter/mycode.tar
-transmitter/mycode/apps/prac1_app/shell_module/*
-transmitter/mycode/apps/prac1_app/uart/*
-transmitter/mycode/apps/demos/*
-transmitter/mycode/*
+/mycode.tar
+transmitter/ahu/mycode/*
 .cache/
