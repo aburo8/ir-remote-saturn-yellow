@@ -18,6 +18,7 @@
 #include "uart_module.h"
 #include "ble_module.h"
 #include "pc_module.h"
+#include "ir_receiver_module.h"
 
 // Define Priorities
 #define UART_PRIORITY 1
@@ -53,6 +54,7 @@ int main(void) {
 	// Initialise Hardware
 	init_leds();
 	init_ble();
+	init_ir_receiver();
 
 	return 0;
 }

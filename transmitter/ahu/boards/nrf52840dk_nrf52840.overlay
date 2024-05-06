@@ -4,10 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
- / {
-    aliases {
+ / 
+{
+	zephyr,user {
+    ts1838-gpios = <&gpio0 27 GPIO_ACTIVE_HIGH>;
+	};
+    
+	aliases {
       uart-test = &uart1;
 	  pc-software = &uart0;
+	  ir-rec = &gpio0;
    };
 };
 

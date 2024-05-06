@@ -1,9 +1,6 @@
 {
     "files.associations": {
-        "bluetooth.h": "c",
-        "kernel.h": "c",
-        "log.h": "c",
-        "system_error": "c",
-        "random": "c"
+        "stdint.h": "c",
+        "ir_receiver_module.h": "c"
     }
 }

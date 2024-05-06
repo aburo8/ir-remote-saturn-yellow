@@ -20,6 +20,11 @@ typedef struct {
 // Activate UART shell logic, otherwise default to using UART for GUI connection
 // #define UART_SHELL
 
+// THINGY52 BT CONTROL
+// The AHU has the capability to automatically connect to a THINGY:52 and stream data from it's sensors to a PC.
+// Uncomment the line below to activate this functionality
+// #define THINGY52_BT
+
 /**
  * AHU handler which handles the shell
  * 
