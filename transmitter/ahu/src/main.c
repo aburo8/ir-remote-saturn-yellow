@@ -19,6 +19,7 @@
 #include "ble_module.h"
 #include "pc_module.h"
 #include "ir_receiver_module.h"
+#include "ir_transmitter_module.h"
 
 // Define Priorities
 #define UART_PRIORITY 1
@@ -55,6 +56,7 @@ int main(void) {
 	init_leds();
 	init_ble();
 	init_ir_receiver();
+	init_ir_transmitter();
 
 	return 0;
 }
