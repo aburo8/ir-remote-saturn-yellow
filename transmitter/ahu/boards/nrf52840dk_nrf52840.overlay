@@ -1,0 +1,37 @@
+/*
+ * Copyright (c) 2021 Jonathan Hahn
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+ / 
+{
+	zephyr,user {
+		ts1838-gpios = <&gpio0 27 GPIO_ACTIVE_HIGH>;
+		k851262-gpios = <&gpio0 26 GPIO_ACTIVE_HIGH>;
+	};
+    
+	aliases {
+      uart-test = &uart1;
+	  pc-software = &uart0;
+	  ir-rec = &gpio0;
+	  ir-trans = &gpio0;
+   };
+};
+
+&uart0 {
+	compatible = "nordic,nrf-uarte";
+	status = "okay";
+	current-speed = <115200>;
+	pinctrl-0 = <&uart0_default>;
+	pinctrl-1 = <&uart0_sleep>;
+	pinctrl-names = "default", "sleep";
+};
+
+&uart1 {
+	status = "okay";
+	current-speed = <115200>;
+	pinctrl-0 = <&uart1_default>;
+	pinctrl-1 = <&uart1_sleep>;
+	pinctrl-names = "default", "sleep";
+};
