@@ -64,3 +64,6 @@ modules/
 /mycode.tar
 transmitter/ahu/mycode/*
 .cache/
+
+# Python
+__pycache__/
