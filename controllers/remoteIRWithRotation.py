@@ -74,6 +74,8 @@ def set_rectangles_green():
 
 def updateScreenRotation(rotation): # rotation here is 0-3
   global rect0, rect1, rect2, rect3, rect4, rect5, Title, label_one, label_two, label_three, label_four, label_five, label_six
+  # update your global state variables
+  # these should store the current appliance index
   if rotation == 0:
     # write code to rebuild 0 here.
     # Set colour based on the JSON File orientation & colour properties
