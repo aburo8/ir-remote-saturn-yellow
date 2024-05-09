@@ -17,7 +17,8 @@ from PyQt5.QtWidgets import (
     QPushButton,
     QTextEdit,
     QStatusBar,
-    QRadioButton
+    QRadioButton,
+    QColorDialog
 )
 from PyQt5.QtCore import QTimer, Qt, pyqtSignal, QObject, QCoreApplication, QThread
 import paho.mqtt.client as mqtt
@@ -87,6 +88,7 @@ class MainWindow(QMainWindow):
         self.controlB_6.clicked.connect(lambda: self.control_selected(5))
         self.selectedApplianceC.activated.connect(self.change_selected_appliance)
         self.controlLabelT.textChanged.connect(self.on_control_label_changed)
+        self.colourSelectB.clicked.connect(self.select_control_colour)
 
         # Serial Port Connection Timers
         self.connection_timer = QTimer(self)
@@ -206,6 +208,7 @@ class MainWindow(QMainWindow):
         """
         colourStr = f"rgb({colour[0]}, {colour[1]}, {colour[2]})"
         styleSheet = f"border-radius:20px; background-color: {colourStr}; font: 75 12pt 'MS Shell Dlg 2';"
+        self.colourSelectB.setStyleSheet(styleSheet)
         if index == 0:
             self.controlB_1.setStyleSheet(styleSheet)
             self.controlB_1.setText(label)
@@ -243,6 +246,16 @@ class MainWindow(QMainWindow):
             self.update_control_ui(self.currentControlIndex, self.controlLabelT.toPlainText(), self.configData.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].colour)
         else:
             print("No Label Selected!")
+
+    def select_control_colour(self):
+        if self.currentControlIndex != -1:
+            colour = QColorDialog.getColor()
+            if (colour.isValid()):
+                rgb = [colour.red(), colour.green(), colour.blue()]
+                print("Selected Color:", rgb)
+                label = self.configData.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].label
+                self.configData.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].colour = rgb
+                self.update_control_ui(self.currentControlIndex, label, rgb)
 
     def fetch_serial(self):
         """
