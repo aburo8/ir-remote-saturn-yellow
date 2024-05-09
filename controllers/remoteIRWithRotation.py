@@ -72,8 +72,15 @@ def set_rectangles_green():
   rect5.setColor(color=0x33ff33, fill_c=0x33ff33)
 
 
-def updateScreenRotation(rotation):
+def updateScreenRotation(rotation): # rotation here is 0-3
   global rect0, rect1, rect2, rect3, rect4, rect5, Title, label_one, label_two, label_three, label_four, label_five, label_six
+  if rotation == 0:
+    # write code to rebuild 0 here.
+    # Set colour based on the JSON File orientation & colour properties
+    pass
+  elif rotation == 1:
+    pass
+    
   Widgets.setRotation(rotation)
   Widgets.fillScreen(0x222222)
   rect0 = Widgets.Rectangle(35, 40, 30, 30, 0xffffff, 0xffffff)
