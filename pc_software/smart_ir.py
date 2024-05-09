@@ -39,7 +39,7 @@ class MainWindow(QMainWindow):
     # Class Private Variables
     configData: ControllerConfig
     currentApplianceIndex: int
-    selectedControlIndex: int
+    currentControlIndex: int
 
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -49,8 +49,8 @@ class MainWindow(QMainWindow):
         
         # Init Data
         self.configData = ControllerConfig(VERSION, [])
-        self.currentApplianceIndex = 0 # Not selected
-        self.selectedControlIndex = -1 # Not selected
+        self.currentApplianceIndex = -1 # Not selected
+        self.currentControlIndex = -1 # Not selected
 
         # Initialise UI Elements
         self.port_select_c = self.findChild(QComboBox, "PortSelect_C")
@@ -85,7 +85,8 @@ class MainWindow(QMainWindow):
         self.controlB_4.clicked.connect(lambda: self.control_selected(3))
         self.controlB_5.clicked.connect(lambda: self.control_selected(4))
         self.controlB_6.clicked.connect(lambda: self.control_selected(5))
-        self.selectedApplianceC.currentIndexChanged.connect(self.change_selected_appliance)
+        self.selectedApplianceC.activated.connect(self.change_selected_appliance)
+        self.controlLabelT.textChanged.connect(self.on_control_label_changed)
 
         # Serial Port Connection Timers
         self.connection_timer = QTimer(self)
@@ -122,25 +123,35 @@ class MainWindow(QMainWindow):
         # Create the appliance
         self.configData.appliances.append(generate_base_appliance(name))
         self.addApplianceNameT.clear()
+        self.currentApplianceIndex = len(self.configData.appliances) - 1 # index's are 0-based
+        self.currentControlIndex = -1
 
         # Refresh UI
-        self.reload_configuration_data()
+        self.reload_configuration_data(applianceIndex=self.currentApplianceIndex)
 
     def change_selected_appliance(self):
         """
         Updates the selected appliance
         """
         self.currentApplianceIndex = self.selectedApplianceC.currentIndex()
-        
-        # Clear Fields
-        self.clear_fields()
+        self.currentControlIndex = -1
+
+        # Reload
+        self.reload_configuration_data(applianceIndex=self.currentApplianceIndex)
 
     def clear_fields(self):
         """
         Clear fields
         """
+        # Save the state of the index selections before clearing
+        appIdx = self.currentApplianceIndex
+        conIdx = self.currentControlIndex
+        self.currentApplianceIndex = -1
+        self.currentControlIndex = -1
         self.controlLabelT.clear()
         self.irCodeT.clear()
+        self.currentApplianceIndex = appIdx
+        self.currentControlIndex = conIdx
 
     def reload_configuration_data(self, applianceName=None, applianceIndex=None, controlIndex=None):
         """
@@ -165,11 +176,16 @@ class MainWindow(QMainWindow):
 
         # Re-Populate GUI Fields
         # Appliance Selector
+        self.clear_fields()
         if len(data.appliances) > 0:
-            self.selectedApplianceC.clear()
+            appIdx = self.currentApplianceIndex
+            self.selectedApplianceC.clear() # This will trigger change_selected_appliance() which will clear all fields & reset the appliance drop down. Overwrite this
+            self.currentApplianceIndex = appIdx
             for i in range(len(data.appliances)):
                 self.selectedApplianceC.addItem(data.appliances[i].name)
+                self.currentApplianceIndex = appIdx # same as above, adding items technically clears the UI.
 
+            self.selectedApplianceC.setCurrentIndex(appIdx)
             # Appliance Global Settings
             self.orientationC.setCurrentIndex(data.appliances[self.currentApplianceIndex].orientation)
         
@@ -178,10 +194,10 @@ class MainWindow(QMainWindow):
                 self.update_control_ui(idx, control.label, control.colour)
         
             # Control Fields
-            if (self.selectedControlIndex >= 0):
+            if (self.currentControlIndex >= 0):
                 # Populate the Fields
-                self.controlLabelT.setPlainText(data.appliances[self.currentApplianceIndex].controls[self.selectedControlIndex].label)
-                self.irCodeT.setPlainText(str(data.appliances[self.currentApplianceIndex].controls[self.selectedControlIndex].irCode))
+                self.controlLabelT.setPlainText(data.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].label)
+                self.irCodeT.setPlainText(str(data.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].irCode))
 
     def update_control_ui(self, index, label, colour):
         """
@@ -214,11 +230,19 @@ class MainWindow(QMainWindow):
         Executes when a device control is selected
         """
         # Set selected index
-        self.selectedControlIndex = idx
-        print(f"Control Selected: {self.configData.appliances[self.currentApplianceIndex].controls[idx].label}")
-        
-        # Reload the configuration
-        self.reload_configuration_data(applianceIndex=self.currentApplianceIndex)
+        if self.currentApplianceIndex != -1:
+            self.currentControlIndex = idx
+            print(f"Control Selected: {self.configData.appliances[self.currentApplianceIndex].controls[idx].label}")
+            
+            # Reload the configuration
+            self.reload_configuration_data(applianceIndex=self.currentApplianceIndex)
+
+    def on_control_label_changed(self):
+        if self.currentControlIndex != -1:
+            self.configData.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].label = self.controlLabelT.toPlainText()
+            self.update_control_ui(self.currentControlIndex, self.controlLabelT.toPlainText(), self.configData.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].colour)
+        else:
+            print("No Label Selected!")
 
     def fetch_serial(self):
         """
