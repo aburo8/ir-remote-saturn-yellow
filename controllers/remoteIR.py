@@ -67,11 +67,78 @@ def set_rectangles_green():
   rect4.setColor(color=0x33ff33, fill_c=0x33ff33)
   rect5.setColor(color=0x33ff33, fill_c=0x33ff33)
   
+  
 def zero_degree_screen():
 
   global rect0, rect4, rect1, rect5, Title, rect2, label_one, rect3, label_two, label_three, label_four, label_five, label_six
   # set rotation
+  Widgets.setRotation(1)
+  Widgets.fillScreen(0x222222)
+  Title = Widgets.Title("IR Remote", 3, 0xffffff, 0x0000FF, Widgets.FONTS.DejaVu18)
+  
+  rect0 = Widgets.Rectangle(40, 40, 50, 50, 0xffffff, 0xffffff)
+  rect1 = Widgets.Rectangle(140, 40, 50, 50, 0xffffff, 0xffffff)
+  rect2 = Widgets.Rectangle(240, 40, 50, 50, 0xffffff, 0xffffff)
+  rect3 = Widgets.Rectangle(40, 140, 50, 50, 0xffffff, 0xffffff)
+  rect4 = Widgets.Rectangle(140, 140, 50, 50, 0xffffff, 0xffffff)
+  rect5 = Widgets.Rectangle(240, 140, 50, 50, 0xffffff, 0xffffff)
+  
+  label_one = Widgets.Label("1", 50, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+  label_two = Widgets.Label("2", 150, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+  label_three = Widgets.Label("3", 250, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+  label_four = Widgets.Label("4", 50, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+  label_five = Widgets.Label("5", 150, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+  label_six = Widgets.Label("6", 250, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+  
+def ninety_degree_screen():
+
+  global rect0, rect4, rect1, rect5, Title, rect2, label_one, rect3, label_two, label_three, label_four, label_five, label_six
+  # set rotation
   Widgets.setRotation(0)
+  Widgets.fillScreen(0x222222)
+  Title = Widgets.Title("IR Remote", 3, 0xffffff, 0x0000FF, Widgets.FONTS.DejaVu18)
+  #re-shuffle rectangles
+  rect0 = Widgets.Rectangle(30, 40, 50, 50, 0xffffff, 0xffffff)
+  rect1 = Widgets.Rectangle(130, 40, 50, 50, 0xffffff, 0xffffff)
+  rect2 = Widgets.Rectangle(30, 140, 50, 50, 0xffffff, 0xffffff)
+  rect3 = Widgets.Rectangle(130, 140, 50, 50, 0xffffff, 0xffffff)
+  rect4 = Widgets.Rectangle(30, 240, 50, 50, 0xffffff, 0xffffff)
+  rect5 = Widgets.Rectangle(130, 240, 50, 50, 0xffffff, 0xffffff)
+  #re-shuffle labels
+  label_one = Widgets.Label("1", 50, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+  label_two = Widgets.Label("2", 150, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+  label_three = Widgets.Label("3", 50, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+  label_four = Widgets.Label("4", 150, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+  label_five = Widgets.Label("5", 50, 300, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+  label_six = Widgets.Label("6", 150, 300, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+  
+def one_eighty_degree_screen():
+
+  global rect0, rect4, rect1, rect5, Title, rect2, label_one, rect3, label_two, label_three, label_four, label_five, label_six
+  # set rotation
+  Widgets.setRotation(3)
+  Widgets.fillScreen(0x222222)
+  Title = Widgets.Title("IR Remote", 3, 0xffffff, 0x0000FF, Widgets.FONTS.DejaVu18)
+  
+  rect0 = Widgets.Rectangle(40, 40, 50, 50, 0xffffff, 0xffffff)
+  rect1 = Widgets.Rectangle(140, 40, 50, 50, 0xffffff, 0xffffff)
+  rect2 = Widgets.Rectangle(240, 40, 50, 50, 0xffffff, 0xffffff)
+  rect3 = Widgets.Rectangle(40, 140, 50, 50, 0xffffff, 0xffffff)
+  rect4 = Widgets.Rectangle(140, 140, 50, 50, 0xffffff, 0xffffff)
+  rect5 = Widgets.Rectangle(240, 140, 50, 50, 0xffffff, 0xffffff)
+  
+  label_one = Widgets.Label("1", 50, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+  label_two = Widgets.Label("2", 150, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+  label_three = Widgets.Label("3", 250, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+  label_four = Widgets.Label("4", 50, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+  label_five = Widgets.Label("5", 150, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+  label_six = Widgets.Label("6", 250, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+  
+def two_seventy_degree_screen():
+
+  global rect0, rect4, rect1, rect5, Title, rect2, label_one, rect3, label_two, label_three, label_four, label_five, label_six
+  # set rotation
+  Widgets.setRotation(2)
   Widgets.fillScreen(0x222222)
   Title = Widgets.Title("IR Remote", 3, 0xffffff, 0x0000FF, Widgets.FONTS.DejaVu18)
   #re-shuffle rectangles
@@ -94,23 +161,7 @@ def setup():
   global rect0, rect4, rect1, rect5, Title, rect2, label_one, rect3, label_two, label_three, label_four, label_five, label_six, configuration, press, debounce, x, y, z, button, rotation, current_color, last_color
 
   M5.begin()
-  Widgets.setRotation(1)
-  Widgets.fillScreen(0x222222)
-  Title = Widgets.Title("IR Remote", 3, 0xffffff, 0x0000FF, Widgets.FONTS.DejaVu18)
-  
-  rect0 = Widgets.Rectangle(40, 40, 50, 50, 0xffffff, 0xffffff)
-  rect1 = Widgets.Rectangle(140, 40, 50, 50, 0xffffff, 0xffffff)
-  rect2 = Widgets.Rectangle(240, 40, 50, 50, 0xffffff, 0xffffff)
-  rect3 = Widgets.Rectangle(40, 140, 50, 50, 0xffffff, 0xffffff)
-  rect4 = Widgets.Rectangle(140, 140, 50, 50, 0xffffff, 0xffffff)
-  rect5 = Widgets.Rectangle(240, 140, 50, 50, 0xffffff, 0xffffff)
-  
-  label_one = Widgets.Label("1", 50, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-  label_two = Widgets.Label("2", 150, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-  label_three = Widgets.Label("3", 250, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-  label_four = Widgets.Label("4", 50, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-  label_five = Widgets.Label("5", 150, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-  label_six = Widgets.Label("6", 250, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+  zero_degree_screen()
 
   press = 0
   debounce = 0
@@ -146,13 +197,16 @@ def loop():
   # update color of buttons from rotation (if rotation has changed)
   if last_color != current_color:
     if rotation==0:
+      zero_degree_screen()
       set_rectangles_blue()
     elif rotation==1:
-      zero_degree_screen()
+      ninety_degree_screen()
       set_rectangles_green()
     elif rotation==2:
+      one_eighty_degree_screen()
       set_rectangles_red()
     elif rotation==3:
+      two_seventy_degree_screen()
       set_rectangles_yellow()
     else:
       set_rectangles_blue()
