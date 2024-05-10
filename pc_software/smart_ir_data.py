@@ -119,3 +119,16 @@ def orientation_to_string(orientation):
         return "Up (0 Degrees)"
     else:
         return ""
+
+def rgb_to_hex(r, g, b):
+    """
+    Convert RGB values to hexadecimal format.
+    """
+    # Ensure RGB values are within valid range
+    r = max(0, min(255, r))
+    g = max(0, min(255, g))
+    b = max(0, min(255, b))
+    
+    # Convert RGB to hexadecimal format
+    hex_value = "0x{:02x}{:02x}{:02x}".format(r, g, b)
+    return hex_value
