@@ -98,6 +98,7 @@ class MainWindow(QMainWindow):
         self.colourSelectB.clicked.connect(self.select_control_colour)
         self.orientationC.activated.connect(self.on_change_orientation)
         self.updateControllersB.clicked.connect(self.update_controllers)
+        self.deleteApplianceB.clicked.connect(self.on_delete_appliance)
 
         # Serial Port Connection Timers
         self.connection_timer = QTimer(self)
@@ -287,6 +288,11 @@ class MainWindow(QMainWindow):
             # TODO: add a check somewhere (likely when pressing update controllers that ensures each appliance has a different direction)
 
             self.reload_configuration_data(applianceIndex=self.currentApplianceIndex)
+
+    def on_delete_appliance(self):
+        if (self.currentApplianceIndex != -1):
+            self.configData.appliances.pop(self.currentApplianceIndex)
+            self.reload_configuration_data()
 
     def update_controllers(self):
         data = json.dumps(self.configData.to_dict(), indent=4,)
