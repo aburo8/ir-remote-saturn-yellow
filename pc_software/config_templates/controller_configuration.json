@@ -1,0 +1,245 @@
+{
+    "version": 1.0,
+    "appliances": [
+        {
+            "name": "Kid's TV",
+            "orientation": 0,
+            "controls": [
+                {
+                    "label": "Netflix",
+                    "irCode": 55,
+                    "colour": [
+                        170,
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "label": "Prime",
+                    "irCode": 55,
+                    "colour": [
+                        255,
+                        255,
+                        127
+                    ]
+                },
+                {
+                    "label": "Disney+",
+                    "irCode": 55,
+                    "colour": [
+                        85,
+                        85,
+                        255
+                    ]
+                },
+                {
+                    "label": "TV On/Off",
+                    "irCode": 55,
+                    "colour": [
+                        255,
+                        255,
+                        0
+                    ]
+                },
+                {
+                    "label": "Volume Down",
+                    "irCode": 55,
+                    "colour": [
+                        170,
+                        0,
+                        255
+                    ]
+                },
+                {
+                    "label": "Volume Up",
+                    "irCode": 55,
+                    "colour": [
+                        0,
+                        0,
+                        255
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Bedroom Light Bar",
+            "orientation": 1,
+            "controls": [
+                {
+                    "label": "Red",
+                    "irCode": 55,
+                    "colour": [
+                        255,
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "label": "Green",
+                    "irCode": 55,
+                    "colour": [
+                        85,
+                        170,
+                        0
+                    ]
+                },
+                {
+                    "label": "Blue",
+                    "irCode": 55,
+                    "colour": [
+                        85,
+                        85,
+                        255
+                    ]
+                },
+                {
+                    "label": "On",
+                    "irCode": 55,
+                    "colour": [
+                        255,
+                        255,
+                        0
+                    ]
+                },
+                {
+                    "label": "Off",
+                    "irCode": 55,
+                    "colour": [
+                        255,
+                        0,
+                        255
+                    ]
+                },
+                {
+                    "label": "Fade",
+                    "irCode": 55,
+                    "colour": [
+                        255,
+                        170,
+                        127
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Theatre",
+            "orientation": 2,
+            "controls": [
+                {
+                    "label": "On/Off",
+                    "irCode": 55,
+                    "colour": [
+                        255,
+                        44,
+                        153
+                    ]
+                },
+                {
+                    "label": "Apple TV",
+                    "irCode": 55,
+                    "colour": [
+                        198,
+                        255,
+                        181
+                    ]
+                },
+                {
+                    "label": "XBOX",
+                    "irCode": 55,
+                    "colour": [
+                        44,
+                        255,
+                        128
+                    ]
+                },
+                {
+                    "label": "PS5",
+                    "irCode": 55,
+                    "colour": [
+                        8,
+                        0,
+                        255
+                    ]
+                },
+                {
+                    "label": "Switch",
+                    "irCode": 55,
+                    "colour": [
+                        255,
+                        238,
+                        219
+                    ]
+                },
+                {
+                    "label": "DVD",
+                    "irCode": 55,
+                    "colour": [
+                        94,
+                        98,
+                        124
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "House Lighting",
+            "orientation": 3,
+            "controls": [
+                {
+                    "label": "Alex's Room",
+                    "irCode": 55,
+                    "colour": [
+                        251,
+                        255,
+                        171
+                    ]
+                },
+                {
+                    "label": "Ben's Room",
+                    "irCode": 55,
+                    "colour": [
+                        255,
+                        43,
+                        237
+                    ]
+                },
+                {
+                    "label": "Niko's Room",
+                    "irCode": 55,
+                    "colour": [
+                        208,
+                        255,
+                        37
+                    ]
+                },
+                {
+                    "label": "Kitchen",
+                    "irCode": 55,
+                    "colour": [
+                        255,
+                        72,
+                        48
+                    ]
+                },
+                {
+                    "label": "Living Room",
+                    "irCode": 55,
+                    "colour": [
+                        255,
+                        89,
+                        153
+                    ]
+                },
+                {
+                    "label": "Dining Room",
+                    "irCode": 55,
+                    "colour": [
+                        0,
+                        0,
+                        255
+                    ]
+                }
+            ]
+        }
+    ]
+}

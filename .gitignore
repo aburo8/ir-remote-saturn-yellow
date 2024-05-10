@@ -68,3 +68,6 @@ demos/
 
 # Python
 __pycache__/
+
+# Smart IR
+user_data/
