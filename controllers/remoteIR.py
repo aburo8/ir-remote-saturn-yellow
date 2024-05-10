@@ -2,6 +2,7 @@ import os, sys, io
 import M5
 from M5 import *
 import time
+import json
 
 # shapes used on screen
 rect0 = None
@@ -29,6 +30,84 @@ button = None
 rotation = None
 current_color = None
 last_color = None
+data = ""
+
+string = """{
+  "appliances": [
+    {
+      "name": "Light Bar",
+      "orientation": 0,
+      "controls": [
+        {
+          "name": "Red Light",
+          "ir_code": "#FFFFFF",
+          "color": [255, 255, 255]
+        },
+        {
+          "name": "Purple Light",
+          "ir_code": "#000000",
+          "color": [0, 0, 0]
+        },
+        {
+          "name": "Fade Mode",
+          "ir_code": "#FF0000",
+          "color": [255, 0, 0]
+        },
+        {
+          "name": "Stripe Mode",
+          "ir_code": "#00FF00",
+          "color": [0, 255, 0]
+        },
+        {
+          "name": "Brightness Up",
+          "ir_code": "#0000FF",
+          "color": [0, 0, 255]
+        },
+        {
+          "name": "Brightness Down",
+          "ir_code": "#FFFF00",
+          "color": [255, 255, 0]
+        }
+      ]
+    },
+    {
+      "name": "Light Bar",
+      "orientation": 1,
+      "controls": [
+        {
+          "name": "Red Light",
+          "ir_code": "#FFFFFF",
+          "color": [255, 255, 255]
+        },
+        {
+          "name": "Purple Light",
+          "ir_code": "#000000",
+          "color": [0, 0, 0]
+        },
+        {
+          "name": "Fade Mode",
+          "ir_code": "#FF0000",
+          "color": [255, 0, 0]
+        },
+        {
+          "name": "Stripe Mode",
+          "ir_code": "#00FF00",
+          "color": [0, 255, 0]
+        },
+        {
+          "name": "Brightness Up",
+          "ir_code": "#0000FF",
+          "color": [0, 0, 255]
+        },
+        {
+          "name": "Brightness Down",
+          "ir_code": "#FFFF00",
+          "color": [255, 255, 0]
+        }
+      ]
+    }
+  ]
+}"""
 
 
 def set_rectangles_blue():
@@ -70,25 +149,34 @@ def set_rectangles_green():
   
 def zero_degree_screen():
 
-  global rect0, rect4, rect1, rect5, Title, rect2, label_one, rect3, label_two, label_three, label_four, label_five, label_six
-  # set rotation
-  Widgets.setRotation(1)
-  Widgets.fillScreen(0x222222)
-  Title = Widgets.Title("IR Remote", 3, 0xffffff, 0x0000FF, Widgets.FONTS.DejaVu18)
-  
-  rect0 = Widgets.Rectangle(40, 40, 50, 50, 0xffffff, 0xffffff)
-  rect1 = Widgets.Rectangle(140, 40, 50, 50, 0xffffff, 0xffffff)
-  rect2 = Widgets.Rectangle(240, 40, 50, 50, 0xffffff, 0xffffff)
-  rect3 = Widgets.Rectangle(40, 140, 50, 50, 0xffffff, 0xffffff)
-  rect4 = Widgets.Rectangle(140, 140, 50, 50, 0xffffff, 0xffffff)
-  rect5 = Widgets.Rectangle(240, 140, 50, 50, 0xffffff, 0xffffff)
-  
-  label_one = Widgets.Label("1", 50, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-  label_two = Widgets.Label("2", 150, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-  label_three = Widgets.Label("3", 250, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-  label_four = Widgets.Label("4", 50, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-  label_five = Widgets.Label("5", 150, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-  label_six = Widgets.Label("6", 250, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+    global rect0, rect4, rect1, rect5, Title, rect2, label_one, rect3, label_two, label_three, label_four, label_five, label_six, data
+    # set rotation
+    Widgets.setRotation(1)
+    Widgets.fillScreen(0x222222)
+    Title = Widgets.Title("IR Remote", 3, 0xffffff, 0x0000FF, Widgets.FONTS.DejaVu18)
+
+    rect0 = Widgets.Rectangle(40, 40, 50, 50, 0xffffff, 0xffffff)
+    rect1 = Widgets.Rectangle(140, 40, 50, 50, 0xffffff, 0xffffff)
+    rect2 = Widgets.Rectangle(240, 40, 50, 50, 0xffffff, 0xffffff)
+    rect3 = Widgets.Rectangle(40, 140, 50, 50, 0xffffff, 0xffffff)
+    rect4 = Widgets.Rectangle(140, 140, 50, 50, 0xffffff, 0xffffff)
+    rect5 = Widgets.Rectangle(240, 140, 50, 50, 0xffffff, 0xffffff)
+      
+    # List to store control names for orientation = 0
+    control_names_orientation_0 = []
+
+    # Iterate through appliances and their controls
+    for appliance in data["appliances"]:
+        if appliance["orientation"] == 0:
+            for control in appliance["controls"]:
+                control_names_orientation_0.append(control["name"])
+      
+    label_one = Widgets.Label(control_names_orientation_0[0], 30, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+    label_two = Widgets.Label(control_names_orientation_0[1], 130, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+    label_three = Widgets.Label(control_names_orientation_0[2], 230, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+    label_four = Widgets.Label(control_names_orientation_0[3], 30, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+    label_five = Widgets.Label(control_names_orientation_0[4], 130, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+    label_six = Widgets.Label(control_names_orientation_0[5], 230, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
   
 def ninety_degree_screen():
 
@@ -158,9 +246,10 @@ def two_seventy_degree_screen():
 
 
 def setup():
-  global rect0, rect4, rect1, rect5, Title, rect2, label_one, rect3, label_two, label_three, label_four, label_five, label_six, configuration, press, debounce, x, y, z, button, rotation, current_color, last_color
+  global rect0, rect4, rect1, rect5, Title, rect2, label_one, rect3, label_two, label_three, label_four, label_five, label_six, configuration, press, debounce, x, y, z, button, rotation, current_color, last_color, data, string
 
   M5.begin()
+  data = json.loads(string)
   zero_degree_screen()
 
   press = 0
