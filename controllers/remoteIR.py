@@ -3,7 +3,6 @@ import M5
 from M5 import *
 import time
 
-
 # shapes used on screen
 rect0 = None
 rect4 = None
@@ -30,6 +29,7 @@ button = None
 rotation = None
 current_color = None
 last_color = None
+
 
 def set_rectangles_blue():
   global configuration, press, debounce, x, y, z, button, rotation, current_color, last_color, rect0, rect4, rect1, rect5, Title, rect2, label_one, rect3, label_two, label_three, label_four, label_five, label_six
@@ -214,27 +214,81 @@ def loop():
     
   # process any button presses from device
   if (M5.Touch.getX()) < 110 and (M5.Touch.getY()) < 120 and (M5.Touch.getCount()) > 0:
-    button = 1
+      
+    if rotation == 0:
+      button = 1
+    elif rotation == 1:
+        button = 2
+    elif rotation == 2:
+        button = 6
+    elif rotation == 3:
+        button = 5
     press = 1
     debounce = time.time()
+    
   elif (M5.Touch.getX()) < 110 and (M5.Touch.getY()) > 120 and (M5.Touch.getCount()) > 0:
-    button = 4
+      
+    if rotation == 0:
+        button = 4
+    elif rotation == 1:
+        button = 1
+    elif rotation == 2:
+        button = 3
+    elif rotation == 3:
+        button = 6
     press = 1
     debounce = time.time()
+    
   elif (M5.Touch.getX()) > 200 and (M5.Touch.getY()) < 120 and (M5.Touch.getCount()) > 0:
-    button = 3
+    
+    if rotation == 0:
+        button = 3
+    elif rotation == 1:
+        button = 6
+    elif rotation == 2:
+        button = 4
+    elif rotation == 3:
+        button = 1
     press = 1
     debounce = time.time()
+    
   elif (M5.Touch.getX()) > 200 and (M5.Touch.getY()) > 120 and (M5.Touch.getCount()) > 0:
-    button = 6
+    
+    if rotation == 0:
+        button = 6
+    elif rotation == 1:
+        button = 5
+    elif rotation == 2:
+        button = 1
+    elif rotation == 3:
+        button = 2
     press = 1
     debounce = time.time()
+    
   elif (M5.Touch.getY()) < 120 and (M5.Touch.getX()) > 110 and (M5.Touch.getX()) < 200 and (M5.Touch.getCount()) > 0:
-    button = 2
+
+    if rotation == 0:
+        button = 2
+    elif rotation == 1:
+        button = 4
+    elif rotation == 2:
+        button = 5
+    elif rotation == 3:
+        button = 3
     press = 1
     debounce = time.time()
+    
   elif (M5.Touch.getY()) > 120 and (M5.Touch.getX()) > 110 and (M5.Touch.getX()) < 200 and (M5.Touch.getCount()) > 0:
     button = 5
+    
+    if rotation == 0:
+        button = 5
+    elif rotation == 1:
+        button = 3
+    elif rotation == 2:
+        button = 2
+    elif rotation == 3:
+        button = 4
     press = 1
     debounce = time.time()
   
@@ -242,8 +296,6 @@ def loop():
   if press == 1 and (time.time()) - debounce >= 1:
     press = 0
     print((str('Button number: ') + str(button)))
-
-
 
 
 # Main function
