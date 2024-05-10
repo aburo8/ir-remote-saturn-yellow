@@ -53,6 +53,8 @@ class MainWindow(QMainWindow):
         
         # Init Data
         self.configData = ControllerConfig(VERSION, [])
+        # Load configuration data
+        self.configData.load_from_disk()
         self.currentApplianceIndex = -1 # Not selected
         self.currentControlIndex = -1 # Not selected
         self.availableOrientations = [ORIENTATION_UP, ORIENTATION_RIGHT, ORIENTATION_DOWN, ORIENTATION_LEFT] # All 4 orientations are available to start with
@@ -115,6 +117,9 @@ class MainWindow(QMainWindow):
         # Graceful Close
         QCoreApplication.instance().aboutToQuit.connect(self.close_window)
 
+        # Load in Application Data
+        self.reload_configuration_data()
+
     def add_appliance(self):
         """
         Adds an appliance to the system
@@ -171,9 +176,11 @@ class MainWindow(QMainWindow):
         NOTE: you should provide either an applianceName or applianceIndex to restore the existing state of the application.
               If both are provided the profile_name will be used by default.
         """
-        # TODO: reloading the configuration data should flush it to disk
-        # TODO: on startup load configuration if available
         data = self.configData
+
+        # Flush the latest configuration to disk
+        data.save_to_disk()
+
         # Set appliance state
         if applianceName is not None:
             # Set this profile to the current selection
