@@ -35,79 +35,152 @@ data = ""
 string = """{
   "appliances": [
     {
-      "name": "Light Bar",
+      "name": "Living Room Light",
       "orientation": 0,
       "controls": [
         {
-          "name": "Red Light",
-          "ir_code": "#FFFFFF",
-          "color": [255, 255, 255]
-        },
-        {
-          "name": "Purple Light",
-          "ir_code": "#000000",
-          "color": [0, 0, 0]
-        },
-        {
-          "name": "Fade Mode",
+          "name": "Crimson Light",
           "ir_code": "#FF0000",
-          "color": [255, 0, 0]
+          "color": "0xFF0000"
         },
         {
-          "name": "Stripe Mode",
-          "ir_code": "#00FF00",
-          "color": [0, 255, 0]
+          "name": "Magenta Light",
+          "ir_code": "#FF00FF",
+          "color": "0xFF00FF"
         },
         {
-          "name": "Brightness Up",
+          "name": "Sapphire Mode",
           "ir_code": "#0000FF",
-          "color": [0, 0, 255]
+          "color": "0x0000FF"
         },
         {
-          "name": "Brightness Down",
+          "name": "Emerald Mode",
+          "ir_code": "#00FF00",
+          "color": "0x00FF00"
+        },
+        {
+          "name": "Golden Up",
           "ir_code": "#FFFF00",
-          "color": [255, 255, 0]
+          "color": "0xFFFF00"
+        },
+        {
+          "name": "Azure Down",
+          "ir_code": "#00FFFF",
+          "color": "0x00FFFF"
         }
       ]
     },
     {
-      "name": "Light Bar",
+      "name": "Kitchen Light",
       "orientation": 1,
       "controls": [
         {
-          "name": "Red Light",
-          "ir_code": "#FFFFFF",
-          "color": [255, 255, 255]
+          "name": "Coral Light",
+          "ir_code": "#FF7F50",
+          "color": "0xFF7F50"
         },
         {
-          "name": "Purple Light",
-          "ir_code": "#000000",
-          "color": [0, 0, 0]
-        },
-        {
-          "name": "Fade Mode",
-          "ir_code": "#FF0000",
-          "color": [255, 0, 0]
-        },
-        {
-          "name": "Stripe Mode",
+          "name": "Lime Light",
           "ir_code": "#00FF00",
-          "color": [0, 255, 0]
+          "color": "0x00FF00"
         },
         {
-          "name": "Brightness Up",
-          "ir_code": "#0000FF",
-          "color": [0, 0, 255]
+          "name": "Ocean Mode",
+          "ir_code": "#4169E1",
+          "color": "0x4169E1"
         },
         {
-          "name": "Brightness Down",
-          "ir_code": "#FFFF00",
-          "color": [255, 255, 0]
+          "name": "Ruby Mode",
+          "ir_code": "#FF6347",
+          "color": "0xFF6347"
+        },
+        {
+          "name": "Topaz Up",
+          "ir_code": "#00CED1",
+          "color": "0x00CED1"
+        },
+        {
+          "name": "Bronze Down",
+          "ir_code": "#CD7F32",
+          "color": "0xCD7F32"
+        }
+      ]
+    },
+    {
+      "name": "Bedroom Light",
+      "orientation": 2,
+      "controls": [
+        {
+          "name": "Scarlet Light",
+          "ir_code": "#FF2400",
+          "color": "0xFF2400"
+        },
+        {
+          "name": "Teal Light",
+          "ir_code": "#008080",
+          "color": "0x008080"
+        },
+        {
+          "name": "Indigo Mode",
+          "ir_code": "#4B0082",
+          "color": "0x4B0082"
+        },
+        {
+          "name": "Amber Mode",
+          "ir_code": "#FFBF00",
+          "color": "0xFFBF00"
+        },
+        {
+          "name": "Platinum Up",
+          "ir_code": "#E5E4E2",
+          "color": "0xE5E4E2"
+        },
+        {
+          "name": "Copper Down",
+          "ir_code": "#B87333",
+          "color": "0xB87333"
+        }
+      ]
+    },
+    {
+      "name": "Office Light",
+      "orientation": 3,
+      "controls": [
+        {
+          "name": "Vermilion Light",
+          "ir_code": "#E34234",
+          "color": "0xE34234"
+        },
+        {
+          "name": "Olive Light",
+          "ir_code": "#808000",
+          "color": "0x808000"
+        },
+        {
+          "name": "Cobalt Mode",
+          "ir_code": "#0047AB",
+          "color": "0x0047AB"
+        },
+        {
+          "name": "Pearl Mode",
+          "ir_code": "#EAE0C8",
+          "color": "0xEAE0C8"
+        },
+        {
+          "name": "Silver Up",
+          "ir_code": "#C0C0C0",
+          "color": "0xC0C0C0"
+        },
+        {
+          "name": "Brass Down",
+          "ir_code": "#B5A642",
+          "color": "0xB5A642"
         }
       ]
     }
   ]
 }"""
+
 
 
 def set_rectangles_blue():
@@ -153,7 +226,16 @@ def zero_degree_screen():
     # set rotation
     Widgets.setRotation(1)
     Widgets.fillScreen(0x222222)
-    Title = Widgets.Title("IR Remote", 3, 0xffffff, 0x0000FF, Widgets.FONTS.DejaVu18)
+    
+    # List to store appliance names
+    appliance_names = []
+
+    # Iterate over each appliance in the "appliances" list
+    for appliance in data["appliances"]:
+        # Extract the "name" of the appliance and append to the list
+        appliance_names.append(appliance["name"])
+        
+    Title = Widgets.Title(appliance_names[0], 3, 0xffffff, 0x0000FF, Widgets.FONTS.DejaVu18)
 
     rect0 = Widgets.Rectangle(40, 40, 50, 50, 0xffffff, 0xffffff)
     rect1 = Widgets.Rectangle(140, 40, 50, 50, 0xffffff, 0xffffff)
@@ -171,78 +253,133 @@ def zero_degree_screen():
             for control in appliance["controls"]:
                 control_names_orientation_0.append(control["name"])
       
-    label_one = Widgets.Label(control_names_orientation_0[0], 30, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-    label_two = Widgets.Label(control_names_orientation_0[1], 130, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-    label_three = Widgets.Label(control_names_orientation_0[2], 230, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-    label_four = Widgets.Label(control_names_orientation_0[3], 30, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-    label_five = Widgets.Label(control_names_orientation_0[4], 130, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-    label_six = Widgets.Label(control_names_orientation_0[5], 230, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+    label_one = Widgets.Label(control_names_orientation_0[0], 25, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+    label_two = Widgets.Label(control_names_orientation_0[1], 125, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+    label_three = Widgets.Label(control_names_orientation_0[2], 225, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+    label_four = Widgets.Label(control_names_orientation_0[3], 25, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+    label_five = Widgets.Label(control_names_orientation_0[4], 125, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+    label_six = Widgets.Label(control_names_orientation_0[5], 225, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
   
 def ninety_degree_screen():
 
-  global rect0, rect4, rect1, rect5, Title, rect2, label_one, rect3, label_two, label_three, label_four, label_five, label_six
-  # set rotation
-  Widgets.setRotation(0)
-  Widgets.fillScreen(0x222222)
-  Title = Widgets.Title("IR Remote", 3, 0xffffff, 0x0000FF, Widgets.FONTS.DejaVu18)
-  #re-shuffle rectangles
-  rect0 = Widgets.Rectangle(30, 40, 50, 50, 0xffffff, 0xffffff)
-  rect1 = Widgets.Rectangle(130, 40, 50, 50, 0xffffff, 0xffffff)
-  rect2 = Widgets.Rectangle(30, 140, 50, 50, 0xffffff, 0xffffff)
-  rect3 = Widgets.Rectangle(130, 140, 50, 50, 0xffffff, 0xffffff)
-  rect4 = Widgets.Rectangle(30, 240, 50, 50, 0xffffff, 0xffffff)
-  rect5 = Widgets.Rectangle(130, 240, 50, 50, 0xffffff, 0xffffff)
-  #re-shuffle labels
-  label_one = Widgets.Label("1", 50, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-  label_two = Widgets.Label("2", 150, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-  label_three = Widgets.Label("3", 50, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-  label_four = Widgets.Label("4", 150, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-  label_five = Widgets.Label("5", 50, 300, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-  label_six = Widgets.Label("6", 150, 300, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+    global rect0, rect4, rect1, rect5, Title, rect2, label_one, rect3, label_two, label_three, label_four, label_five, label_six, data
+    # set rotation
+    Widgets.setRotation(0)
+    Widgets.fillScreen(0x222222)
+    
+    # List to store appliance names
+    appliance_names = []
+
+    # Iterate over each appliance in the "appliances" list
+    for appliance in data["appliances"]:
+        # Extract the "name" of the appliance and append to the list
+        appliance_names.append(appliance["name"])
+        
+    Title = Widgets.Title(appliance_names[1], 3, 0xffffff, 0x0000FF, Widgets.FONTS.DejaVu18)
+    
+    #re-shuffle rectangles
+    rect0 = Widgets.Rectangle(30, 40, 50, 50, 0xffffff, 0xffffff)
+    rect1 = Widgets.Rectangle(130, 40, 50, 50, 0xffffff, 0xffffff)
+    rect2 = Widgets.Rectangle(30, 140, 50, 50, 0xffffff, 0xffffff)
+    rect3 = Widgets.Rectangle(130, 140, 50, 50, 0xffffff, 0xffffff)
+    rect4 = Widgets.Rectangle(30, 240, 50, 50, 0xffffff, 0xffffff)
+    rect5 = Widgets.Rectangle(130, 240, 50, 50, 0xffffff, 0xffffff)
+  
+    # List to store control names for orientation = 0
+    control_names_orientation_1 = []
+
+    # Iterate through appliances and their controls
+    for appliance in data["appliances"]:
+        if appliance["orientation"] == 1:
+            for control in appliance["controls"]:
+                control_names_orientation_1.append(control["name"])
+    
+    label_one = Widgets.Label(control_names_orientation_1[0], 30, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+    label_two = Widgets.Label(control_names_orientation_1[1], 130, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+    label_three = Widgets.Label(control_names_orientation_1[2], 30, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+    label_four = Widgets.Label(control_names_orientation_1[3], 130, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+    label_five = Widgets.Label(control_names_orientation_1[4], 30, 300, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+    label_six = Widgets.Label(control_names_orientation_1[5], 130, 300, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
   
 def one_eighty_degree_screen():
 
-  global rect0, rect4, rect1, rect5, Title, rect2, label_one, rect3, label_two, label_three, label_four, label_five, label_six
-  # set rotation
-  Widgets.setRotation(3)
-  Widgets.fillScreen(0x222222)
-  Title = Widgets.Title("IR Remote", 3, 0xffffff, 0x0000FF, Widgets.FONTS.DejaVu18)
-  
-  rect0 = Widgets.Rectangle(40, 40, 50, 50, 0xffffff, 0xffffff)
-  rect1 = Widgets.Rectangle(140, 40, 50, 50, 0xffffff, 0xffffff)
-  rect2 = Widgets.Rectangle(240, 40, 50, 50, 0xffffff, 0xffffff)
-  rect3 = Widgets.Rectangle(40, 140, 50, 50, 0xffffff, 0xffffff)
-  rect4 = Widgets.Rectangle(140, 140, 50, 50, 0xffffff, 0xffffff)
-  rect5 = Widgets.Rectangle(240, 140, 50, 50, 0xffffff, 0xffffff)
-  
-  label_one = Widgets.Label("1", 50, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-  label_two = Widgets.Label("2", 150, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-  label_three = Widgets.Label("3", 250, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-  label_four = Widgets.Label("4", 50, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-  label_five = Widgets.Label("5", 150, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-  label_six = Widgets.Label("6", 250, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+    global rect0, rect4, rect1, rect5, Title, rect2, label_one, rect3, label_two, label_three, label_four, label_five, label_six, data
+    # set rotation
+    Widgets.setRotation(3)
+    Widgets.fillScreen(0x222222)
+    
+    # List to store appliance names
+    appliance_names = []
+
+    # Iterate over each appliance in the "appliances" list
+    for appliance in data["appliances"]:
+        # Extract the "name" of the appliance and append to the list
+        appliance_names.append(appliance["name"])
+        
+    Title = Widgets.Title(appliance_names[2], 3, 0xffffff, 0x0000FF, Widgets.FONTS.DejaVu18)
+
+    rect0 = Widgets.Rectangle(40, 40, 50, 50, 0xffffff, 0xffffff)
+    rect1 = Widgets.Rectangle(140, 40, 50, 50, 0xffffff, 0xffffff)
+    rect2 = Widgets.Rectangle(240, 40, 50, 50, 0xffffff, 0xffffff)
+    rect3 = Widgets.Rectangle(40, 140, 50, 50, 0xffffff, 0xffffff)
+    rect4 = Widgets.Rectangle(140, 140, 50, 50, 0xffffff, 0xffffff)
+    rect5 = Widgets.Rectangle(240, 140, 50, 50, 0xffffff, 0xffffff)
+
+    # List to store control names for orientation = 0
+    control_names_orientation_2 = []
+
+    # Iterate through appliances and their controls
+    for appliance in data["appliances"]:
+        if appliance["orientation"] == 2:
+            for control in appliance["controls"]:
+                control_names_orientation_2.append(control["name"])
+      
+    label_one = Widgets.Label(control_names_orientation_2[0], 25, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+    label_two = Widgets.Label(control_names_orientation_2[1], 125, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+    label_three = Widgets.Label(control_names_orientation_2[2], 225, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+    label_four = Widgets.Label(control_names_orientation_2[3], 25, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+    label_five = Widgets.Label(control_names_orientation_2[4], 125, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+    label_six = Widgets.Label(control_names_orientation_2[5], 225, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
   
 def two_seventy_degree_screen():
 
-  global rect0, rect4, rect1, rect5, Title, rect2, label_one, rect3, label_two, label_three, label_four, label_five, label_six
-  # set rotation
-  Widgets.setRotation(2)
-  Widgets.fillScreen(0x222222)
-  Title = Widgets.Title("IR Remote", 3, 0xffffff, 0x0000FF, Widgets.FONTS.DejaVu18)
-  #re-shuffle rectangles
-  rect0 = Widgets.Rectangle(30, 40, 50, 50, 0xffffff, 0xffffff)
-  rect1 = Widgets.Rectangle(130, 40, 50, 50, 0xffffff, 0xffffff)
-  rect2 = Widgets.Rectangle(30, 140, 50, 50, 0xffffff, 0xffffff)
-  rect3 = Widgets.Rectangle(130, 140, 50, 50, 0xffffff, 0xffffff)
-  rect4 = Widgets.Rectangle(30, 240, 50, 50, 0xffffff, 0xffffff)
-  rect5 = Widgets.Rectangle(130, 240, 50, 50, 0xffffff, 0xffffff)
-  #re-shuffle labels
-  label_one = Widgets.Label("1", 50, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-  label_two = Widgets.Label("2", 150, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-  label_three = Widgets.Label("3", 50, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-  label_four = Widgets.Label("4", 150, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-  label_five = Widgets.Label("5", 50, 300, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-  label_six = Widgets.Label("6", 150, 300, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+    global rect0, rect4, rect1, rect5, Title, rect2, label_one, rect3, label_two, label_three, label_four, label_five, label_six
+    # set rotation
+    Widgets.setRotation(2)
+    Widgets.fillScreen(0x222222)
+    
+    # List to store appliance names
+    appliance_names = []
+
+    # Iterate over each appliance in the "appliances" list
+    for appliance in data["appliances"]:
+        # Extract the "name" of the appliance and append to the list
+        appliance_names.append(appliance["name"])
+        
+    Title = Widgets.Title(appliance_names[3], 3, 0xffffff, 0x0000FF, Widgets.FONTS.DejaVu18)
+    
+    #re-shuffle rectangles
+    rect0 = Widgets.Rectangle(30, 40, 50, 50, 0xffffff, 0xffffff)
+    rect1 = Widgets.Rectangle(130, 40, 50, 50, 0xffffff, 0xffffff)
+    rect2 = Widgets.Rectangle(30, 140, 50, 50, 0xffffff, 0xffffff)
+    rect3 = Widgets.Rectangle(130, 140, 50, 50, 0xffffff, 0xffffff)
+    rect4 = Widgets.Rectangle(30, 240, 50, 50, 0xffffff, 0xffffff)
+    rect5 = Widgets.Rectangle(130, 240, 50, 50, 0xffffff, 0xffffff)
+    # List to store control names for orientation = 0
+    control_names_orientation_3 = []
+
+    # Iterate through appliances and their controls
+    for appliance in data["appliances"]:
+        if appliance["orientation"] == 3:
+            for control in appliance["controls"]:
+                control_names_orientation_3.append(control["name"])
+
+    label_one = Widgets.Label(control_names_orientation_3[0], 30, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+    label_two = Widgets.Label(control_names_orientation_3[1], 130, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+    label_three = Widgets.Label(control_names_orientation_3[2], 30, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+    label_four = Widgets.Label(control_names_orientation_3[3], 130, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+    label_five = Widgets.Label(control_names_orientation_3[4], 30, 300, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+    label_six = Widgets.Label(control_names_orientation_3[5], 130, 300, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
 
 
 def setup():
