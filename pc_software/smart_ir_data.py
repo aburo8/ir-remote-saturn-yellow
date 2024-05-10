@@ -53,3 +53,18 @@ def generate_base_appliance(name):
     appliance = Appliance(name, ORIENTATION_UP, controls)
 
     return appliance
+
+def orientation_to_string(orientation):
+    """
+    Converts an orientation to it's string representation
+    """
+    if orientation == ORIENTATION_DOWN:
+        return "Down (180 Degrees)"
+    elif orientation == ORIENTATION_LEFT:
+        return "Left (270 Degrees)"
+    elif orientation == ORIENTATION_RIGHT:
+        return "Right (90 Degrees)"
+    elif orientation == ORIENTATION_UP:
+        return "Up (0 Degrees)"
+    else:
+        return ""

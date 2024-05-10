@@ -255,8 +255,8 @@ color:rgb(0,0,0);</string>
     <widget class="QLabel" name="staticProSplit_L_5">
      <property name="geometry">
       <rect>
-       <x>60</x>
-       <y>310</y>
+       <x>580</x>
+       <y>520</y>
        <width>131</width>
        <height>31</height>
       </rect>
@@ -275,8 +275,8 @@ color:rgb(0,0,0);</string>
     <widget class="QTextEdit" name="controlLabel_t">
      <property name="geometry">
       <rect>
-       <x>200</x>
-       <y>310</y>
+       <x>720</x>
+       <y>520</y>
        <width>221</width>
        <height>31</height>
       </rect>
@@ -298,8 +298,8 @@ p, li { white-space: pre-wrap; }
     <widget class="QLabel" name="staticProSplit_L_6">
      <property name="geometry">
       <rect>
-       <x>60</x>
-       <y>350</y>
+       <x>580</x>
+       <y>560</y>
        <width>131</width>
        <height>31</height>
       </rect>
@@ -309,7 +309,7 @@ p, li { white-space: pre-wrap; }
 color:rgb(0,0,0);</string>
      </property>
      <property name="text">
-      <string>Code:</string>
+      <string>Control Code:</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -318,8 +318,8 @@ color:rgb(0,0,0);</string>
     <widget class="QTextEdit" name="irCode_t">
      <property name="geometry">
       <rect>
-       <x>200</x>
-       <y>350</y>
+       <x>720</x>
+       <y>560</y>
        <width>221</width>
        <height>31</height>
       </rect>
@@ -350,8 +350,8 @@ p, li { white-space: pre-wrap; }
     <widget class="QLabel" name="staticProSplit_L_7">
      <property name="geometry">
       <rect>
-       <x>60</x>
-       <y>390</y>
+       <x>580</x>
+       <y>600</y>
        <width>131</width>
        <height>31</height>
       </rect>
@@ -361,7 +361,7 @@ p, li { white-space: pre-wrap; }
 color:rgb(0,0,0);</string>
      </property>
      <property name="text">
-      <string>Colour:</string>
+      <string>Control Colour:</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -380,9 +380,9 @@ color:rgb(0,0,0);</string>
     <widget class="QLabel" name="staticProSplit_L_12">
      <property name="geometry">
       <rect>
-       <x>60</x>
-       <y>430</y>
-       <width>131</width>
+       <x>20</x>
+       <y>310</y>
+       <width>171</width>
        <height>31</height>
       </rect>
      </property>
@@ -391,7 +391,7 @@ color:rgb(0,0,0);</string>
 color:rgb(0,0,0);</string>
      </property>
      <property name="text">
-      <string>Orientation:</string>
+      <string>Appliance Orientation:</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -401,36 +401,11 @@ color:rgb(0,0,0);</string>
      <property name="geometry">
       <rect>
        <x>200</x>
-       <y>430</y>
+       <y>310</y>
        <width>221</width>
        <height>31</height>
       </rect>
      </property>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Up (0 Degrees)</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Right (90 Degrees)</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Down (180 Degrees)</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Left (270 Degrees)</string>
-      </property>
-     </item>
     </widget>
     <widget class="Line" name="line_5">
      <property name="geometry">
@@ -614,8 +589,8 @@ color:rgb(0,0,0);</string>
     <widget class="QPushButton" name="colourSelector_b">
      <property name="geometry">
       <rect>
-       <x>200</x>
-       <y>390</y>
+       <x>720</x>
+       <y>600</y>
        <width>221</width>
        <height>31</height>
       </rect>
@@ -633,7 +608,7 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>470</y>
+       <y>350</y>
        <width>381</width>
        <height>31</height>
       </rect>
@@ -811,8 +786,8 @@ color:rgb(0,0,0);</string>
     <widget class="QLabel" name="staticProSplit_L_21">
      <property name="geometry">
       <rect>
-       <x>80</x>
-       <y>540</y>
+       <x>70</x>
+       <y>400</y>
        <width>361</width>
        <height>31</height>
       </rect>
@@ -831,8 +806,8 @@ color:rgb(0,0,0);</string>
     <widget class="QLabel" name="staticProSplit_L_15">
      <property name="geometry">
       <rect>
-       <x>50</x>
-       <y>570</y>
+       <x>40</x>
+       <y>430</y>
        <width>131</width>
        <height>31</height>
       </rect>
@@ -851,8 +826,8 @@ color:rgb(0,0,0);</string>
     <widget class="QCheckBox" name="checkBox">
      <property name="geometry">
       <rect>
-       <x>200</x>
-       <y>570</y>
+       <x>190</x>
+       <y>430</y>
        <width>191</width>
        <height>31</height>
       </rect>
@@ -915,6 +890,26 @@ color:rgb(0,0,0);</string>
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:12pt; font-weight:600; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8.25pt; font-weight:400;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="staticProSplit_L_3">
+     <property name="geometry">
+      <rect>
+       <x>620</x>
+       <y>250</y>
+       <width>291</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+color:rgb(0,0,0);</string>
+     </property>
+     <property name="text">
+      <string>Control Settings</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </widget>

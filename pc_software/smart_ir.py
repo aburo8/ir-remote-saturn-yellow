@@ -30,7 +30,8 @@ import json
 from datetime import datetime
 import threading
 import pc_pb2
-from smart_ir_data import Control, Appliance, ControllerConfig, VERSION, generate_base_appliance
+from smart_ir_data import Control, Appliance, ControllerConfig, VERSION, generate_base_appliance, orientation_to_string
+from smart_ir_data import ORIENTATION_DOWN, ORIENTATION_LEFT, ORIENTATION_RIGHT, ORIENTATION_UP
 
 # Global Variables
 portScanningState = False
@@ -41,6 +42,8 @@ class MainWindow(QMainWindow):
     configData: ControllerConfig
     currentApplianceIndex: int
     currentControlIndex: int
+    availableOrientations: list
+    currentOrientationIndex: int
 
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -52,6 +55,8 @@ class MainWindow(QMainWindow):
         self.configData = ControllerConfig(VERSION, [])
         self.currentApplianceIndex = -1 # Not selected
         self.currentControlIndex = -1 # Not selected
+        self.availableOrientations = [ORIENTATION_UP, ORIENTATION_RIGHT, ORIENTATION_DOWN, ORIENTATION_LEFT] # All 4 orientations are available to start with
+        self.currentOrientationIndex = -1
 
         # Initialise UI Elements
         self.port_select_c = self.findChild(QComboBox, "PortSelect_C")
@@ -86,9 +91,10 @@ class MainWindow(QMainWindow):
         self.controlB_4.clicked.connect(lambda: self.control_selected(3))
         self.controlB_5.clicked.connect(lambda: self.control_selected(4))
         self.controlB_6.clicked.connect(lambda: self.control_selected(5))
-        self.selectedApplianceC.activated.connect(self.change_selected_appliance)
+        self.selectedApplianceC.activated.connect(self.on_change_appliance)
         self.controlLabelT.textChanged.connect(self.on_control_label_changed)
         self.colourSelectB.clicked.connect(self.select_control_colour)
+        self.orientationC.activated.connect(self.on_change_orientation)
 
         # Serial Port Connection Timers
         self.connection_timer = QTimer(self)
@@ -131,7 +137,7 @@ class MainWindow(QMainWindow):
         # Refresh UI
         self.reload_configuration_data(applianceIndex=self.currentApplianceIndex)
 
-    def change_selected_appliance(self):
+    def on_change_appliance(self):
         """
         Updates the selected appliance
         """
@@ -152,6 +158,8 @@ class MainWindow(QMainWindow):
         self.currentControlIndex = -1
         self.controlLabelT.clear()
         self.irCodeT.clear()
+        self.orientationC.clear()
+        self.selectedApplianceC.clear()
         self.currentApplianceIndex = appIdx
         self.currentControlIndex = conIdx
 
@@ -173,6 +181,8 @@ class MainWindow(QMainWindow):
             self.currentApplianceIndex = index
         elif applianceIndex is not None:
             self.currentApplianceIndex = applianceIndex
+        elif controlIndex is not None:
+            self.currentControlIndex = controlIndex
         else:
             self.currentApplianceIndex = 0
 
@@ -182,15 +192,19 @@ class MainWindow(QMainWindow):
         if len(data.appliances) > 0:
             appIdx = self.currentApplianceIndex
             self.selectedApplianceC.clear() # This will trigger change_selected_appliance() which will clear all fields & reset the appliance drop down. Overwrite this
-            self.currentApplianceIndex = appIdx
+            # self.currentApplianceIndex = appIdx
             for i in range(len(data.appliances)):
                 self.selectedApplianceC.addItem(data.appliances[i].name)
-                self.currentApplianceIndex = appIdx # same as above, adding items technically clears the UI.
-
+            self.currentApplianceIndex = appIdx # same as above, adding items technically clears the UI.
             self.selectedApplianceC.setCurrentIndex(appIdx)
+            
             # Appliance Global Settings
-            self.orientationC.setCurrentIndex(data.appliances[self.currentApplianceIndex].orientation)
-        
+            # Set orientation box based on available orientations
+            self.orientationC.clear()
+            for orientation in self.availableOrientations:
+                self.orientationC.addItem(orientation_to_string(orientation))
+            self.orientationC.setCurrentIndex(self.configData.appliances[self.currentApplianceIndex].orientation)
+            
             # Controls
             for idx, control in enumerate(data.appliances[self.currentApplianceIndex].controls):
                 self.update_control_ui(idx, control.label, control.colour)
@@ -238,14 +252,12 @@ class MainWindow(QMainWindow):
             print(f"Control Selected: {self.configData.appliances[self.currentApplianceIndex].controls[idx].label}")
             
             # Reload the configuration
-            self.reload_configuration_data(applianceIndex=self.currentApplianceIndex)
+            self.reload_configuration_data(controlIndex=self.currentControlIndex)
 
     def on_control_label_changed(self):
         if self.currentControlIndex != -1:
             self.configData.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].label = self.controlLabelT.toPlainText()
             self.update_control_ui(self.currentControlIndex, self.controlLabelT.toPlainText(), self.configData.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].colour)
-        else:
-            print("No Label Selected!")
 
     def select_control_colour(self):
         if self.currentControlIndex != -1:
@@ -256,6 +268,15 @@ class MainWindow(QMainWindow):
                 label = self.configData.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].label
                 self.configData.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].colour = rgb
                 self.update_control_ui(self.currentControlIndex, label, rgb)
+
+    def on_change_orientation(self):
+        if self.currentApplianceIndex != -1:
+            print("Updating Orientation")
+            self.configData.appliances[self.currentApplianceIndex].orientation = self.orientationC.currentIndex()
+            self.currentOrientationIndex = self.orientationC.currentIndex()
+            # TODO: add a check somewhere (likely when pressing update controllers that ensures each appliance has a different direction)
+
+            self.reload_configuration_data(applianceIndex=self.currentApplianceIndex)
 
     def fetch_serial(self):
         """
