@@ -40,33 +40,33 @@ string = """{
       "controls": [
         {
           "name": "Crimson Light",
-          "ir_code": "#FF0000",
-          "color": "0xFF0000"
+          "ir_code": "#000000",
+          "color": [255, 255, 0]
         },
         {
           "name": "Magenta Light",
-          "ir_code": "#FF00FF",
-          "color": "0xFF00FF"
+          "ir_code": "#000001",
+          "color": [255, 255, 0]
         },
         {
           "name": "Sapphire Mode",
-          "ir_code": "#0000FF",
-          "color": "0x0000FF"
+          "ir_code": "#000002",
+          "color": [255, 255, 0]
         },
         {
           "name": "Emerald Mode",
-          "ir_code": "#00FF00",
-          "color": "0x00FF00"
+          "ir_code": "#000003",
+          "color": [255, 255, 0]
         },
         {
           "name": "Golden Up",
-          "ir_code": "#FFFF00",
-          "color": "0xFFFF00"
+          "ir_code": "#000004",
+          "color": [255, 255, 0]
         },
         {
           "name": "Azure Down",
-          "ir_code": "#00FFFF",
-          "color": "0x00FFFF"
+          "ir_code": "#000005",
+          "color": [255, 255, 0]
         }
       ]
     },
@@ -76,33 +76,33 @@ string = """{
       "controls": [
         {
           "name": "Coral Light",
-          "ir_code": "#FF7F50",
-          "color": "0xFF7F50"
+          "ir_code": "#000006",
+          "color": [255, 127, 80]
         },
         {
           "name": "Lime Light",
-          "ir_code": "#00FF00",
-          "color": "0x00FF00"
+          "ir_code": "#000007",
+          "color": [0, 255, 0]
         },
         {
           "name": "Ocean Mode",
-          "ir_code": "#4169E1",
-          "color": "0x4169E1"
+          "ir_code": "#000008",
+          "color": [65, 105, 225]
         },
         {
           "name": "Ruby Mode",
-          "ir_code": "#FF6347",
-          "color": "0xFF6347"
+          "ir_code": "#000009",
+          "color": [255, 99, 71]
         },
         {
           "name": "Topaz Up",
-          "ir_code": "#00CED1",
-          "color": "0x00CED1"
+          "ir_code": "#00000A",
+          "color": [0, 206, 209]
         },
         {
           "name": "Bronze Down",
-          "ir_code": "#CD7F32",
-          "color": "0xCD7F32"
+          "ir_code": "#00000B",
+          "color": [205, 127, 50]
         }
       ]
     },
@@ -112,33 +112,33 @@ string = """{
       "controls": [
         {
           "name": "Scarlet Light",
-          "ir_code": "#FF2400",
-          "color": "0xFF2400"
+          "ir_code": "#00000C",
+          "color": [255, 36, 0]
         },
         {
           "name": "Teal Light",
-          "ir_code": "#008080",
-          "color": "0x008080"
+          "ir_code": "#00000D",
+          "color": [0, 128, 128]
         },
         {
           "name": "Indigo Mode",
-          "ir_code": "#4B0082",
-          "color": "0x4B0082"
+          "ir_code": "#00000E",
+          "color": [75, 0, 130]
         },
         {
           "name": "Amber Mode",
-          "ir_code": "#FFBF00",
-          "color": "0xFFBF00"
+          "ir_code": "#00000F",
+          "color": [255, 191, 0]
         },
         {
           "name": "Platinum Up",
-          "ir_code": "#E5E4E2",
-          "color": "0xE5E4E2"
+          "ir_code": "#000010",
+          "color": [229, 228, 226]
         },
         {
           "name": "Copper Down",
-          "ir_code": "#B87333",
-          "color": "0xB87333"
+          "ir_code": "#000011",
+          "color": [181, 115, 50]
         }
       ]
     },
@@ -148,76 +148,46 @@ string = """{
       "controls": [
         {
           "name": "Vermilion Light",
-          "ir_code": "#E34234",
-          "color": "0xE34234"
+          "ir_code": "#000012",
+          "color": [227, 66, 52]
         },
         {
           "name": "Olive Light",
-          "ir_code": "#808000",
-          "color": "0x808000"
+          "ir_code": "#000013",
+          "color": [128, 128, 0]
         },
         {
           "name": "Cobalt Mode",
-          "ir_code": "#0047AB",
-          "color": "0x0047AB"
+          "ir_code": "#000014",
+          "color": [0, 71, 171]
         },
         {
           "name": "Pearl Mode",
-          "ir_code": "#EAE0C8",
-          "color": "0xEAE0C8"
+          "ir_code": "#000015",
+          "color": [234, 224, 200]
         },
         {
           "name": "Silver Up",
-          "ir_code": "#C0C0C0",
-          "color": "0xC0C0C0"
+          "ir_code": "#000016",
+          "color": [192, 192, 192]
         },
         {
           "name": "Brass Down",
-          "ir_code": "#B5A642",
-          "color": "0xB5A642"
+          "ir_code": "#000017",
+          "color": [181, 166, 66]
         }
       ]
     }
   ]
 }"""
 
-
-
-def set_rectangles_blue():
-  global configuration, press, debounce, x, y, z, button, rotation, current_color, last_color, rect0, rect4, rect1, rect5, Title, rect2, label_one, rect3, label_two, label_three, label_four, label_five, label_six
-  rect0.setColor(color=0x3333ff, fill_c=0x3333ff)
-  rect1.setColor(color=0x3333ff, fill_c=0x3333ff)
-  rect2.setColor(color=0x3333ff, fill_c=0x3333ff)
-  rect3.setColor(color=0x3333ff, fill_c=0x3333ff)
-  rect4.setColor(color=0x3333ff, fill_c=0x3333ff)
-  rect5.setColor(color=0x3333ff, fill_c=0x3333ff)
-
-def set_rectangles_yellow():
-  global configuration, press, debounce, x, y, z, button, rotation, current_color, last_color, rect0, rect4, rect1, rect5, Title, rect2, label_one, rect3, label_two, label_three, label_four, label_five, label_six
-  rect0.setColor(color=0xffff00, fill_c=0xffff00)
-  rect1.setColor(color=0xffff00, fill_c=0xffff00)
-  rect2.setColor(color=0xffff00, fill_c=0xffff00)
-  rect3.setColor(color=0xffff00, fill_c=0xffff00)
-  rect4.setColor(color=0xffff00, fill_c=0xffff00)
-  rect5.setColor(color=0xffff00, fill_c=0xffff00)
-
-def set_rectangles_red():
-  global configuration, press, debounce, x, y, z, button, rotation, current_color, last_color, rect0, rect4, rect1, rect5, Title, rect2, label_one, rect3, label_two, label_three, label_four, label_five, label_six
-  rect0.setColor(color=0xff0000, fill_c=0xff0000)
-  rect1.setColor(color=0xff0000, fill_c=0xff0000)
-  rect2.setColor(color=0xff0000, fill_c=0xff0000)
-  rect3.setColor(color=0xff0000, fill_c=0xff0000)
-  rect4.setColor(color=0xff0000, fill_c=0xff0000)
-  rect5.setColor(color=0xff0000, fill_c=0xff0000)
-
-def set_rectangles_green():
-  global configuration, press, debounce, x, y, z, button, rotation, current_color, last_color, rect0, rect4, rect1, rect5, Title, rect2, label_one, rect3, label_two, label_three, label_four, label_five, label_six
-  rect0.setColor(color=0x33ff33, fill_c=0x33ff33)
-  rect1.setColor(color=0x33ff33, fill_c=0x33ff33)
-  rect2.setColor(color=0x33ff33, fill_c=0x33ff33)
-  rect3.setColor(color=0x33ff33, fill_c=0x33ff33)
-  rect4.setColor(color=0x33ff33, fill_c=0x33ff33)
-  rect5.setColor(color=0x33ff33, fill_c=0x33ff33)
+def rgb_to_hex(rgb):
+    """Convert RGB values to a hexadecimal color string."""
+    r = max(0, min(255, rgb[0]))
+    g = max(0, min(255, rgb[1]))
+    b = max(0, min(255, rgb[2]))
+    hex_color = "0x{:02X}{:02X}{:02X}".format(r, g, b)
+    return hex_color
   
   
 def zero_degree_screen():
@@ -229,12 +199,10 @@ def zero_degree_screen():
     
     # List to store appliance names
     appliance_names = []
-
     # Iterate over each appliance in the "appliances" list
     for appliance in data["appliances"]:
         # Extract the "name" of the appliance and append to the list
         appliance_names.append(appliance["name"])
-        
     Title = Widgets.Title(appliance_names[0], 3, 0xffffff, 0x0000FF, Widgets.FONTS.DejaVu18)
 
     rect0 = Widgets.Rectangle(40, 40, 50, 50, 0xffffff, 0xffffff)
@@ -243,10 +211,32 @@ def zero_degree_screen():
     rect3 = Widgets.Rectangle(40, 140, 50, 50, 0xffffff, 0xffffff)
     rect4 = Widgets.Rectangle(140, 140, 50, 50, 0xffffff, 0xffffff)
     rect5 = Widgets.Rectangle(240, 140, 50, 50, 0xffffff, 0xffffff)
-      
+    # List to store color hex values for orientation = 0
+    colors_hex = []
+    # Find the appliance with orientation = 0
+    for appliance in data["appliances"]:
+        if appliance["orientation"] == 0:
+            # Extract controls for this appliance
+            controls = appliance["controls"]
+            # Extract color values (hex strings) for each control
+            for control in controls:
+                # Extract rgb format
+                rgb_color = control["color"]
+                # Convert rgb format to hex
+                color_hex_str = rgb_to_hex(rgb_color)
+                # Convert hex string to integer hex value (without "0x" prefix)
+                color_hex_value = int(color_hex_str, 16)
+                # Append the integer hex value to the list of hex values
+                colors_hex.append(color_hex_value)
+    rect0.setColor(color=colors_hex[0], fill_c=colors_hex[0])
+    rect1.setColor(color=colors_hex[1], fill_c=colors_hex[1])
+    rect2.setColor(color=colors_hex[2], fill_c=colors_hex[2])
+    rect3.setColor(color=colors_hex[3], fill_c=colors_hex[3])
+    rect4.setColor(color=colors_hex[4], fill_c=colors_hex[4])
+    rect5.setColor(color=colors_hex[5], fill_c=colors_hex[5])
+    
     # List to store control names for orientation = 0
     control_names_orientation_0 = []
-
     # Iterate through appliances and their controls
     for appliance in data["appliances"]:
         if appliance["orientation"] == 0:
@@ -277,23 +267,44 @@ def ninety_degree_screen():
         
     Title = Widgets.Title(appliance_names[1], 3, 0xffffff, 0x0000FF, Widgets.FONTS.DejaVu18)
     
-    #re-shuffle rectangles
+    # color in rectangles
     rect0 = Widgets.Rectangle(30, 40, 50, 50, 0xffffff, 0xffffff)
     rect1 = Widgets.Rectangle(130, 40, 50, 50, 0xffffff, 0xffffff)
     rect2 = Widgets.Rectangle(30, 140, 50, 50, 0xffffff, 0xffffff)
     rect3 = Widgets.Rectangle(130, 140, 50, 50, 0xffffff, 0xffffff)
     rect4 = Widgets.Rectangle(30, 240, 50, 50, 0xffffff, 0xffffff)
     rect5 = Widgets.Rectangle(130, 240, 50, 50, 0xffffff, 0xffffff)
+    # List to store color hex values for orientation = 0
+    colors_hex = []
+    # Find the appliance with orientation = 0
+    for appliance in data["appliances"]:
+        if appliance["orientation"] == 1:
+            # Extract controls for this appliance
+            controls = appliance["controls"]
+            # Extract color values (hex strings) for each control
+            for control in controls:
+                # Extract rgb format
+                rgb_color = control["color"]
+                # Convert rgb format to hex
+                color_hex_str = rgb_to_hex(rgb_color)
+                # Convert hex string to integer hex value (without "0x" prefix)
+                color_hex_value = int(color_hex_str, 16)
+                # Append the integer hex value to the list of hex values
+                colors_hex.append(color_hex_value)
+    rect0.setColor(color=colors_hex[0], fill_c=colors_hex[0])
+    rect1.setColor(color=colors_hex[1], fill_c=colors_hex[1])
+    rect2.setColor(color=colors_hex[2], fill_c=colors_hex[2])
+    rect3.setColor(color=colors_hex[3], fill_c=colors_hex[3])
+    rect4.setColor(color=colors_hex[4], fill_c=colors_hex[4])
+    rect5.setColor(color=colors_hex[5], fill_c=colors_hex[5])
   
-    # List to store control names for orientation = 0
+    # List to store control names for orientation = 1
     control_names_orientation_1 = []
-
     # Iterate through appliances and their controls
     for appliance in data["appliances"]:
         if appliance["orientation"] == 1:
             for control in appliance["controls"]:
                 control_names_orientation_1.append(control["name"])
-    
     label_one = Widgets.Label(control_names_orientation_1[0], 30, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
     label_two = Widgets.Label(control_names_orientation_1[1], 130, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
     label_three = Widgets.Label(control_names_orientation_1[2], 30, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
@@ -324,8 +335,31 @@ def one_eighty_degree_screen():
     rect3 = Widgets.Rectangle(40, 140, 50, 50, 0xffffff, 0xffffff)
     rect4 = Widgets.Rectangle(140, 140, 50, 50, 0xffffff, 0xffffff)
     rect5 = Widgets.Rectangle(240, 140, 50, 50, 0xffffff, 0xffffff)
+    # List to store color hex values for orientation = 2
+    colors_hex = []
+    # Find the appliance with orientation = 2
+    for appliance in data["appliances"]:
+        if appliance["orientation"] == 2:
+            # Extract controls for this appliance
+            controls = appliance["controls"]
+            # Extract color values (hex strings) for each control
+            for control in controls:
+                # Extract rgb format
+                rgb_color = control["color"]
+                # Convert rgb format to hex
+                color_hex_str = rgb_to_hex(rgb_color)
+                # Convert hex string to integer hex value (without "0x" prefix)
+                color_hex_value = int(color_hex_str, 16)
+                # Append the integer hex value to the list of hex values
+                colors_hex.append(color_hex_value)
+    rect0.setColor(color=colors_hex[0], fill_c=colors_hex[0])
+    rect1.setColor(color=colors_hex[1], fill_c=colors_hex[1])
+    rect2.setColor(color=colors_hex[2], fill_c=colors_hex[2])
+    rect3.setColor(color=colors_hex[3], fill_c=colors_hex[3])
+    rect4.setColor(color=colors_hex[4], fill_c=colors_hex[4])
+    rect5.setColor(color=colors_hex[5], fill_c=colors_hex[5])
 
-    # List to store control names for orientation = 0
+    # List to store control names for orientation = 2
     control_names_orientation_2 = []
 
     # Iterate through appliances and their controls
@@ -365,7 +399,31 @@ def two_seventy_degree_screen():
     rect3 = Widgets.Rectangle(130, 140, 50, 50, 0xffffff, 0xffffff)
     rect4 = Widgets.Rectangle(30, 240, 50, 50, 0xffffff, 0xffffff)
     rect5 = Widgets.Rectangle(130, 240, 50, 50, 0xffffff, 0xffffff)
-    # List to store control names for orientation = 0
+    # List to store color hex values for orientation = 3
+    colors_hex = []
+    # Find the appliance with orientation = 3
+    for appliance in data["appliances"]:
+        if appliance["orientation"] == 3:
+            # Extract controls for this appliance
+            controls = appliance["controls"]
+            # Extract color values (hex strings) for each control
+            for control in controls:
+                # Extract rgb format
+                rgb_color = control["color"]
+                # Convert rgb format to hex
+                color_hex_str = rgb_to_hex(rgb_color)
+                # Convert hex string to integer hex value (without "0x" prefix)
+                color_hex_value = int(color_hex_str, 16)
+                # Append the integer hex value to the list of hex values
+                colors_hex.append(color_hex_value)
+    rect0.setColor(color=colors_hex[0], fill_c=colors_hex[0])
+    rect1.setColor(color=colors_hex[1], fill_c=colors_hex[1])
+    rect2.setColor(color=colors_hex[2], fill_c=colors_hex[2])
+    rect3.setColor(color=colors_hex[3], fill_c=colors_hex[3])
+    rect4.setColor(color=colors_hex[4], fill_c=colors_hex[4])
+    rect5.setColor(color=colors_hex[5], fill_c=colors_hex[5])
+    
+    # List to store control names for orientation = 3
     control_names_orientation_3 = []
 
     # Iterate through appliances and their controls
@@ -397,7 +455,6 @@ def setup():
   z = 0
   last_color = 0
   current_color = 0
-  set_rectangles_blue()
 
 
 def loop():
@@ -424,18 +481,13 @@ def loop():
   if last_color != current_color:
     if rotation==0:
       zero_degree_screen()
-      set_rectangles_blue()
     elif rotation==1:
       ninety_degree_screen()
-      set_rectangles_green()
     elif rotation==2:
       one_eighty_degree_screen()
-      set_rectangles_red()
     elif rotation==3:
       two_seventy_degree_screen()
-      set_rectangles_yellow()
-    else:
-      set_rectangles_blue()
+      
     last_color = current_color
     
   # process any button presses from device
@@ -521,7 +573,21 @@ def loop():
   # execute button presses
   if press == 1 and (time.time()) - debounce >= 1:
     press = 0
-    print((str('Button number: ') + str(button)))
+    ir_codes_hex = []
+    for appliance in data["appliances"]:
+        if appliance["orientation"] == rotation:
+            # Extract controls for this appliance
+            controls = appliance["controls"]
+            # Extract IR codes (hex strings) for each control
+            for control in controls:
+                # Get the IR code string and convert to integer hex value
+                ir_code_hex_str = control["ir_code"]
+                # Remove "#" prefix and convert hex string to integer hex value
+                ir_code_hex_value = int(ir_code_hex_str[1:], 16)
+                # Append the integer hex value to the list of IR code hex values
+                ir_codes_hex.append(ir_code_hex_value)
+                
+    print((str('IR code sent: ') + str(ir_codes_hex[button - 1])))
 
 
 # Main function
