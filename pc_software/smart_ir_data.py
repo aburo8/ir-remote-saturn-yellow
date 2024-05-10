@@ -2,8 +2,9 @@
 Data structures for the Smart-Ir: Universal Remote Control System
 Written by AB
 """
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 from typing import List
+import json
 
 # Constants
 VERSION = 1.0 # Version of the configuration data
@@ -18,10 +19,8 @@ class Control:
     IR Control to transmit
     """
     label: str # control label
-    irCode: bytes # bytes to transmit
-    irCodeLen: int # number of bytes to transmit
+    irCode: int # byte to transmit (uint32)
     colour: List[int] # control colour
-
 
 @dataclass
 class Appliance:
@@ -40,6 +39,9 @@ class ControllerConfig:
     version: float
     appliances: List[Appliance] # appliances within the configuration
 
+    def to_dict(self):
+        return asdict(self)
+
 def generate_base_appliance(name):
     """
     Generates a base appliance with default values
@@ -47,7 +49,7 @@ def generate_base_appliance(name):
     controls = []
     for i in range(6):
         # Add basic controls
-        control = Control(f"Control {i+1}", bytes.fromhex("FFFFFF"), 3, [0, 0, 255])
+        control = Control(f"Control {i+1}", 55, [0, 0, 255])
         controls.append(control)
 
     appliance = Appliance(name, ORIENTATION_UP, controls)

@@ -95,6 +95,7 @@ class MainWindow(QMainWindow):
         self.controlLabelT.textChanged.connect(self.on_control_label_changed)
         self.colourSelectB.clicked.connect(self.select_control_colour)
         self.orientationC.activated.connect(self.on_change_orientation)
+        self.updateControllersB.clicked.connect(self.update_controllers)
 
         # Serial Port Connection Timers
         self.connection_timer = QTimer(self)
@@ -170,6 +171,8 @@ class MainWindow(QMainWindow):
         NOTE: you should provide either an applianceName or applianceIndex to restore the existing state of the application.
               If both are provided the profile_name will be used by default.
         """
+        # TODO: reloading the configuration data should flush it to disk
+        # TODO: on startup load configuration if available
         data = self.configData
         # Set appliance state
         if applianceName is not None:
@@ -278,6 +281,10 @@ class MainWindow(QMainWindow):
 
             self.reload_configuration_data(applianceIndex=self.currentApplianceIndex)
 
+    def update_controllers(self):
+        data = json.dumps(self.configData.to_dict(), indent=4,)
+        print(data)
+
     def fetch_serial(self):
         """
         Fetch any pending serial data and process it accordingly
@@ -303,7 +310,8 @@ class MainWindow(QMainWindow):
         """
         Gracefully exits the application when the window is closed
         """
-        self.us_thread.quit()
+        # TODO: close comport
+        pass
 
     def serial_scan_handler(self):
         """
