@@ -8,14 +8,15 @@
 {
 	zephyr,user {
 		ts1838-gpios = <&gpio0 27 GPIO_ACTIVE_HIGH>;
-		k851262-gpios = <&gpio0 26 GPIO_ACTIVE_HIGH>;
+		k851262-gpios = <&gpio0 26 GPIO_ACTIVE_LOW>;
 	};
     
 	aliases {
       uart-test = &uart1;
 	  pc-software = &uart0;
-	  ir-rec = &gpio0;
-	  ir-trans = &gpio0;
+	  ir-rx = &gpio0;
+	  ir-tx = &gpio0;
+	  ir-gpio = &gpio0;
    };
 };
 
