@@ -37,6 +37,7 @@ from smart_ir_data import ORIENTATION_DOWN, ORIENTATION_LEFT, ORIENTATION_RIGHT,
 # Global Variables
 portScanningState = False
 connectionStatus = 1  # 1 represent no connection; 2 represent connected sucessfully; 3 represent disconnect manually
+BASE_PATH = os.path.dirname(__file__)
 
 class MainWindow(QMainWindow):
     # Class Private Variables
@@ -50,9 +51,10 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__()
 
         # Load in the UI File
-        loadUi(os.path.abspath("pc_software/ui/mainScreenUI.ui"), self)
+        loadUi(os.path.abspath(os.path.join(BASE_PATH, "ui", "mainScreenUI.ui")), self)
         
         # Init Data
+        print(BASE_PATH)
         self.configData = ControllerConfig(VERSION, [])
         # Load configuration data
         self.configData.load_from_disk()
@@ -437,13 +439,14 @@ class Signaller(QObject):
     port_scan_complete = pyqtSignal(list)
 
 # Main Application
-app = QApplication(sys.argv)
-app.setWindowIcon(QIcon('./pc_software/ui/smart_ir_logo.png'))
-main_window = MainWindow()
-main_window.setWindowTitle("Smart IR - Universal Remote Control")
-main_window.show()
+if __name__ == '__main__':
+    try:
+        app = QApplication(sys.argv)
+        app.setWindowIcon(QIcon(os.path.abspath(os.path.join(BASE_PATH, "ui", "smart_ir_logo.png"))))
+        main_window = MainWindow()
+        main_window.setWindowTitle("Smart IR - Universal Remote Control")
+        main_window.show()
 
-try:
-    sys.exit(app.exec_())
-except RuntimeError:
-    print("Quitting Application!")
+        sys.exit(app.exec_())
+    except RuntimeError:
+        print("Quitting Application!")

@@ -24,3 +24,5 @@ To get started with running the project you need will need the following -
 - PC Communication (Transmitter Board <-> GUI)
 - Create Poster
 - Update KPI's
+- MQTT Publishing on the GUI
+- Documentation on building the project, file hierarchy etc
