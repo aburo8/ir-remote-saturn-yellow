@@ -8,6 +8,7 @@ import os
 import platform
 import datetime as dt
 from PyQt5.uic import loadUi
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import (
     QDialog,
     QApplication,
@@ -437,6 +438,7 @@ class Signaller(QObject):
 
 # Main Application
 app = QApplication(sys.argv)
+app.setWindowIcon(QIcon('./pc_software/ui/smart_ir_logo.png'))
 main_window = MainWindow()
 main_window.setWindowTitle("Smart IR - Universal Remote Control")
 main_window.show()
