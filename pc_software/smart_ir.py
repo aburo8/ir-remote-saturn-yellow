@@ -8,6 +8,7 @@ import os
 import platform
 import datetime as dt
 from PyQt5.uic import loadUi
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import (
     QDialog,
     QApplication,
@@ -36,6 +37,7 @@ from smart_ir_data import ORIENTATION_DOWN, ORIENTATION_LEFT, ORIENTATION_RIGHT,
 # Global Variables
 portScanningState = False
 connectionStatus = 1  # 1 represent no connection; 2 represent connected sucessfully; 3 represent disconnect manually
+BASE_PATH = os.path.dirname(__file__)
 
 class MainWindow(QMainWindow):
     # Class Private Variables
@@ -49,10 +51,13 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__()
 
         # Load in the UI File
-        loadUi(os.path.abspath("pc_software/ui/mainScreenUI.ui"), self)
+        loadUi(os.path.abspath(os.path.join(BASE_PATH, "ui", "mainScreenUI.ui")), self)
         
         # Init Data
+        print(BASE_PATH)
         self.configData = ControllerConfig(VERSION, [])
+        # Load configuration data
+        self.configData.load_from_disk()
         self.currentApplianceIndex = -1 # Not selected
         self.currentControlIndex = -1 # Not selected
         self.availableOrientations = [ORIENTATION_UP, ORIENTATION_RIGHT, ORIENTATION_DOWN, ORIENTATION_LEFT] # All 4 orientations are available to start with
@@ -95,6 +100,8 @@ class MainWindow(QMainWindow):
         self.controlLabelT.textChanged.connect(self.on_control_label_changed)
         self.colourSelectB.clicked.connect(self.select_control_colour)
         self.orientationC.activated.connect(self.on_change_orientation)
+        self.updateControllersB.clicked.connect(self.update_controllers)
+        self.deleteApplianceB.clicked.connect(self.on_delete_appliance)
 
         # Serial Port Connection Timers
         self.connection_timer = QTimer(self)
@@ -113,6 +120,9 @@ class MainWindow(QMainWindow):
 
         # Graceful Close
         QCoreApplication.instance().aboutToQuit.connect(self.close_window)
+
+        # Load in Application Data
+        self.reload_configuration_data()
 
     def add_appliance(self):
         """
@@ -171,6 +181,10 @@ class MainWindow(QMainWindow):
               If both are provided the profile_name will be used by default.
         """
         data = self.configData
+
+        # Flush the latest configuration to disk
+        data.save_to_disk()
+
         # Set appliance state
         if applianceName is not None:
             # Set this profile to the current selection
@@ -278,6 +292,15 @@ class MainWindow(QMainWindow):
 
             self.reload_configuration_data(applianceIndex=self.currentApplianceIndex)
 
+    def on_delete_appliance(self):
+        if (self.currentApplianceIndex != -1):
+            self.configData.appliances.pop(self.currentApplianceIndex)
+            self.reload_configuration_data()
+
+    def update_controllers(self):
+        data = json.dumps(self.configData.to_dict(), indent=4,)
+        print(data)
+
     def fetch_serial(self):
         """
         Fetch any pending serial data and process it accordingly
@@ -303,7 +326,8 @@ class MainWindow(QMainWindow):
         """
         Gracefully exits the application when the window is closed
         """
-        self.us_thread.quit()
+        # TODO: close comport
+        pass
 
     def serial_scan_handler(self):
         """
@@ -415,12 +439,14 @@ class Signaller(QObject):
     port_scan_complete = pyqtSignal(list)
 
 # Main Application
-app = QApplication(sys.argv)
-main_window = MainWindow()
-main_window.setWindowTitle("Smart IR - Universal Remote Control")
-main_window.show()
+if __name__ == '__main__':
+    try:
+        app = QApplication(sys.argv)
+        app.setWindowIcon(QIcon(os.path.abspath(os.path.join(BASE_PATH, "ui", "smart_ir_logo.png"))))
+        main_window = MainWindow()
+        main_window.setWindowTitle("Smart IR - Universal Remote Control")
+        main_window.show()
 
-try:
-    sys.exit(app.exec_())
-except RuntimeError:
-    print("Quitting Application!")
+        sys.exit(app.exec_())
+    except RuntimeError:
+        print("Quitting Application!")

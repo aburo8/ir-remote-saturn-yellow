@@ -2,8 +2,10 @@
 Data structures for the Smart-Ir: Universal Remote Control System
 Written by AB
 """
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 from typing import List
+import os
+import json
 
 # Constants
 VERSION = 1.0 # Version of the configuration data
@@ -18,10 +20,8 @@ class Control:
     IR Control to transmit
     """
     label: str # control label
-    irCode: bytes # bytes to transmit
-    irCodeLen: int # number of bytes to transmit
+    irCode: int # byte to transmit (uint32)
     colour: List[int] # control colour
-
 
 @dataclass
 class Appliance:
@@ -40,6 +40,57 @@ class ControllerConfig:
     version: float
     appliances: List[Appliance] # appliances within the configuration
 
+    def to_dict(self):
+        return asdict(self)
+    
+    def save_to_disk(self, customPath = None):
+        """
+        Saves the controller configuration to disk
+        """
+        savePath = ("./user_data/controller_configuration.json" if customPath is None else customPath)
+
+        try:          
+            # save to disk
+            if os.path.isdir(os.path.abspath("./user_data")) is False:
+                os.makedirs(os.path.abspath("./user_data"))
+                print("user_data directory created!")
+
+            with open(os.path.abspath(savePath), "w") as f:
+                data = json.dumps(self.to_dict(), indent=4)
+                f.write(data)
+                print("Controller Configuration File Saved")
+        except FileExistsError:
+            print("Unable to save Controller Configuration")
+    
+    def load_from_disk(self, customPath = None):
+        """
+        Loads the controller configuration to disk
+        """
+        loadPath = ("./user_data/controller_configuration.json" if customPath is None else customPath)
+
+        # Try and make the user_data folder to avoid errors
+        try:
+            if os.path.isdir(os.path.abspath("./user_data")) is False:
+                os.makedirs(os.path.abspath("./user_data"))
+                print("user_data directory created!")
+                raise FileNotFoundError()
+            else:
+                print("user_data directory already exists!")
+                
+            with open(os.path.abspath(loadPath), "r") as f:
+                fileData = json.load(f)
+                if self.version != fileData["version"]:
+                    print("Controller configuration outdated! Creating Blank Configuration...")
+                
+                self.appliances = [Appliance(**appliance) for appliance in fileData["appliances"]]
+
+                for i in range(len(self.appliances)):
+                    self.appliances[i].controls = [Control(**control) for control in fileData["appliances"][i]["controls"]]
+        except FileNotFoundError:
+            print("No controller configuration found! Creating Blank Configuration...")
+        except json.JSONDecodeError:
+            print("Invalid JSON - Creating New Configuration!")
+
 def generate_base_appliance(name):
     """
     Generates a base appliance with default values
@@ -47,7 +98,7 @@ def generate_base_appliance(name):
     controls = []
     for i in range(6):
         # Add basic controls
-        control = Control(f"Control {i+1}", bytes.fromhex("FFFFFF"), 3, [0, 0, 255])
+        control = Control(f"Control {i+1}", 55, [0, 0, 255])
         controls.append(control)
 
     appliance = Appliance(name, ORIENTATION_UP, controls)
@@ -68,3 +119,16 @@ def orientation_to_string(orientation):
         return "Up (0 Degrees)"
     else:
         return ""
+
+def rgb_to_hex(r, g, b):
+    """
+    Convert RGB values to hexadecimal format.
+    """
+    # Ensure RGB values are within valid range
+    r = max(0, min(255, r))
+    g = max(0, min(255, g))
+    b = max(0, min(255, b))
+    
+    # Convert RGB to hexadecimal format
+    hex_value = "0x{:02x}{:02x}{:02x}".format(r, g, b)
+    return hex_value

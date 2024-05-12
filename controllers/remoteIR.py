@@ -275,6 +275,9 @@ def ninety_degree_screen():
             for control in controls:
                 # Get the color string and convert to integer hex value
                 color_hex_str = control["color"]
+
+                # CALL rgb_to_hex string function from smart_ir_data.py HERE!
+                
                 # Convert hex string to integer hex value (without "0x" prefix)
                 color_hex_value = int(color_hex_str, 16)
                 # Append the integer hex value to the list of hex values
