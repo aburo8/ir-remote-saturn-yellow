@@ -570,7 +570,8 @@ def loop():
                 ir_code_hex_value = int(ir_code_hex_str[1:], 16)
                 # Append the integer hex value to the list of IR code hex values
                 ir_codes_hex.append(ir_code_hex_value)
-                
+    
+    # send IR code here:
     print((str('IR code sent: ') + str(ir_codes_hex[button - 1])))
 
 
