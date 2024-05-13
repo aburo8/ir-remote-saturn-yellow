@@ -32,6 +32,7 @@ current_color = None
 last_color = None
 data = ""
 
+#default configuration of remote
 string = """{
   "appliances": [
     {
@@ -41,32 +42,32 @@ string = """{
         {
           "name": "Crimson Light",
           "ir_code": "#000000",
-          "color": "0xFFFF00"
+          "color": [255, 255, 0]
         },
         {
           "name": "Magenta Light",
           "ir_code": "#000001",
-          "color": "0xFFFF00"
+          "color": [255, 255, 0]
         },
         {
           "name": "Sapphire Mode",
           "ir_code": "#000002",
-          "color": "0xFFFF00"
+          "color": [255, 255, 0]
         },
         {
           "name": "Emerald Mode",
           "ir_code": "#000003",
-          "color": "0xFFFF00"
+          "color": [255, 255, 0]
         },
         {
           "name": "Golden Up",
           "ir_code": "#000004",
-          "color": "0xFFFF00"
+          "color": [255, 255, 0]
         },
         {
           "name": "Azure Down",
           "ir_code": "#000005",
-          "color": "0xFFFF00"
+          "color": [255, 255, 0]
         }
       ]
     },
@@ -77,32 +78,32 @@ string = """{
         {
           "name": "Coral Light",
           "ir_code": "#000006",
-          "color": "0xFF7F50"
+          "color": [255, 127, 80]
         },
         {
           "name": "Lime Light",
           "ir_code": "#000007",
-          "color": "0x00FF00"
+          "color": [0, 255, 0]
         },
         {
           "name": "Ocean Mode",
           "ir_code": "#000008",
-          "color": "0x4169E1"
+          "color": [65, 105, 225]
         },
         {
           "name": "Ruby Mode",
           "ir_code": "#000009",
-          "color": "0xFF6347"
+          "color": [255, 99, 71]
         },
         {
           "name": "Topaz Up",
           "ir_code": "#00000A",
-          "color": "0x00CED1"
+          "color": [0, 206, 209]
         },
         {
           "name": "Bronze Down",
           "ir_code": "#00000B",
-          "color": "0xCD7F32"
+          "color": [205, 127, 50]
         }
       ]
     },
@@ -113,32 +114,32 @@ string = """{
         {
           "name": "Scarlet Light",
           "ir_code": "#00000C",
-          "color": "0xFF2400"
+          "color": [255, 36, 0]
         },
         {
           "name": "Teal Light",
           "ir_code": "#00000D",
-          "color": "0x008080"
+          "color": [0, 128, 128]
         },
         {
           "name": "Indigo Mode",
           "ir_code": "#00000E",
-          "color": "0x4B0082"
+          "color": [75, 0, 130]
         },
         {
           "name": "Amber Mode",
           "ir_code": "#00000F",
-          "color": "0xFFBF00"
+          "color": [255, 191, 0]
         },
         {
           "name": "Platinum Up",
           "ir_code": "#000010",
-          "color": "0xE5E4E2"
+          "color": [229, 228, 226]
         },
         {
           "name": "Copper Down",
           "ir_code": "#000011",
-          "color": "0xB87333"
+          "color": [181, 115, 50]
         }
       ]
     },
@@ -149,37 +150,45 @@ string = """{
         {
           "name": "Vermilion Light",
           "ir_code": "#000012",
-          "color": "0xE34234"
+          "color": [227, 66, 52]
         },
         {
           "name": "Olive Light",
           "ir_code": "#000013",
-          "color": "0x808000"
+          "color": [128, 128, 0]
         },
         {
           "name": "Cobalt Mode",
           "ir_code": "#000014",
-          "color": "0x0047AB"
+          "color": [0, 71, 171]
         },
         {
           "name": "Pearl Mode",
           "ir_code": "#000015",
-          "color": "0xEAE0C8"
+          "color": [234, 224, 200]
         },
         {
           "name": "Silver Up",
           "ir_code": "#000016",
-          "color": "0xC0C0C0"
+          "color": [192, 192, 192]
         },
         {
           "name": "Brass Down",
           "ir_code": "#000017",
-          "color": "0xB5A642"
+          "color": [181, 166, 66]
         }
       ]
     }
   ]
 }"""
+
+def rgb_to_hex(rgb):
+    """Convert RGB values to a hexadecimal color string."""
+    r = max(0, min(255, rgb[0]))
+    g = max(0, min(255, rgb[1]))
+    b = max(0, min(255, rgb[2]))
+    hex_color = "0x{:02X}{:02X}{:02X}".format(r, g, b)
+    return hex_color
   
   
 def zero_degree_screen():
@@ -212,8 +221,10 @@ def zero_degree_screen():
             controls = appliance["controls"]
             # Extract color values (hex strings) for each control
             for control in controls:
-                # Get the color string and convert to integer hex value
-                color_hex_str = control["color"]
+                # Extract rgb format
+                rgb_color = control["color"]
+                # Convert rgb format to hex
+                color_hex_str = rgb_to_hex(rgb_color)
                 # Convert hex string to integer hex value (without "0x" prefix)
                 color_hex_value = int(color_hex_str, 16)
                 # Append the integer hex value to the list of hex values
@@ -273,11 +284,10 @@ def ninety_degree_screen():
             controls = appliance["controls"]
             # Extract color values (hex strings) for each control
             for control in controls:
-                # Get the color string and convert to integer hex value
-                color_hex_str = control["color"]
-
-                # CALL rgb_to_hex string function from smart_ir_data.py HERE!
-                
+                # Extract rgb format
+                rgb_color = control["color"]
+                # Convert rgb format to hex
+                color_hex_str = rgb_to_hex(rgb_color)
                 # Convert hex string to integer hex value (without "0x" prefix)
                 color_hex_value = int(color_hex_str, 16)
                 # Append the integer hex value to the list of hex values
@@ -335,8 +345,10 @@ def one_eighty_degree_screen():
             controls = appliance["controls"]
             # Extract color values (hex strings) for each control
             for control in controls:
-                # Get the color string and convert to integer hex value
-                color_hex_str = control["color"]
+                # Extract rgb format
+                rgb_color = control["color"]
+                # Convert rgb format to hex
+                color_hex_str = rgb_to_hex(rgb_color)
                 # Convert hex string to integer hex value (without "0x" prefix)
                 color_hex_value = int(color_hex_str, 16)
                 # Append the integer hex value to the list of hex values
@@ -397,8 +409,10 @@ def two_seventy_degree_screen():
             controls = appliance["controls"]
             # Extract color values (hex strings) for each control
             for control in controls:
-                # Get the color string and convert to integer hex value
-                color_hex_str = control["color"]
+                # Extract rgb format
+                rgb_color = control["color"]
+                # Convert rgb format to hex
+                color_hex_str = rgb_to_hex(rgb_color)
                 # Convert hex string to integer hex value (without "0x" prefix)
                 color_hex_value = int(color_hex_str, 16)
                 # Append the integer hex value to the list of hex values
@@ -573,8 +587,7 @@ def loop():
                 ir_code_hex_value = int(ir_code_hex_str[1:], 16)
                 # Append the integer hex value to the list of IR code hex values
                 ir_codes_hex.append(ir_code_hex_value)
-    
-    # send IR code here:
+                
     print((str('IR code sent: ') + str(ir_codes_hex[button - 1])))
 
 
