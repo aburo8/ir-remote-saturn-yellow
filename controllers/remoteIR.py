@@ -197,7 +197,21 @@ def sub(topic, msg):
     global data, configuration
     data = json.loads(msg)
     configuration = 1
+    
+def connect():
+    global topic
+    client = MQTTClient(ClientID, server, 1883, user, password)
+    client.set_callback(sub)
+    client.connect()
+    client.subscribe(topic)
+    return client
 
+def reconnect():
+    print('Failed to connect to MQTT broker, Reconnecting...' % (server))
+    time.sleep(5)
+    client.reconnect()
+
+# screen configuration functions
 def rgb_to_hex(rgb):
     """Convert RGB values to a hexadecimal color string."""
     r = max(0, min(255, rgb[0]))
@@ -456,15 +470,19 @@ def two_seventy_degree_screen():
     label_five = Widgets.Label(control_names_orientation_3[4], 30, 300, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
     label_six = Widgets.Label(control_names_orientation_3[5], 130, 300, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
 
-
+# set up functions
 def setup():
   global rect0, rect4, rect1, rect5, Title, rect2, label_one, rect3, label_two, label_three, label_four, label_five, label_six, configuration, press, debounce, x, y, z, button, rotation, current_color, last_color, data, string, client
 
   M5.begin()
-  client.set_callback(sub)
-  client.connect()
-  print('Connected to MQTT Broker "%s"' % (server))
-  client.subscribe(topic)
+  
+  # initialize mqtt
+  try:
+    client = connect()
+  except OSError as e:
+    reconnect()
+    
+  print('Connected to MQTT Broker "%s"' % (server))  
   
   # if code reaches here, mqtt has succesfully been setup
   data = json.loads(string)
@@ -482,10 +500,10 @@ def setup():
 
 def loop():
   
-  global rect0, rect4, rect1, rect5, Title, rect2, label_one, rect3, label_two, label_three, label_four, label_five, label_six, configuration, press, debounce, x, y, z, button, rotation, current_color, last_color
+  global rect0, rect4, rect1, rect5, Title, rect2, label_one, rect3, label_two, label_three, label_four, label_five, label_six, configuration, press, debounce, x, y, z, button, rotation, current_color, last_color, client
   M5.update()
   
-  # check if there is a new message, if not, pass
+  # non-blocking check mqtt message function
   client.check_msg()
   
   # determine rotation of device 
@@ -627,6 +645,16 @@ def loop():
                 ir_codes_hex.append(ir_code_hex_value)
                 
     print((str('IR code sent: ') + str(ir_codes_hex[button - 1])))
+    message = (str("{\"IR\": ") + str(ir_codes_hex[button - 1])) + str('}')
+    IR_topic = "IR_topic"
+    
+    # if message send fails, reconnect
+    try:
+        print('Sending message %s on topic %s' % (message, IR_topic))
+        client.publish(IR_topic, message, qos=0)
+    except Exception as e:
+        print('Failed to publish message:', e)
+        client = reconnect()
 
 
 # Main function
