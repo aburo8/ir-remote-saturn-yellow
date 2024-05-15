@@ -21,7 +21,7 @@ label_five = None
 label_six = None
 
 # global variables 
-configuration = None
+configuration = 0
 press = None
 debounce = None
 x = None
@@ -194,8 +194,9 @@ client = MQTTClient(ClientID, server, 1883, user, password)
 
 def sub(topic, msg):
     print("Updated configuration")
-    global data
+    global data, configuration
     data = json.loads(msg)
+    configuration = 1
 
 def rgb_to_hex(rgb):
     """Convert RGB values to a hexadecimal color string."""
@@ -514,6 +515,19 @@ def loop():
       two_seventy_degree_screen()
       
     last_color = current_color
+    
+  # update screen if mqtt message has been recieved
+  if configuration == 1:
+    if rotation==0:
+      zero_degree_screen()
+    elif rotation==1:
+      ninety_degree_screen()
+    elif rotation==2:
+      one_eighty_degree_screen()
+    elif rotation==3:
+      two_seventy_degree_screen()
+      
+    configuration = 0
     
   # process any button presses from device
   if (M5.Touch.getX()) < 110 and (M5.Touch.getY()) < 120 and (M5.Touch.getCount()) > 0:
