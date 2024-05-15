@@ -3,6 +3,7 @@ import M5
 from M5 import *
 import time
 import json
+from umqtt.simple import MQTTClient
 
 # shapes used on screen
 rect0 = None
@@ -181,6 +182,20 @@ string = """{
     }
   ]
 }"""
+
+# MQTT connection settings
+server="broker.emqx.io"
+ClientID = f'esp32-sub-{time.time_ns()}'
+user = "emqx"
+password = "public"
+topic = "u47041165"
+msg = b'{"msg":"hello"}'
+client = MQTTClient(ClientID, server, 1883, user, password)
+
+def sub(topic, msg):
+    print("Updated configuration")
+    global data
+    data = json.loads(msg)
 
 def rgb_to_hex(rgb):
     """Convert RGB values to a hexadecimal color string."""
@@ -442,9 +457,15 @@ def two_seventy_degree_screen():
 
 
 def setup():
-  global rect0, rect4, rect1, rect5, Title, rect2, label_one, rect3, label_two, label_three, label_four, label_five, label_six, configuration, press, debounce, x, y, z, button, rotation, current_color, last_color, data, string
+  global rect0, rect4, rect1, rect5, Title, rect2, label_one, rect3, label_two, label_three, label_four, label_five, label_six, configuration, press, debounce, x, y, z, button, rotation, current_color, last_color, data, string, client
 
   M5.begin()
+  client.set_callback(sub)
+  client.connect()
+  print('Connected to MQTT Broker "%s"' % (server))
+  client.subscribe(topic)
+  
+  # if code reaches here, mqtt has succesfully been setup
   data = json.loads(string)
   zero_degree_screen()
 
@@ -462,6 +483,9 @@ def loop():
   
   global rect0, rect4, rect1, rect5, Title, rect2, label_one, rect3, label_two, label_three, label_four, label_five, label_six, configuration, press, debounce, x, y, z, button, rotation, current_color, last_color
   M5.update()
+  
+  # check if there is a new message, if not, pass
+  client.check_msg()
   
   # determine rotation of device 
   (x, y, z) = Imu.getAccel()
