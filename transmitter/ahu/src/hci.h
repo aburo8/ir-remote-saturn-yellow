@@ -44,6 +44,17 @@
 #define DID_SD 13 // SD Card Writer
 #define DID_RSSI 9 // RSSI Mobile Node
 
+// IR Protocols
+#define IR_PROTO_NEC 0
+
+/**
+ * A struct which store IR data packets
+*/
+typedef struct {
+    uint8_t protocol;
+    uint32_t data;
+} IRData;
+
 // iBeacon Node Names
 #define IBEACON_CSSE_4011_A 1
 #define IBEACON_CSSE_4011_B 2
