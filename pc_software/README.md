@@ -13,6 +13,8 @@ To get started, first ensure you have installed all of the pre-requisite librari
 - pyserial
 - pyqt5
 - pyinstaller
+- google
+- protobuf
 
 Once installed, open a `Powershell` (or `bash` window) and navigate to the `ir-remote-saturn-yellow/pc_software` directory.
 
@@ -39,6 +41,8 @@ To run the application on unix simply install the following python packages into
 - pyserial
 - pyqt5
 - pyinstaller
+- google
+- protobuf
 
 Then run the `smart_ir.py` file.
 

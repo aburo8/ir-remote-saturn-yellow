@@ -33,6 +33,7 @@ import threading
 import pc_pb2
 from smart_ir_data import Control, Appliance, ControllerConfig, VERSION, generate_base_appliance, orientation_to_string
 from smart_ir_data import ORIENTATION_DOWN, ORIENTATION_LEFT, ORIENTATION_RIGHT, ORIENTATION_UP
+from mqtt_handler import MqttHandler
 
 # Global Variables
 portScanningState = False
@@ -299,6 +300,9 @@ class MainWindow(QMainWindow):
 
     def update_controllers(self):
         data = json.dumps(self.configData.to_dict(), indent=4,)
+        print("Sending MQTT Message -")
+        mqttWorker = MqttHandler("u47041165", "localhost", str(data))
+        mqttWorker.start()
         print(data)
 
     def fetch_serial(self):
