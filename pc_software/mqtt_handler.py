@@ -13,10 +13,11 @@ class MqttHandler(Thread):
         self.topic = topic
         self.hostname = hostname
         self.data = data
+        self.auth = {'username':"pc", 'password':"csse4011"}
 
     def run(self):
         """
         Put your code here that you want the thread to run
         """
-        publish.single(self.topic, self.data, hostname=self.hostname)
+        publish.single(self.topic, self.data, hostname=self.hostname, auth=self.auth)
         print("Finished Publishing!")        
