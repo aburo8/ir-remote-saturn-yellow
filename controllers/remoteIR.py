@@ -3,6 +3,7 @@ import M5
 from M5 import *
 import time
 import json
+import network
 from umqtt.simple import MQTTClient
 
 # shapes used on screen
@@ -41,34 +42,34 @@ string = """{
       "orientation": 0,
       "controls": [
         {
-          "name": "Crimson Light",
-          "ir_code": "#000000",
-          "color": [255, 255, 0]
+          "label": "Crimson Light",
+          "irCode": 0,
+          "colour": [255, 255, 0]
         },
         {
-          "name": "Magenta Light",
-          "ir_code": "#000001",
-          "color": [255, 255, 0]
+          "label": "Magenta Light",
+          "irCode": 1,
+          "colour": [255, 255, 0]
         },
         {
-          "name": "Sapphire Mode",
-          "ir_code": "#000002",
-          "color": [255, 255, 0]
+          "label": "Sapphire Mode",
+          "irCode": 2,
+          "colour": [255, 255, 0]
         },
         {
-          "name": "Emerald Mode",
-          "ir_code": "#000003",
-          "color": [255, 255, 0]
+          "label": "Emerald Mode",
+          "irCode": 3,
+          "colour": [255, 255, 0]
         },
         {
-          "name": "Golden Up",
-          "ir_code": "#000004",
-          "color": [255, 255, 0]
+          "label": "Golden Up",
+          "irCode": 4,
+          "colour": [255, 255, 0]
         },
         {
-          "name": "Azure Down",
-          "ir_code": "#000005",
-          "color": [255, 255, 0]
+          "label": "Azure Down",
+          "irCode": 5,
+          "colour": [255, 255, 0]
         }
       ]
     },
@@ -77,34 +78,34 @@ string = """{
       "orientation": 1,
       "controls": [
         {
-          "name": "Coral Light",
-          "ir_code": "#000006",
-          "color": [255, 127, 80]
+          "label": "Coral Light",
+          "irCode": 6,
+          "colour": [255, 127, 80]
         },
         {
-          "name": "Lime Light",
-          "ir_code": "#000007",
-          "color": [0, 255, 0]
+          "label": "Lime Light",
+          "irCode": 7,
+          "colour": [0, 255, 0]
         },
         {
-          "name": "Ocean Mode",
-          "ir_code": "#000008",
-          "color": [65, 105, 225]
+          "label": "Ocean Mode",
+          "irCode": 8,
+          "colour": [65, 105, 225]
         },
         {
-          "name": "Ruby Mode",
-          "ir_code": "#000009",
-          "color": [255, 99, 71]
+          "label": "Ruby Mode",
+          "irCode": 9,
+          "colour": [255, 99, 71]
         },
         {
-          "name": "Topaz Up",
-          "ir_code": "#00000A",
-          "color": [0, 206, 209]
+          "label": "Topaz Up",
+          "irCode": 10,
+          "colour": [0, 206, 209]
         },
         {
-          "name": "Bronze Down",
-          "ir_code": "#00000B",
-          "color": [205, 127, 50]
+          "label": "Bronze Down",
+          "irCode": 11,
+          "colour": [205, 127, 50]
         }
       ]
     },
@@ -113,34 +114,34 @@ string = """{
       "orientation": 2,
       "controls": [
         {
-          "name": "Scarlet Light",
-          "ir_code": "#00000C",
-          "color": [255, 36, 0]
+          "label": "Scarlet Light",
+          "irCode": 12,
+          "colour": [255, 36, 0]
         },
         {
-          "name": "Teal Light",
-          "ir_code": "#00000D",
-          "color": [0, 128, 128]
+          "label": "Teal Light",
+          "irCode": 13,
+          "colour": [0, 128, 128]
         },
         {
-          "name": "Indigo Mode",
-          "ir_code": "#00000E",
-          "color": [75, 0, 130]
+          "label": "Indigo Mode",
+          "irCode": 14,
+          "colour": [75, 0, 130]
         },
         {
-          "name": "Amber Mode",
-          "ir_code": "#00000F",
-          "color": [255, 191, 0]
+          "label": "Amber Mode",
+          "irCode": 15,
+          "colour": [255, 191, 0]
         },
         {
-          "name": "Platinum Up",
-          "ir_code": "#000010",
-          "color": [229, 228, 226]
+          "label": "Platinum Up",
+          "irCode": 16,
+          "colour": [229, 228, 226]
         },
         {
-          "name": "Copper Down",
-          "ir_code": "#000011",
-          "color": [181, 115, 50]
+          "label": "Copper Down",
+          "irCode": 17,
+          "colour": [181, 115, 50]
         }
       ]
     },
@@ -149,46 +150,68 @@ string = """{
       "orientation": 3,
       "controls": [
         {
-          "name": "Vermilion Light",
-          "ir_code": "#000012",
-          "color": [227, 66, 52]
+          "label": "Vermilion Light",
+          "irCode": 18,
+          "colour": [227, 66, 52]
         },
         {
-          "name": "Olive Light",
-          "ir_code": "#000013",
-          "color": [128, 128, 0]
+          "label": "Olive Light",
+          "irCode": 19,
+          "colour": [128, 128, 0]
         },
         {
-          "name": "Cobalt Mode",
-          "ir_code": "#000014",
-          "color": [0, 71, 171]
+          "label": "Cobalt Mode",
+          "irCode": 20,
+          "colour": [0, 71, 171]
         },
         {
-          "name": "Pearl Mode",
-          "ir_code": "#000015",
-          "color": [234, 224, 200]
+          "label": "Pearl Mode",
+          "irCode": 21,
+          "colour": [234, 224, 200]
         },
         {
-          "name": "Silver Up",
-          "ir_code": "#000016",
-          "color": [192, 192, 192]
+          "label": "Silver Up",
+          "irCode": 22,
+          "colour": [192, 192, 192]
         },
         {
-          "name": "Brass Down",
-          "ir_code": "#000017",
-          "color": [181, 166, 66]
+          "label": "Brass Down",
+          "irCode": 23,
+          "colour": [181, 166, 66]
         }
       ]
     }
   ]
 }"""
 
+# WiFi connection settings
+WIFI_SSID = 'AB-DEV'
+WIFI_PASSWORD = 'AB_d3V@2024'
+
+wifi = network.WLAN(network.STA_IF)
+wifi.active(True)
+wifi.scan()             # scan for access points
+wifi.isconnected()      # check if the station is connected to an AP
+wifi.connect('AB-DEV', 'AB_d3V@2024')
+print("Attempting to connect")
+while not wifi.isconnected():
+    pass
+print("WiFi connected:", wifi.ifconfig())
+
+# wlan = network.WLAN(network.STA_IF) # create station interface
+# wlan.active(True)       # activate the interface
+# wlan.scan()             # scan for access points
+# wlan.isconnected()      # check if the station is connected to an AP
+# wlan.connect('ssid', 'key') # connect to an AP
+# wlan.config('mac')      # get the interface's MAC address
+# wlan.ifconfig()
+
 # MQTT connection settings
-server="broker.emqx.io"
+server="192.168.1.33"
 ClientID = f'esp32-sub-{time.time_ns()}'
-user = "emqx"
-password = "public"
-topic = "u47041165"
+user = "controller"
+password = "csse4011"
+topic = "topic/configuration"
 msg = b'{"msg":"hello"}'
 client = MQTTClient(ClientID, server, 1883, user, password)
 
@@ -232,7 +255,7 @@ def zero_degree_screen():
     appliance_names = []
     # Iterate over each appliance in the "appliances" list
     for appliance in data["appliances"]:
-        # Extract the "name" of the appliance and append to the list
+        # Extract the "label" of the appliance and append to the list
         appliance_names.append(appliance["name"])
     Title = Widgets.Title(appliance_names[0], 3, 0xffffff, 0x0000FF, Widgets.FONTS.DejaVu18)
 
@@ -252,7 +275,7 @@ def zero_degree_screen():
             # Extract color values (hex strings) for each control
             for control in controls:
                 # Extract rgb format
-                rgb_color = control["color"]
+                rgb_color = control["colour"]
                 # Convert rgb format to hex
                 color_hex_str = rgb_to_hex(rgb_color)
                 # Convert hex string to integer hex value (without "0x" prefix)
@@ -272,7 +295,7 @@ def zero_degree_screen():
     for appliance in data["appliances"]:
         if appliance["orientation"] == 0:
             for control in appliance["controls"]:
-                control_names_orientation_0.append(control["name"])
+                control_names_orientation_0.append(control["label"])
       
     label_one = Widgets.Label(control_names_orientation_0[0], 25, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
     label_two = Widgets.Label(control_names_orientation_0[1], 125, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
@@ -293,7 +316,7 @@ def ninety_degree_screen():
 
     # Iterate over each appliance in the "appliances" list
     for appliance in data["appliances"]:
-        # Extract the "name" of the appliance and append to the list
+        # Extract the "label" of the appliance and append to the list
         appliance_names.append(appliance["name"])
         
     Title = Widgets.Title(appliance_names[1], 3, 0xffffff, 0x0000FF, Widgets.FONTS.DejaVu18)
@@ -315,7 +338,7 @@ def ninety_degree_screen():
             # Extract color values (hex strings) for each control
             for control in controls:
                 # Extract rgb format
-                rgb_color = control["color"]
+                rgb_color = control["colour"]
                 # Convert rgb format to hex
                 color_hex_str = rgb_to_hex(rgb_color)
                 # Convert hex string to integer hex value (without "0x" prefix)
@@ -335,7 +358,7 @@ def ninety_degree_screen():
     for appliance in data["appliances"]:
         if appliance["orientation"] == 1:
             for control in appliance["controls"]:
-                control_names_orientation_1.append(control["name"])
+                control_names_orientation_1.append(control["label"])
     label_one = Widgets.Label(control_names_orientation_1[0], 30, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
     label_two = Widgets.Label(control_names_orientation_1[1], 130, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
     label_three = Widgets.Label(control_names_orientation_1[2], 30, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
@@ -355,7 +378,7 @@ def one_eighty_degree_screen():
 
     # Iterate over each appliance in the "appliances" list
     for appliance in data["appliances"]:
-        # Extract the "name" of the appliance and append to the list
+        # Extract the "label" of the appliance and append to the list
         appliance_names.append(appliance["name"])
         
     Title = Widgets.Title(appliance_names[2], 3, 0xffffff, 0x0000FF, Widgets.FONTS.DejaVu18)
@@ -376,7 +399,7 @@ def one_eighty_degree_screen():
             # Extract color values (hex strings) for each control
             for control in controls:
                 # Extract rgb format
-                rgb_color = control["color"]
+                rgb_color = control["colour"]
                 # Convert rgb format to hex
                 color_hex_str = rgb_to_hex(rgb_color)
                 # Convert hex string to integer hex value (without "0x" prefix)
@@ -397,7 +420,7 @@ def one_eighty_degree_screen():
     for appliance in data["appliances"]:
         if appliance["orientation"] == 2:
             for control in appliance["controls"]:
-                control_names_orientation_2.append(control["name"])
+                control_names_orientation_2.append(control["label"])
       
     label_one = Widgets.Label(control_names_orientation_2[0], 25, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
     label_two = Widgets.Label(control_names_orientation_2[1], 125, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
@@ -418,7 +441,7 @@ def two_seventy_degree_screen():
 
     # Iterate over each appliance in the "appliances" list
     for appliance in data["appliances"]:
-        # Extract the "name" of the appliance and append to the list
+        # Extract the "label" of the appliance and append to the list
         appliance_names.append(appliance["name"])
         
     Title = Widgets.Title(appliance_names[3], 3, 0xffffff, 0x0000FF, Widgets.FONTS.DejaVu18)
@@ -440,7 +463,7 @@ def two_seventy_degree_screen():
             # Extract color values (hex strings) for each control
             for control in controls:
                 # Extract rgb format
-                rgb_color = control["color"]
+                rgb_color = control["colour"]
                 # Convert rgb format to hex
                 color_hex_str = rgb_to_hex(rgb_color)
                 # Convert hex string to integer hex value (without "0x" prefix)
@@ -461,7 +484,7 @@ def two_seventy_degree_screen():
     for appliance in data["appliances"]:
         if appliance["orientation"] == 3:
             for control in appliance["controls"]:
-                control_names_orientation_3.append(control["name"])
+                control_names_orientation_3.append(control["label"])
 
     label_one = Widgets.Label(control_names_orientation_3[0], 30, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
     label_two = Widgets.Label(control_names_orientation_3[1], 130, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
@@ -630,27 +653,25 @@ def loop():
   # execute button presses
   if press == 1 and (time.time()) - debounce >= 1:
     press = 0
-    ir_codes_hex = []
+    irCodes_hex = []
     for appliance in data["appliances"]:
         if appliance["orientation"] == rotation:
             # Extract controls for this appliance
             controls = appliance["controls"]
             # Extract IR codes (hex strings) for each control
             for control in controls:
-                # Get the IR code string and convert to integer hex value
-                ir_code_hex_str = control["ir_code"]
-                # Remove "#" prefix and convert hex string to integer hex value
-                ir_code_hex_value = int(ir_code_hex_str[1:], 16)
-                # Append the integer hex value to the list of IR code hex values
-                ir_codes_hex.append(ir_code_hex_value)
                 
-    print((str('IR code sent: ') + str(ir_codes_hex[button - 1])))
-    message = (str("{\"IR\": ") + str(ir_codes_hex[button - 1])) + str('}')
-    IR_topic = "IR_topic"
+                irCode_hex_value = control["irCode"]
+                # Append the integer hex value to the list of IR code unsigned values
+                irCodes_hex.append(irCode_hex_value)
+                
+    print((str('IR code sent: ') + str(irCodes_hex[button - 1])))
+    message = (str("{\"IR\": ") + str(irCodes_hex[button - 1])) + str('}')
+    IR_topic = "topic/ir"
     
     # if message send fails, reconnect
     try:
-        print('Sending message %s on topic %s' % (message, IR_topic))
+        print('Sending message %s on topic: %s' % (message, IR_topic))
         client.publish(IR_topic, message, qos=0)
     except Exception as e:
         print('Failed to publish message:', e)
