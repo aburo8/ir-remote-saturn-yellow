@@ -21,11 +21,11 @@
 #include "ir_module.h"
 
 // Define Priorities
-#define UART_PRIORITY 1
-#define AHU_PRIORITY 2
-#define BLE_PRIORITY 2
-#define PC_PRIORITY 2
-#define IR_TX_PRIORITY 2
+#define UART_PRIORITY 2
+#define AHU_PRIORITY 3
+#define BLE_PRIORITY 3
+#define PC_PRIORITY 3
+#define IR_TX_PRIORITY 1
 
 // Define Stack Sizes
 #define UART_STACK_SIZE 1024
