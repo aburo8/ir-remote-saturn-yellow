@@ -192,7 +192,7 @@ wifi = network.WLAN(network.STA_IF)
 wifi.active(True)
 wifi.scan()             # scan for access points
 wifi.isconnected()      # check if the station is connected to an AP
-wifi.connect('AB-DEV', 'AB_d3V@2024')
+wifi.connect(WIFI_SSID, WIFI_PASSWORD)
 print("Attempting to connect")
 while not wifi.isconnected():
     pass
@@ -207,7 +207,7 @@ print("WiFi connected:", wifi.ifconfig())
 # wlan.ifconfig()
 
 # MQTT connection settings
-server="192.168.1.33"
+server="192.168.43.237"
 ClientID = f'esp32-sub-{time.time_ns()}'
 user = "controller"
 password = "csse4011"
@@ -230,9 +230,41 @@ def connect():
     return client
 
 def reconnect():
-    print('Failed to connect to MQTT broker, Reconnecting...' % (server))
-    time.sleep(5)
+    global client, server
+    print("Failed to connect to MQTT broker, Reconnecting..." + server)
+    time.sleep(1)
     client.reconnect()
+    
+    
+# Function to load data from flash memory
+def load_data():
+    try:
+        with open("data.txt", "r") as f:
+            return ujson.load(f)
+    except OSError:
+        # If file doesn't exist, return default value
+        return 0
+
+# Function to save data to flash memory
+def save_data(data):
+    with open("data.txt", "w") as f:
+        ujson.dump(data, f)
+
+# Function to update data
+def update_data(new_value):
+    global data
+    data = new_value
+    save_data(data)
+
+# Function to print data
+def print_data():
+    print("Data:", data)
+
+# Setup function
+def setup():
+    global data
+    # Initialize data
+    data = load_data()
 
 # screen configuration functions
 def rgb_to_hex(rgb):
@@ -513,7 +545,7 @@ def setup():
 
   press = 0
   debounce = 0
-  button = 0
+  button = 2
   x = 0
   y = 0
   z = 0
@@ -664,18 +696,20 @@ def loop():
                 irCode_hex_value = control["irCode"]
                 # Append the integer hex value to the list of IR code unsigned values
                 irCodes_hex.append(irCode_hex_value)
-                
-    print((str('IR code sent: ') + str(irCodes_hex[button - 1])))
-    message = (str("{\"IR\": ") + str(irCodes_hex[button - 1])) + str('}')
-    IR_topic = "topic/ir"
     
-    # if message send fails, reconnect
-    try:
-        print('Sending message %s on topic: %s' % (message, IR_topic))
-        client.publish(IR_topic, message, qos=0)
-    except Exception as e:
-        print('Failed to publish message:', e)
-        client = reconnect()
+    # on start-up, array does not always fill
+    if len(irCodes_hex) != 0:           
+        print((str('IR code sent: ') + str(irCodes_hex[button - 1])))
+        message = (str("{\"IR\": ") + str(irCodes_hex[button - 1])) + str('}')
+        IR_topic = "topic/ir"
+    
+        # if message send fails, reconnect
+        try:
+            print('Sending message %s on topic: %s' % (message, IR_topic))
+            client.publish(IR_topic, message, qos=0)
+        except Exception as e:
+            print('Failed to publish message:', e)
+            client = connect()
 
 
 # Main function
