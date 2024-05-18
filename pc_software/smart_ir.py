@@ -8,7 +8,7 @@ import os
 import platform
 import datetime as dt
 from PyQt5.uic import loadUi
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QTextCursor
 from PyQt5.QtWidgets import (
     QDialog,
     QApplication,
@@ -28,12 +28,13 @@ import numpy as np
 import serial
 import serial.tools.list_ports
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 import threading
 import pc_pb2
 from smart_ir_data import Control, Appliance, ControllerConfig, VERSION, generate_base_appliance, orientation_to_string
-from smart_ir_data import ORIENTATION_DOWN, ORIENTATION_LEFT, ORIENTATION_RIGHT, ORIENTATION_UP, ADDR_BOOK
+from smart_ir_data import ORIENTATION_DOWN, ORIENTATION_LEFT, ORIENTATION_RIGHT, ORIENTATION_UP, ADDR_BOOK, CONTRACT_ADDR, CONTRACT_ABI
 from mqtt_handler import MqttHandler
+from web3 import Web3, HTTPProvider
 
 # Global Variables
 portScanningState = False
@@ -41,6 +42,77 @@ connectionStatus = 1  # 1 represent no connection; 2 represent connected sucessf
 BASE_PATH = os.path.dirname(__file__)
 MQTT_BROKER_HOSTNAME = "192.168.1.33"
 FIRST_LAUNCH = False # TODO: add dynamic account generation and funding
+
+class BlockchainHandler(QThread):
+    isConnected: bool
+    updateGUI = pyqtSignal()
+    activityStr: str
+
+    def __init__(self):
+        super().__init__()
+        # Setup Blockchain
+        self.w3 = Web3(HTTPProvider("http://localhost:8545"))
+
+        # Check if connected
+        if not self.w3.is_connected():
+            self.isConnected = False
+            raise Exception("Unable to connect to Ethereum node")
+        else:
+            print("Blockchain Connected!")
+            self.isConnected = True
+    
+        self.contract = self.w3.eth.contract(address=CONTRACT_ADDR, abi=CONTRACT_ABI)
+        self.activityStr = "---------------\n"
+
+    def run(self):
+        # Check that there is a valid blockchain connected
+        if not self.isConnected:
+            return
+        
+        while True:
+            # Scan the blockchain every 5 seconds to fetch any new actions that have been executed
+            latestBlock = self.w3.eth.block_number
+            fromBlock = 0  # Scan the last 100 blocks
+            toBlock = latestBlock
+            self.eventFilter = self.contract.events.IRActionAdded.create_filter(fromBlock=fromBlock, toBlock=toBlock)
+            self.activityStr = "---------------\n" # Clear activity string
+            # We want to skip all the 
+            for event in self.eventFilter.get_all_entries():
+                # Only show the blocks from the last 48 hours
+                blockNumber = event['blockNumber']
+                timestamp = self.w3.eth.get_block(blockNumber)["timestamp"]
+                date = datetime.fromtimestamp(timestamp)
+                timeDelta = timedelta(hours=48)
+                
+                # Handler the block
+                self.handle_ir_action_event(event, True)
+            self.updateGUI.emit()
+            time.sleep(5)
+    
+    def handle_ir_action_event(self, event, printActivity=False):
+        # First get the timestamp and check if the timestamp is from the last 48hrs
+        blockNumber = event['blockNumber']
+        timestamp = self.w3.eth.get_block(blockNumber)["timestamp"]
+        timestampDt = datetime.fromtimestamp(timestamp)
+        timeDelta = timedelta(hours=48)
+        now = datetime.now()
+
+        # This transaction is old, don't display it
+        if ((timestampDt - now) > timeDelta):
+            return
+
+        # Print Activity
+        prettyTimestamp = timestampDt.strftime('%Y-%m-%d %H:%M:%S')
+        self.activityStr = self.activityStr + f"Timestamp: {prettyTimestamp}\n"
+        self.activityStr = self.activityStr + f"Block Number: {event['blockNumber']}\n"
+        self.activityStr = self.activityStr + f"Transaction Hash: {event['transactionHash'].hex()}\n"
+        self.activityStr = self.activityStr + f"Controller: {event['args']['controller']}\n"
+        self.activityStr = self.activityStr + f"Transmitter: {event['args']['transmitter']}\n"
+        self.activityStr = self.activityStr + f"Action: {event['args']['action']}\n"
+        self.activityStr = self.activityStr + f"IR Code: {event['args']['irCode']}\n"
+        self.activityStr = self.activityStr + "---------------\n"
+        if printActivity:
+            print(self.activityStr)
 
 class MainWindow(QMainWindow):
     # Class Private Variables
@@ -58,7 +130,7 @@ class MainWindow(QMainWindow):
         
         # Init Data
         print(BASE_PATH)
-        self.configData = ControllerConfig(VERSION, [], ADDR_BOOK)
+        self.configData = ControllerConfig(VERSION, [], ADDR_BOOK, CONTRACT_ADDR, CONTRACT_ABI)
         # Load configuration data
         self.configData.load_from_disk()
         self.currentApplianceIndex = -1 # Not selected
@@ -88,6 +160,7 @@ class MainWindow(QMainWindow):
         self.controlB_4 = self.findChild(QPushButton, "control4_B")
         self.controlB_5 = self.findChild(QPushButton, "control5_B")
         self.controlB_6 = self.findChild(QPushButton, "control6_B")
+        self.blockchainActivityT = self.findChild(QTextEdit, "blockchainActivity_t")
 
         # Configure Buttons 
         self.connectB.clicked.connect(self.connect_to_port)
@@ -120,6 +193,11 @@ class MainWindow(QMainWindow):
         # Multi-thread Handling using a Signaller
         self.signaller = Signaller()
         self.signaller.port_scan_complete.connect(self.update_ports_list)
+
+        # Blockchain Handler
+        self.blockchainHandler = BlockchainHandler()
+        self.blockchainHandler.updateGUI.connect(self.update_blockchain_activity)
+        self.blockchainHandler.start()
 
         # Graceful Close
         QCoreApplication.instance().aboutToQuit.connect(self.close_window)
@@ -306,6 +384,11 @@ class MainWindow(QMainWindow):
         mqttWorker = MqttHandler("topic/gateway", MQTT_BROKER_HOSTNAME, str(data))
         mqttWorker.start()
         print(data)
+
+    def update_blockchain_activity(self):
+        self.blockchainActivityT.clear()
+        self.blockchainActivityT.setPlainText(self.blockchainHandler.activityStr)
+        self.blockchainActivityT.moveCursor(QTextCursor.End)
 
     def fetch_serial(self):
         """

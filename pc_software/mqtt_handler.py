@@ -3,6 +3,7 @@ from PyQt5.QtCore import QTimer, Qt, pyqtSignal, QObject, QCoreApplication, QThr
 import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish
 from threading import Thread
+
 class MqttHandler(Thread):
     """
     Mqtt Handler Class
