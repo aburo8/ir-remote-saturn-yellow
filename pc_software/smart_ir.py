@@ -40,7 +40,7 @@ portScanningState = False
 connectionStatus = 1  # 1 represent no connection; 2 represent connected sucessfully; 3 represent disconnect manually
 BASE_PATH = os.path.dirname(__file__)
 MQTT_BROKER_HOSTNAME = "192.168.1.33"
-FIRST_LAUNCH = False
+FIRST_LAUNCH = False # TODO: add dynamic account generation and funding
 
 class MainWindow(QMainWindow):
     # Class Private Variables
@@ -303,7 +303,7 @@ class MainWindow(QMainWindow):
     def update_controllers(self):
         data = json.dumps(self.configData.to_dict(), indent=4,)
         print("Sending MQTT Message -")
-        mqttWorker = MqttHandler("topic/configuration", MQTT_BROKER_HOSTNAME, str(data))
+        mqttWorker = MqttHandler("topic/gateway", MQTT_BROKER_HOSTNAME, str(data))
         mqttWorker.start()
         print(data)
 

@@ -107,6 +107,16 @@ class ControllerConfig:
         except json.JSONDecodeError:
             print("Invalid JSON - Creating New Configuration!")
 
+    def load_from_string(self, data):
+        fileData = json.loads(data)
+        if self.version != fileData["version"]:
+            print("Controller configuration outdated! Creating Blank Configuration...")
+        
+        self.appliances = [Appliance(**appliance) for appliance in fileData["appliances"]]
+
+        for i in range(len(self.appliances)):
+            self.appliances[i].controls = [Control(**control) for control in fileData["appliances"][i]["controls"]]
+
 def generate_base_appliance(name):
     """
     Generates a base appliance with default values

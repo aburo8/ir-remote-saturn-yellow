@@ -208,7 +208,7 @@ print("WiFi connected:", wifi.ifconfig())
 # wlan.ifconfig()
 
 # MQTT connection settings
-server="192.168.43.237"
+server="192.168.1.21"
 ClientID = f'esp32-sub-{time.time_ns()}'
 user = "controller"
 password = "csse4011"
