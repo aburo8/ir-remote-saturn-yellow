@@ -15,6 +15,21 @@ ORIENTATION_DOWN = 2
 ORIENTATION_LEFT = 3
 
 @dataclass
+class Account:
+    """
+    Account Information
+    """
+    name: str
+    account: str
+    key: str
+
+PC_ADDR = Account(name='pc', account='0x00C928592E3635D542A8E5F7821439AAb6eF9B6D', key='0x52485d99ad13489881ee4be5fafa6bc88f8c886d2a41726e25f15f7c8ad993d8')
+CONTROLLER1_ADDR = Account(name='controller1', account='0x64cD35b24D7c8d468dB3F2CfEb1D2B0E7963A261', key='0x33edf39c89424f6ecf026fc518e3c79df8687b609feacf56770cf5d8730faadf')
+CONTROLLER2_ADDR = Account(name='controller2', account='0x4EAbe0426C3071dd4562feC540235B2De295c2e6', key='0xd729e6c926ae46a1e60ebe1112cdb4367c3ad8f52f9fbb34c636be083c972416')
+TRANSMITTER_ADDR = Account(name='transmitter', account='0x4EAbe0426C3071dd4562feC540235B2De295c2e6', key='0xd729e6c926ae46a1e60ebe1112cdb4367c3ad8f52f9fbb34c636be083c972416')
+ADDR_BOOK = [PC_ADDR, CONTROLLER1_ADDR, CONTROLLER2_ADDR, TRANSMITTER_ADDR]
+
+@dataclass
 class Control:
     """
     IR Control to transmit
@@ -39,6 +54,7 @@ class ControllerConfig:
     """
     version: float
     appliances: List[Appliance] # appliances within the configuration
+    addressBook: List[Account]
 
     def to_dict(self):
         return asdict(self)

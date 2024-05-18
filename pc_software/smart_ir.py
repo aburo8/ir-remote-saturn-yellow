@@ -32,7 +32,7 @@ from datetime import datetime
 import threading
 import pc_pb2
 from smart_ir_data import Control, Appliance, ControllerConfig, VERSION, generate_base_appliance, orientation_to_string
-from smart_ir_data import ORIENTATION_DOWN, ORIENTATION_LEFT, ORIENTATION_RIGHT, ORIENTATION_UP
+from smart_ir_data import ORIENTATION_DOWN, ORIENTATION_LEFT, ORIENTATION_RIGHT, ORIENTATION_UP, ADDR_BOOK
 from mqtt_handler import MqttHandler
 
 # Global Variables
@@ -40,6 +40,7 @@ portScanningState = False
 connectionStatus = 1  # 1 represent no connection; 2 represent connected sucessfully; 3 represent disconnect manually
 BASE_PATH = os.path.dirname(__file__)
 MQTT_BROKER_HOSTNAME = "192.168.1.33"
+FIRST_LAUNCH = False
 
 class MainWindow(QMainWindow):
     # Class Private Variables
@@ -57,7 +58,7 @@ class MainWindow(QMainWindow):
         
         # Init Data
         print(BASE_PATH)
-        self.configData = ControllerConfig(VERSION, [])
+        self.configData = ControllerConfig(VERSION, [], ADDR_BOOK)
         # Load configuration data
         self.configData.load_from_disk()
         self.currentApplianceIndex = -1 # Not selected
