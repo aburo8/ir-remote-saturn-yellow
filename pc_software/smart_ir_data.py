@@ -28,6 +28,8 @@ CONTROLLER1_ADDR = Account(name='controller1', account='0x64cD35b24D7c8d468dB3F2
 CONTROLLER2_ADDR = Account(name='controller2', account='0x4EAbe0426C3071dd4562feC540235B2De295c2e6', key='0xd729e6c926ae46a1e60ebe1112cdb4367c3ad8f52f9fbb34c636be083c972416')
 TRANSMITTER_ADDR = Account(name='transmitter', account='0x4EAbe0426C3071dd4562feC540235B2De295c2e6', key='0xd729e6c926ae46a1e60ebe1112cdb4367c3ad8f52f9fbb34c636be083c972416')
 ADDR_BOOK = [PC_ADDR, CONTROLLER1_ADDR, CONTROLLER2_ADDR, TRANSMITTER_ADDR]
+CONTROLLERS = [CONTROLLER1_ADDR, CONTROLLER2_ADDR]
+TRANSMITTER = TRANSMITTER_ADDR
 
 @dataclass
 class Control:
@@ -55,6 +57,8 @@ class ControllerConfig:
     version: float
     appliances: List[Appliance] # appliances within the configuration
     addressBook: List[Account]
+    smartIrContractAddress: str
+    smartIrContractAbi: str
 
     def to_dict(self):
         return asdict(self)

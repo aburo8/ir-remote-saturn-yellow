@@ -7,6 +7,8 @@ import ujson
 import network
 from umqtt.simple import MQTTClient
 
+CONTROLLER_ID = 1
+
 # shapes used on screen
 rect0 = None
 rect4 = None
@@ -704,11 +706,16 @@ def loop():
         print((str('IR code sent: ') + str(irCodes_hex[button - 1])))
         message = (str("{\"IR\": ") + str(irCodes_hex[button - 1])) + str('}')
         IR_topic = "topic/ir"
-    
+        BLOCKCHAIN_TOPIC = "topic/blockchain"
+        blockchain_data = {"controllerId": CONTROLLER_ID, "action": (rotation) * 6 + button, "irCode": str(irCodes_hex[button - 1])}
+        blockchain_data = json.dumps(blockchain_data)
         # if message send fails, reconnect
         try:
+            client.publish(IR_topic, message, qos=0) # Publish the IR Topic message
             print('Sending message %s on topic: %s' % (message, IR_topic))
-            client.publish(IR_topic, message, qos=0)
+            client.publish(BLOCKCHAIN_TOPIC, blockchain_data, qos=0) # Publish blockchain message to gateway node
+            print('Sending message %s on topic: %s' % (blockchain_data, BLOCKCHAIN_TOPIC))
+
         except Exception as e:
             print('Failed to publish message:', e)
             client = connect()
