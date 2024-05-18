@@ -3,6 +3,7 @@ import M5
 from M5 import *
 import time
 import json
+import ujson
 import network
 from umqtt.simple import MQTTClient
 
@@ -192,7 +193,7 @@ wifi = network.WLAN(network.STA_IF)
 wifi.active(True)
 wifi.scan()             # scan for access points
 wifi.isconnected()      # check if the station is connected to an AP
-wifi.connect('AB-DEV', 'AB_d3V@2024')
+wifi.connect(WIFI_SSID, WIFI_PASSWORD)
 print("Attempting to connect")
 while not wifi.isconnected():
     pass
@@ -207,7 +208,7 @@ print("WiFi connected:", wifi.ifconfig())
 # wlan.ifconfig()
 
 # MQTT connection settings
-server="192.168.1.33"
+server="192.168.43.237"
 ClientID = f'esp32-sub-{time.time_ns()}'
 user = "controller"
 password = "csse4011"
@@ -216,9 +217,11 @@ msg = b'{"msg":"hello"}'
 client = MQTTClient(ClientID, server, 1883, user, password)
 
 def sub(topic, msg):
+    global data
     print("Updated configuration")
     global data, configuration
-    data = json.loads(msg)
+    save_data(msg)
+    data = json.loads(load_data())
     configuration = 1
     
 def connect():
@@ -230,9 +233,42 @@ def connect():
     return client
 
 def reconnect():
-    print('Failed to connect to MQTT broker, Reconnecting...' % (server))
-    time.sleep(5)
+    global client, server
+    print("Failed to connect to MQTT broker, Reconnecting..." + server)
+    time.sleep(1)
     client.reconnect()
+    
+    
+# Function to load data from flash memory
+def load_data():
+    global string
+    try:
+        with open("data.txt", "r") as f:
+            return ujson.load(f)
+    except OSError:
+        # If file doesn't exist, return default value
+        return string
+
+# Function to save data to flash memory
+def save_data(data):
+    with open("data.txt", "w") as f:
+        ujson.dump(data, f)
+
+# Function to update data
+def update_data(new_value):
+    global data
+    data = new_value
+    save_data(data)
+
+# Function to print data
+def print_data():
+    print("Data:", data)
+
+# Setup function
+def setup():
+    global data
+    # Initialize data
+    data = load_data()
 
 # screen configuration functions
 def rgb_to_hex(rgb):
@@ -282,12 +318,12 @@ def zero_degree_screen():
                 color_hex_value = int(color_hex_str, 16)
                 # Append the integer hex value to the list of hex values
                 colors_hex.append(color_hex_value)
-    rect0.setColor(color=colors_hex[0], fill_c=colors_hex[0])
-    rect1.setColor(color=colors_hex[1], fill_c=colors_hex[1])
-    rect2.setColor(color=colors_hex[2], fill_c=colors_hex[2])
-    rect3.setColor(color=colors_hex[3], fill_c=colors_hex[3])
-    rect4.setColor(color=colors_hex[4], fill_c=colors_hex[4])
-    rect5.setColor(color=colors_hex[5], fill_c=colors_hex[5])
+            rect0.setColor(color=colors_hex[0], fill_c=colors_hex[0])
+            rect1.setColor(color=colors_hex[1], fill_c=colors_hex[1])
+            rect2.setColor(color=colors_hex[2], fill_c=colors_hex[2])
+            rect3.setColor(color=colors_hex[3], fill_c=colors_hex[3])
+            rect4.setColor(color=colors_hex[4], fill_c=colors_hex[4])
+            rect5.setColor(color=colors_hex[5], fill_c=colors_hex[5])
     
     # List to store control names for orientation = 0
     control_names_orientation_0 = []
@@ -296,13 +332,12 @@ def zero_degree_screen():
         if appliance["orientation"] == 0:
             for control in appliance["controls"]:
                 control_names_orientation_0.append(control["label"])
-      
-    label_one = Widgets.Label(control_names_orientation_0[0], 25, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-    label_two = Widgets.Label(control_names_orientation_0[1], 125, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-    label_three = Widgets.Label(control_names_orientation_0[2], 225, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-    label_four = Widgets.Label(control_names_orientation_0[3], 25, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-    label_five = Widgets.Label(control_names_orientation_0[4], 125, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-    label_six = Widgets.Label(control_names_orientation_0[5], 225, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+            label_one = Widgets.Label(control_names_orientation_0[0], 25, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+            label_two = Widgets.Label(control_names_orientation_0[1], 125, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+            label_three = Widgets.Label(control_names_orientation_0[2], 225, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+            label_four = Widgets.Label(control_names_orientation_0[3], 25, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+            label_five = Widgets.Label(control_names_orientation_0[4], 125, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+            label_six = Widgets.Label(control_names_orientation_0[5], 225, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
   
 def ninety_degree_screen():
 
@@ -345,12 +380,12 @@ def ninety_degree_screen():
                 color_hex_value = int(color_hex_str, 16)
                 # Append the integer hex value to the list of hex values
                 colors_hex.append(color_hex_value)
-    rect0.setColor(color=colors_hex[0], fill_c=colors_hex[0])
-    rect1.setColor(color=colors_hex[1], fill_c=colors_hex[1])
-    rect2.setColor(color=colors_hex[2], fill_c=colors_hex[2])
-    rect3.setColor(color=colors_hex[3], fill_c=colors_hex[3])
-    rect4.setColor(color=colors_hex[4], fill_c=colors_hex[4])
-    rect5.setColor(color=colors_hex[5], fill_c=colors_hex[5])
+            rect0.setColor(color=colors_hex[0], fill_c=colors_hex[0])
+            rect1.setColor(color=colors_hex[1], fill_c=colors_hex[1])
+            rect2.setColor(color=colors_hex[2], fill_c=colors_hex[2])
+            rect3.setColor(color=colors_hex[3], fill_c=colors_hex[3])
+            rect4.setColor(color=colors_hex[4], fill_c=colors_hex[4])
+            rect5.setColor(color=colors_hex[5], fill_c=colors_hex[5])
   
     # List to store control names for orientation = 1
     control_names_orientation_1 = []
@@ -359,12 +394,12 @@ def ninety_degree_screen():
         if appliance["orientation"] == 1:
             for control in appliance["controls"]:
                 control_names_orientation_1.append(control["label"])
-    label_one = Widgets.Label(control_names_orientation_1[0], 30, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-    label_two = Widgets.Label(control_names_orientation_1[1], 130, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-    label_three = Widgets.Label(control_names_orientation_1[2], 30, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-    label_four = Widgets.Label(control_names_orientation_1[3], 130, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-    label_five = Widgets.Label(control_names_orientation_1[4], 30, 300, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-    label_six = Widgets.Label(control_names_orientation_1[5], 130, 300, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+            label_one = Widgets.Label(control_names_orientation_1[0], 30, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+            label_two = Widgets.Label(control_names_orientation_1[1], 130, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+            label_three = Widgets.Label(control_names_orientation_1[2], 30, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+            label_four = Widgets.Label(control_names_orientation_1[3], 130, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+            label_five = Widgets.Label(control_names_orientation_1[4], 30, 300, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+            label_six = Widgets.Label(control_names_orientation_1[5], 130, 300, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
   
 def one_eighty_degree_screen():
 
@@ -406,12 +441,12 @@ def one_eighty_degree_screen():
                 color_hex_value = int(color_hex_str, 16)
                 # Append the integer hex value to the list of hex values
                 colors_hex.append(color_hex_value)
-    rect0.setColor(color=colors_hex[0], fill_c=colors_hex[0])
-    rect1.setColor(color=colors_hex[1], fill_c=colors_hex[1])
-    rect2.setColor(color=colors_hex[2], fill_c=colors_hex[2])
-    rect3.setColor(color=colors_hex[3], fill_c=colors_hex[3])
-    rect4.setColor(color=colors_hex[4], fill_c=colors_hex[4])
-    rect5.setColor(color=colors_hex[5], fill_c=colors_hex[5])
+            rect0.setColor(color=colors_hex[0], fill_c=colors_hex[0])
+            rect1.setColor(color=colors_hex[1], fill_c=colors_hex[1])
+            rect2.setColor(color=colors_hex[2], fill_c=colors_hex[2])
+            rect3.setColor(color=colors_hex[3], fill_c=colors_hex[3])
+            rect4.setColor(color=colors_hex[4], fill_c=colors_hex[4])
+            rect5.setColor(color=colors_hex[5], fill_c=colors_hex[5])
 
     # List to store control names for orientation = 2
     control_names_orientation_2 = []
@@ -422,12 +457,12 @@ def one_eighty_degree_screen():
             for control in appliance["controls"]:
                 control_names_orientation_2.append(control["label"])
       
-    label_one = Widgets.Label(control_names_orientation_2[0], 25, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-    label_two = Widgets.Label(control_names_orientation_2[1], 125, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-    label_three = Widgets.Label(control_names_orientation_2[2], 225, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-    label_four = Widgets.Label(control_names_orientation_2[3], 25, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-    label_five = Widgets.Label(control_names_orientation_2[4], 125, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-    label_six = Widgets.Label(control_names_orientation_2[5], 225, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+            label_one = Widgets.Label(control_names_orientation_2[0], 25, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+            label_two = Widgets.Label(control_names_orientation_2[1], 125, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+            label_three = Widgets.Label(control_names_orientation_2[2], 225, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+            label_four = Widgets.Label(control_names_orientation_2[3], 25, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+            label_five = Widgets.Label(control_names_orientation_2[4], 125, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+            label_six = Widgets.Label(control_names_orientation_2[5], 225, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
   
 def two_seventy_degree_screen():
 
@@ -470,12 +505,12 @@ def two_seventy_degree_screen():
                 color_hex_value = int(color_hex_str, 16)
                 # Append the integer hex value to the list of hex values
                 colors_hex.append(color_hex_value)
-    rect0.setColor(color=colors_hex[0], fill_c=colors_hex[0])
-    rect1.setColor(color=colors_hex[1], fill_c=colors_hex[1])
-    rect2.setColor(color=colors_hex[2], fill_c=colors_hex[2])
-    rect3.setColor(color=colors_hex[3], fill_c=colors_hex[3])
-    rect4.setColor(color=colors_hex[4], fill_c=colors_hex[4])
-    rect5.setColor(color=colors_hex[5], fill_c=colors_hex[5])
+            rect0.setColor(color=colors_hex[0], fill_c=colors_hex[0])
+            rect1.setColor(color=colors_hex[1], fill_c=colors_hex[1])
+            rect2.setColor(color=colors_hex[2], fill_c=colors_hex[2])
+            rect3.setColor(color=colors_hex[3], fill_c=colors_hex[3])
+            rect4.setColor(color=colors_hex[4], fill_c=colors_hex[4])
+            rect5.setColor(color=colors_hex[5], fill_c=colors_hex[5])
     
     # List to store control names for orientation = 3
     control_names_orientation_3 = []
@@ -486,12 +521,12 @@ def two_seventy_degree_screen():
             for control in appliance["controls"]:
                 control_names_orientation_3.append(control["label"])
 
-    label_one = Widgets.Label(control_names_orientation_3[0], 30, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-    label_two = Widgets.Label(control_names_orientation_3[1], 130, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-    label_three = Widgets.Label(control_names_orientation_3[2], 30, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-    label_four = Widgets.Label(control_names_orientation_3[3], 130, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-    label_five = Widgets.Label(control_names_orientation_3[4], 30, 300, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
-    label_six = Widgets.Label(control_names_orientation_3[5], 130, 300, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+            label_one = Widgets.Label(control_names_orientation_3[0], 30, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+            label_two = Widgets.Label(control_names_orientation_3[1], 130, 100, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+            label_three = Widgets.Label(control_names_orientation_3[2], 30, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+            label_four = Widgets.Label(control_names_orientation_3[3], 130, 200, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+            label_five = Widgets.Label(control_names_orientation_3[4], 30, 300, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
+            label_six = Widgets.Label(control_names_orientation_3[5], 130, 300, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu9)
 
 # set up functions
 def setup():
@@ -508,12 +543,12 @@ def setup():
   print('Connected to MQTT Broker "%s"' % (server))  
   
   # if code reaches here, mqtt has succesfully been setup
-  data = json.loads(string)
+  data = json.loads(load_data())
   zero_degree_screen()
 
   press = 0
   debounce = 0
-  button = 0
+  button = 2
   x = 0
   y = 0
   z = 0
@@ -664,18 +699,19 @@ def loop():
                 irCode_hex_value = control["irCode"]
                 # Append the integer hex value to the list of IR code unsigned values
                 irCodes_hex.append(irCode_hex_value)
-                
-    print((str('IR code sent: ') + str(irCodes_hex[button - 1])))
-    message = (str("{\"IR\": ") + str(irCodes_hex[button - 1])) + str('}')
-    IR_topic = "topic/ir"
     
-    # if message send fails, reconnect
-    try:
-        print('Sending message %s on topic: %s' % (message, IR_topic))
-        client.publish(IR_topic, message, qos=0)
-    except Exception as e:
-        print('Failed to publish message:', e)
-        client = reconnect()
+    if len(irCodes_hex) != 0:           
+        print((str('IR code sent: ') + str(irCodes_hex[button - 1])))
+        message = (str("{\"IR\": ") + str(irCodes_hex[button - 1])) + str('}')
+        IR_topic = "topic/ir"
+    
+        # if message send fails, reconnect
+        try:
+            print('Sending message %s on topic: %s' % (message, IR_topic))
+            client.publish(IR_topic, message, qos=0)
+        except Exception as e:
+            print('Failed to publish message:', e)
+            client = connect()
 
 
 # Main function
