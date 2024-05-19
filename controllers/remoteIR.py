@@ -7,7 +7,7 @@ import ujson
 import network
 from umqtt.simple import MQTTClient
 
-CONTROLLER_ID = 2
+CONTROLLER_ID = 1
 
 # shapes used on screen
 rect0 = None
@@ -246,7 +246,11 @@ def load_data():
     global string
     try:
         with open("data.txt", "r") as f:
-            return ujson.load(f)
+            # Read line by line and concatenate into a single string for memory allocation safety
+            data_str = ""
+            for line in f:
+                data_str += line
+            return ujson.loads(data_str)
     except OSError:
         # If file doesn't exist, return default value
         return string
