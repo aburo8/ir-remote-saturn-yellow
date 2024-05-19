@@ -13,16 +13,6 @@ See the associated project [WIKI](https://github.com/aburo8/ir-remote-saturn-yel
 
 To get started with running the project you need will need the following -
 
-- Smart IR PC Software Installed
-
-## Things TODO -
-
-- Update progress on wiki
-- Blockchain connectivity (GUI<->Blockchain)
-- Blockchain connectivity (Controllers<->Blockchain)
-- MQTT on Transmitter Board
-- PC Communication (Transmitter Board <-> GUI)
-- Create Poster
-- Update KPI's
-- MQTT Publishing on the GUI
-- Documentation on building the project, file hierarchy etc
+- Smart IR PC Software Installed https://github.com/aburo8/ir-remote-saturn-yellow/blob/main/pc_software/README.md
+- M5Core2 flashed with remoteIR.py file (on Micropython) https://github.com/aburo8/ir-remote-saturn-yellow/blob/main/controllers/README.md
+- M5Core2 flashed with ir_transmitter_arduino.ino (using arduino IDE) https://github.com/aburo8/ir-remote-saturn-yellow/blob/main/controllers/README.md
