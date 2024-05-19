@@ -43,7 +43,7 @@ portScanningState = False
 connectionStatus = 1  # 1 represent no connection; 2 represent connected sucessfully; 3 represent disconnect manually
 BASE_PATH = os.path.dirname(__file__)
 MQTT_BROKER_HOSTNAME = "192.168.1.33"
-FIRST_LAUNCH = False # TODO: add dynamic account generation and funding
+FIRST_LAUNCH = False # TODO: add dynamic account generation and funding, dynamic blockchain smart contract creation
 BLOCKCHAIN_UPDATE_INTERVAL = 2
 
 class BlockchainHandler(QThread):
@@ -184,6 +184,7 @@ class MainWindow(QMainWindow):
         self.orientationC.activated.connect(self.on_change_orientation)
         self.updateControllersB.clicked.connect(self.update_controllers)
         self.deleteApplianceB.clicked.connect(self.on_delete_appliance)
+        self.irCodeT.textChanged.connect(self.on_ircode_set)
 
         # Serial Port Connection Timers
         self.connection_timer = QTimer(self)
@@ -314,7 +315,7 @@ class MainWindow(QMainWindow):
             if (self.currentControlIndex >= 0):
                 # Populate the Fields
                 self.controlLabelT.setPlainText(data.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].label)
-                self.irCodeT.setPlainText(str(data.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].irCode))
+                self.irCodeT.setPlainText(str(hex(data.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].irCode)))
 
     def update_control_ui(self, index, label, colour):
         """
@@ -382,7 +383,27 @@ class MainWindow(QMainWindow):
     def on_delete_appliance(self):
         if (self.currentApplianceIndex != -1):
             self.configData.appliances.pop(self.currentApplianceIndex)
+            
+            # Reset indexes
+            if len(self.configData.appliances) == 0:
+                self.currentApplianceIndex = -1
+            self.currentControlIndex = -1
+            self.update_control_ui()
             self.reload_configuration_data()
+
+    def on_ircode_set(self):
+        # Check that a control is selected
+        if self.currentControlIndex != -1:
+            # Check that user has entered the correct number of characters
+            enteredCode = self.irCodeT.toPlainText()
+            if (len(enteredCode) == 10 or len(enteredCode) == 18) and enteredCode[0:2] == "0x":
+                # Valid hex length & prefix - attempt to convert to unsigned int
+                try:
+                    uintVal = int(enteredCode, 0)
+                    print(f"Setting IRCode Uint: {uintVal}")
+                    self.configData.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].irCode = uintVal
+                except ValueError:
+                    print("Could not save IR Code!")
 
     def update_controllers(self):
         data = json.dumps(self.configData.to_dict(), indent=4,)
@@ -515,7 +536,9 @@ class MainWindow(QMainWindow):
             self.current_serial_port_value = (self.portSelectorC.currentText())  # e.g. serial.comport
             self.current_serial_port_value = self.current_serial_port_value.split("(")[-1].split(")")[0]  # HACK: com port name string splitting
             # Linux Override
-            if (platform.system != "Windows"):
+            osType = platform.system()
+            print(f"Os: {osType}")
+            if (osType != "Windows"):
                 # This is a UNIX Based system - overwrite the serial port value
                 self.current_serial_port_value = '/dev/ttyACM0'
             print(self.current_serial_port_value)
