@@ -12,7 +12,8 @@
                         0,
                         255,
                         0
-                    ]
+                    ],
+                    "disabled": 0
                 },
                 {
                     "label": "Off",
@@ -21,7 +22,8 @@
                         170,
                         0,
                         0
-                    ]
+                    ],
+                    "disabled": 0
                 },
                 {
                     "label": "Brightness +",
@@ -30,7 +32,8 @@
                         255,
                         255,
                         0
-                    ]
+                    ],
+                    "disabled": 0
                 },
                 {
                     "label": "Strobe",
@@ -39,7 +42,8 @@
                         255,
                         0,
                         255
-                    ]
+                    ],
+                    "disabled": 0
                 },
                 {
                     "label": "Fade",
@@ -48,7 +52,8 @@
                         0,
                         0,
                         127
-                    ]
+                    ],
+                    "disabled": 0
                 },
                 {
                     "label": "Brightness -",
@@ -57,7 +62,8 @@
                         255,
                         255,
                         0
-                    ]
+                    ],
+                    "disabled": 0
                 }
             ]
         },
@@ -72,7 +78,8 @@
                         255,
                         0,
                         0
-                    ]
+                    ],
+                    "disabled": 0
                 },
                 {
                     "label": "Green",
@@ -81,7 +88,8 @@
                         0,
                         255,
                         0
-                    ]
+                    ],
+                    "disabled": 0
                 },
                 {
                     "label": "Blue",
@@ -90,7 +98,8 @@
                         0,
                         0,
                         255
-                    ]
+                    ],
+                    "disabled": 0
                 },
                 {
                     "label": "Pink",
@@ -99,7 +108,8 @@
                         255,
                         0,
                         127
-                    ]
+                    ],
+                    "disabled": 0
                 },
                 {
                     "label": "White",
@@ -108,7 +118,8 @@
                         255,
                         255,
                         255
-                    ]
+                    ],
+                    "disabled": 0
                 },
                 {
                     "label": "Aqua",
@@ -117,7 +128,8 @@
                         75,
                         252,
                         255
-                    ]
+                    ],
+                    "disabled": 0
                 }
             ]
         },
@@ -132,7 +144,8 @@
                         115,
                         255,
                         227
-                    ]
+                    ],
+                    "disabled": 0
                 },
                 {
                     "label": "Up",
@@ -141,7 +154,8 @@
                         135,
                         139,
                         135
-                    ]
+                    ],
+                    "disabled": 0
                 },
                 {
                     "label": "OK",
@@ -150,7 +164,8 @@
                         115,
                         255,
                         227
-                    ]
+                    ],
+                    "disabled": 0
                 },
                 {
                     "label": "Left",
@@ -159,7 +174,8 @@
                         135,
                         139,
                         135
-                    ]
+                    ],
+                    "disabled": 0
                 },
                 {
                     "label": "Down",
@@ -168,7 +184,8 @@
                         135,
                         139,
                         135
-                    ]
+                    ],
+                    "disabled": 0
                 },
                 {
                     "label": "Right",
@@ -177,7 +194,8 @@
                         135,
                         139,
                         135
-                    ]
+                    ],
+                    "disabled": 0
                 }
             ]
         },
@@ -192,7 +210,8 @@
                         85,
                         170,
                         0
-                    ]
+                    ],
+                    "disabled": 0
                 },
                 {
                     "label": "Pause",
@@ -201,7 +220,8 @@
                         170,
                         0,
                         255
-                    ]
+                    ],
+                    "disabled": 0
                 },
                 {
                     "label": "Stop",
@@ -210,7 +230,8 @@
                         255,
                         85,
                         0
-                    ]
+                    ],
+                    "disabled": 0
                 },
                 {
                     "label": "Skip Back",
@@ -219,7 +240,8 @@
                         255,
                         255,
                         0
-                    ]
+                    ],
+                    "disabled": 0
                 },
                 {
                     "label": "Skip Forward",
@@ -228,7 +250,8 @@
                         255,
                         255,
                         0
-                    ]
+                    ],
+                    "disabled": 0
                 },
                 {
                     "label": "Fast Forward",
@@ -237,7 +260,8 @@
                         85,
                         255,
                         255
-                    ]
+                    ],
+                    "disabled": 0
                 }
             ]
         }
@@ -264,6 +288,6 @@
             "key": "0xd729e6c926ae46a1e60ebe1112cdb4367c3ad8f52f9fbb34c636be083c972416"
         }
     ],
-    "smartIrContractAddress": "0x8BfC4B63Cb65d1004c9e9a0a8982915Dc9aAAf29",
+    "smartIrContractAddress": "0x95b6Dc90194fa17E498082990f2Cf542F9862191",
     "smartIrContractAbi": "\n[\n\t{\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"controller\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"transmitter\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"action\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"irCode\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"addIRAction\",\n\t\t\"outputs\": [],\n\t\t\"stateMutability\": \"nonpayable\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"parentAction\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"bool\",\n\t\t\t\t\"name\": \"disabled\",\n\t\t\t\t\"type\": \"bool\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"timeout\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"timeoutAction\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"addSystemControl\",\n\t\t\"outputs\": [],\n\t\t\"stateMutability\": \"nonpayable\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"inputs\": [],\n\t\t\"name\": \"Unauthorized\",\n\t\t\"type\": \"error\"\n\t},\n\t{\n\t\t\"anonymous\": false,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"indexed\": true,\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"controller\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"indexed\": true,\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"transmitter\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"indexed\": false,\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"action\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"indexed\": false,\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"irCode\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"IRActionAdded\",\n\t\t\"type\": \"event\"\n\t},\n\t{\n\t\t\"anonymous\": false,\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"indexed\": true,\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"parentAction\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"indexed\": false,\n\t\t\t\t\"internalType\": \"bool\",\n\t\t\t\t\"name\": \"disabled\",\n\t\t\t\t\"type\": \"bool\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"indexed\": false,\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"timeout\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"indexed\": false,\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"timeoutAction\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"SystemControlAdded\",\n\t\t\"type\": \"event\"\n\t},\n\t{\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"actions\",\n\t\t\"outputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"controller\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\"name\": \"transmitter\",\n\t\t\t\t\"type\": \"address\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"action\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"irCode\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t}\n\t\t],\n\t\t\"stateMutability\": \"view\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"inputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t}\n\t\t],\n\t\t\"name\": \"controls\",\n\t\t\"outputs\": [\n\t\t\t{\n\t\t\t\t\"internalType\": \"bool\",\n\t\t\t\t\"name\": \"disabled\",\n\t\t\t\t\"type\": \"bool\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"timeout\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\"name\": \"timeoutAction\",\n\t\t\t\t\"type\": \"uint256\"\n\t\t\t}\n\t\t],\n\t\t\"stateMutability\": \"view\",\n\t\t\"type\": \"function\"\n\t},\n\t{\n\t\t\"inputs\": [],\n\t\t\"name\": \"getActions\",\n\t\t\"outputs\": [\n\t\t\t{\n\t\t\t\t\"components\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\t\t\"name\": \"controller\",\n\t\t\t\t\t\t\"type\": \"address\"\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"internalType\": \"address\",\n\t\t\t\t\t\t\"name\": \"transmitter\",\n\t\t\t\t\t\t\"type\": \"address\"\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\t\t\"name\": \"action\",\n\t\t\t\t\t\t\"type\": \"uint256\"\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"internalType\": \"uint256\",\n\t\t\t\t\t\t\"name\": \"irCode\",\n\t\t\t\t\t\t\"type\": \"uint256\"\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\t\"internalType\": \"struct SmartIR.IRAction[]\",\n\t\t\t\t\"name\": \"\",\n\t\t\t\t\"type\": \"tuple[]\"\n\t\t\t}\n\t\t],\n\t\t\"stateMutability\": \"view\",\n\t\t\"type\": \"function\"\n\t}\n]\n"
 }
