@@ -39,11 +39,7 @@ static int rx_size;
  * Returns: void
 */
 void print_pc_message(PCMessage msg) {
-	printk("Some Message\n");
-	// printk("CMD: %d, beaconID: %d, RSSI: %d\n", msg.cmd, msg.beacon_id, msg.rssi);
-	// printk("bleName: %s, bleMac: %s\n", msg.bleName, msg.bleMac);
-	// printk("bleMajor: %d, bleMinor: %d, xCord: %d, yCord: %d\n", msg.bleMajor, msg.bleMinor, msg.xCord, msg.yCord);
-	// printk("leftNeighbour: %d, rightNeighbour: %d\n", msg.leftNeighbour, msg.rightNeighbour);
+	printk("CMD: %d, beaconID: 0x%X\n", msg.cmd);
 }
 
 /**
@@ -103,7 +99,11 @@ bool decode_pc_message(PCMessage* message, uint8_t *buffer, size_t message_lengt
 		// Process Message
 		switch (message->cmd) {
 			case PCCommand_PC_CMD_IRCODE:
+
+				// There is no case where the PC is sending data back to the board
 				break;
+			default:
+				LOG_INF("Received some unexpected data from PC!");
 		}
 	} else {
 		printk("Decoding failed: %s\n", PB_GET_ERROR(&stream));

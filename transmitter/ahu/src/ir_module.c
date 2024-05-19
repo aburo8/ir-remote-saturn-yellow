@@ -12,9 +12,11 @@
 #include <zephyr/drivers/gpio.h>
 #include <zephyr/logging/log.h>
 #include "hci.h"
+#include "src/pc.pb.h"
+#include "pc_module.h"
 
 // Init Logging Module
-LOG_MODULE_REGISTER(ir_module, 4);
+LOG_MODULE_REGISTER(ir_module, 3);
 
 // Define the GPIO pins connected to RX/TX
 #define ZEPHYR_USER_NODE DT_PATH(zephyr_user)
@@ -173,7 +175,13 @@ static void ir_signal_callback(const struct device *dev, struct gpio_callback *c
             // TODO: save to a queue/send to PC
             k_timer_stop(&ir_rx_timeout_timer);
             LOG_INF("IR Data 0x%x", ir_data);
-	        k_msgq_put(&ir_transmit_q, &ir_data, K_FOREVER);
+
+            // Send the data to the PC
+            PCMessage* msgMalloc = k_malloc(PCMessage_size);
+            msgMalloc->cmd = PCCommand_PC_CMD_IRCODE;
+            msgMalloc->irCode = ir_data;
+            k_msgq_put(pc_transmit_extern, (uint8_t*)msgMalloc, K_FOREVER);
+            k_free(msgMalloc);
         }
 
         rxTimerMs = 0;

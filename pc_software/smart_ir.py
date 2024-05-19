@@ -35,6 +35,8 @@ from smart_ir_data import Control, Appliance, ControllerConfig, VERSION, generat
 from smart_ir_data import ORIENTATION_DOWN, ORIENTATION_LEFT, ORIENTATION_RIGHT, ORIENTATION_UP, ADDR_BOOK, CONTRACT_ADDR, CONTRACT_ABI
 from mqtt_handler import MqttHandler
 from web3 import Web3, HTTPProvider
+from google.protobuf.message import DecodeError
+from ab_util import formatIrCode   
 
 # Global Variables
 portScanningState = False
@@ -122,6 +124,7 @@ class MainWindow(QMainWindow):
     currentControlIndex: int
     availableOrientations: list
     currentOrientationIndex: int
+    irCodeStr: str
 
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -138,6 +141,7 @@ class MainWindow(QMainWindow):
         self.currentControlIndex = -1 # Not selected
         self.availableOrientations = [ORIENTATION_UP, ORIENTATION_RIGHT, ORIENTATION_DOWN, ORIENTATION_LEFT] # All 4 orientations are available to start with
         self.currentOrientationIndex = -1
+        self.irCodeStr = ''
 
         # Initialise UI Elements
         self.port_select_c = self.findChild(QComboBox, "PortSelect_C")
@@ -162,6 +166,7 @@ class MainWindow(QMainWindow):
         self.controlB_5 = self.findChild(QPushButton, "control5_B")
         self.controlB_6 = self.findChild(QPushButton, "control6_B")
         self.blockchainActivityT = self.findChild(QTextEdit, "blockchainActivity_t")
+        self.irCodeHistoryT = self.findChild(QTextEdit, "irCodeHistory_t")
 
         # Configure Buttons 
         self.connectB.clicked.connect(self.connect_to_port)
@@ -407,6 +412,15 @@ class MainWindow(QMainWindow):
                     message.ParseFromString(buffer)
 
                     # TODO: process messages
+                    if message.cmd == pc_pb2.PCCommand.PC_CMD_IRCODE:
+                        # IR Code Received
+                        codeRcv = hex(message.irCode)
+                        formattedCode = formatIrCode(codeRcv)
+                        print(f"Code Received: {codeRcv}, Code Formatted:{formattedCode}")
+                        self.irCodeStr = self.irCodeStr + f"{formattedCode}\n"
+                        self.irCodeHistoryT.clear()
+                        self.irCodeHistoryT.setPlainText(self.irCodeStr)
+                        self.irCodeHistoryT.moveCursor(QTextCursor.End)
             except AttributeError:
                 pass
             except DecodeError:
