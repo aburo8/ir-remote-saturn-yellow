@@ -86,7 +86,7 @@ class BlockchainHandler(QThread):
 
         if firstLaunch:
             # Deploy the smart contract
-            with open(os.path.join(BASE_PATH, "..", "blockchain", "SmartIrContract.sol"), 'r') as file:
+            with open(os.path.join(BASE_PATH, "SmartIrContract.sol", "SmartIrContract.sol"), 'r') as file:
                 fileContent = file.read()
 
                 # Since this is a tesnet, it makes sense to dynamically deploy the contract

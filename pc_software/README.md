@@ -16,6 +16,7 @@ To get started, first ensure you have installed all of the pre-requisite librari
 - google
 - protobuf
 - py-solc-x
+- web3
 
 Once installed, open a `Powershell` (or `bash` window) and navigate to the `ir-remote-saturn-yellow/pc_software` directory.
 
@@ -45,6 +46,7 @@ To run the application on unix simply install the following python packages into
 - google
 - protobuf
 - py-solc-x
+- web3
 
 Then run the `smart_ir.py` file to launch the GUI.
 

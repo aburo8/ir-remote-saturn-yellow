@@ -8,7 +8,7 @@ a = Analysis(
     ['smart_ir.py'],
     pathex=[],
     binaries=[],
-    datas=[('ui', 'ui')],
+    datas=[('ui', 'ui'), ('contracts', 'SmartIrContract.sol')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
