@@ -2,21 +2,12 @@
     "version": 1.0,
     "appliances": [
         {
-            "name": "Led Lights 1",
+            "name": "Kid's TV",
             "orientation": 0,
             "controls": [
                 {
-                    "label": "On",
-                    "irCode": 4228116224,
-                    "colour": [
-                        0,
-                        255,
-                        0
-                    ]
-                },
-                {
-                    "label": "Off",
-                    "irCode": 4244827904,
+                    "label": "Netflix",
+                    "irCode": 55,
                     "colour": [
                         170,
                         0,
@@ -24,8 +15,26 @@
                     ]
                 },
                 {
-                    "label": "Brightness +",
-                    "irCode": 4278251264,
+                    "label": "Prime",
+                    "irCode": 55,
+                    "colour": [
+                        255,
+                        255,
+                        127
+                    ]
+                },
+                {
+                    "label": "Disney+",
+                    "irCode": 55,
+                    "colour": [
+                        85,
+                        85,
+                        255
+                    ]
+                },
+                {
+                    "label": "TV On/Off",
+                    "irCode": 55,
                     "colour": [
                         255,
                         255,
@@ -33,41 +42,32 @@
                     ]
                 },
                 {
-                    "label": "Strobe",
-                    "irCode": 4027576064,
+                    "label": "Volume Down",
+                    "irCode": 55,
                     "colour": [
-                        255,
+                        170,
                         0,
                         255
                     ]
                 },
                 {
-                    "label": "Fade",
-                    "irCode": 3960729344,
+                    "label": "Volume Up",
+                    "irCode": 55,
                     "colour": [
                         0,
                         0,
-                        127
-                    ]
-                },
-                {
-                    "label": "Brightness -",
-                    "irCode": 4261539584,
-                    "colour": [
-                        255,
-                        255,
-                        0
+                        255
                     ]
                 }
             ]
         },
         {
-            "name": "Led Lights 2",
+            "name": "Bedroom Light Bar",
             "orientation": 1,
             "controls": [
                 {
                     "label": "Red",
-                    "irCode": 4211404544,
+                    "irCode": 55,
                     "colour": [
                         255,
                         0,
@@ -76,192 +76,170 @@
                 },
                 {
                     "label": "Green",
-                    "irCode": 4177981184,
+                    "irCode": 55,
                     "colour": [
-                        0,
-                        255,
+                        85,
+                        170,
                         0
                     ]
                 },
                 {
                     "label": "Blue",
-                    "irCode": 4194692864,
+                    "irCode": 55,
                     "colour": [
-                        0,
+                        85,
+                        85,
+                        255
+                    ]
+                },
+                {
+                    "label": "On",
+                    "irCode": 55,
+                    "colour": [
+                        255,
+                        255,
+                        0
+                    ]
+                },
+                {
+                    "label": "Off",
+                    "irCode": 55,
+                    "colour": [
+                        255,
                         0,
                         255
                     ]
                 },
                 {
-                    "label": "Pink",
-                    "irCode": 4144557824,
+                    "label": "Fade",
+                    "irCode": 55,
                     "colour": [
                         255,
-                        0,
+                        170,
                         127
-                    ]
-                },
-                {
-                    "label": "White",
-                    "irCode": 4161269504,
-                    "colour": [
-                        255,
-                        255,
-                        255
-                    ]
-                },
-                {
-                    "label": "Aqua",
-                    "irCode": 3994152704,
-                    "colour": [
-                        75,
-                        252,
-                        255
                     ]
                 }
             ]
         },
         {
-            "name": "Apple TV Nav",
+            "name": "Theatre",
             "orientation": 2,
             "controls": [
                 {
-                    "label": "Return",
-                    "irCode": 4247095925,
+                    "label": "On/Off",
+                    "irCode": 55,
                     "colour": [
-                        115,
                         255,
-                        227
+                        44,
+                        153
                     ]
                 },
                 {
-                    "label": "Up",
-                    "irCode": 2011254912,
+                    "label": "Apple TV",
+                    "irCode": 55,
                     "colour": [
-                        135,
-                        139,
-                        135
-                    ]
-                },
-                {
-                    "label": "OK",
-                    "irCode": 2011249280,
-                    "colour": [
-                        115,
+                        198,
                         255,
-                        227
+                        181
                     ]
                 },
                 {
-                    "label": "Left",
-                    "irCode": 2011271296,
+                    "label": "XBOX",
+                    "irCode": 55,
                     "colour": [
-                        135,
-                        139,
-                        135
+                        44,
+                        255,
+                        128
                     ]
                 },
                 {
-                    "label": "Down",
-                    "irCode": 2011246720,
+                    "label": "PS5",
+                    "irCode": 55,
                     "colour": [
-                        135,
-                        139,
-                        135
-                    ]
-                },
-                {
-                    "label": "Right",
-                    "irCode": 2011259008,
-                    "colour": [
-                        135,
-                        139,
-                        135
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "Apple TV Media",
-            "orientation": 3,
-            "controls": [
-                {
-                    "label": "Play",
-                    "irCode": 4247066855,
-                    "colour": [
-                        85,
-                        170,
-                        0
-                    ]
-                },
-                {
-                    "label": "Pause",
-                    "irCode": 4247099495,
-                    "colour": [
-                        170,
+                        8,
                         0,
                         255
                     ]
                 },
                 {
-                    "label": "Stop",
-                    "irCode": 4247087255,
+                    "label": "Switch",
+                    "irCode": 55,
                     "colour": [
                         255,
-                        85,
-                        0
+                        238,
+                        219
                     ]
                 },
                 {
-                    "label": "Skip Back",
-                    "irCode": 551487735,
+                    "label": "DVD",
+                    "irCode": 55,
                     "colour": [
+                        94,
+                        98,
+                        124
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "House Lighting",
+            "orientation": 3,
+            "controls": [
+                {
+                    "label": "Alex's Room",
+                    "irCode": 55,
+                    "colour": [
+                        251,
                         255,
-                        255,
-                        0
+                        171
                     ]
                 },
                 {
-                    "label": "Skip Forward",
-                    "irCode": 551489520,
+                    "label": "Ben's Room",
+                    "irCode": 55,
                     "colour": [
                         255,
-                        255,
-                        0
+                        43,
+                        237
                     ]
                 },
                 {
-                    "label": "Fast Forward",
-                    "irCode": 4247062775,
+                    "label": "Niko's Room",
+                    "irCode": 55,
                     "colour": [
-                        85,
+                        208,
                         255,
+                        37
+                    ]
+                },
+                {
+                    "label": "Kitchen",
+                    "irCode": 55,
+                    "colour": [
+                        255,
+                        72,
+                        48
+                    ]
+                },
+                {
+                    "label": "Living Room",
+                    "irCode": 55,
+                    "colour": [
+                        255,
+                        89,
+                        153
+                    ]
+                },
+                {
+                    "label": "Dining Room",
+                    "irCode": 55,
+                    "colour": [
+                        0,
+                        0,
                         255
                     ]
                 }
             ]
-        }
-    ],
-    "addressBook": [
-        {
-            "name": "pc",
-            "account": "0x00C928592E3635D542A8E5F7821439AAb6eF9B6D",
-            "key": "0x52485d99ad13489881ee4be5fafa6bc88f8c886d2a41726e25f15f7c8ad993d8"
-        },
-        {
-            "name": "controller1",
-            "account": "0x64cD35b24D7c8d468dB3F2CfEb1D2B0E7963A261",
-            "key": "0x33edf39c89424f6ecf026fc518e3c79df8687b609feacf56770cf5d8730faadf"
-        },
-        {
-            "name": "controller2",
-            "account": "0x4EAbe0426C3071dd4562feC540235B2De295c2e6",
-            "key": "0xd729e6c926ae46a1e60ebe1112cdb4367c3ad8f52f9fbb34c636be083c972416"
-        },
-        {
-            "name": "transmitter",
-            "account": "0x4EAbe0426C3071dd4562feC540235B2De295c2e6",
-            "key": "0xd729e6c926ae46a1e60ebe1112cdb4367c3ad8f52f9fbb34c636be083c972416"
         }
     ],
     "smartIrContractAddress": "0x8BfC4B63Cb65d1004c9e9a0a8982915Dc9aAAf29",

@@ -76,7 +76,7 @@
                 },
                 {
                     "label": "Green",
-                    "irCode": 4177981184,
+                    "irCode": 4194692864,
                     "colour": [
                         0,
                         255,
@@ -85,7 +85,7 @@
                 },
                 {
                     "label": "Blue",
-                    "irCode": 4194692864,
+                    "irCode": 4177981184,
                     "colour": [
                         0,
                         0,
@@ -94,7 +94,7 @@
                 },
                 {
                     "label": "Pink",
-                    "irCode": 4144557824,
+                    "irCode": 55,
                     "colour": [
                         255,
                         0,
@@ -102,17 +102,17 @@
                     ]
                 },
                 {
-                    "label": "White",
-                    "irCode": 4161269504,
+                    "label": "Yellow",
+                    "irCode": 55,
                     "colour": [
                         255,
                         255,
-                        255
+                        0
                     ]
                 },
                 {
-                    "label": "Aqua",
-                    "irCode": 3994152704,
+                    "label": "Control 6",
+                    "irCode": 55,
                     "colour": [
                         75,
                         252,
