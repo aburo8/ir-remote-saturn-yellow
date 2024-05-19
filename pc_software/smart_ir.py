@@ -381,14 +381,13 @@ class MainWindow(QMainWindow):
             self.reload_configuration_data(applianceIndex=self.currentApplianceIndex)
 
     def on_delete_appliance(self):
-        if (self.currentApplianceIndex != -1):
+        if (self.currentApplianceIndex != -1 and len(self.configData.appliances) >= 1):
             self.configData.appliances.pop(self.currentApplianceIndex)
             
             # Reset indexes
             if len(self.configData.appliances) == 0:
                 self.currentApplianceIndex = -1
             self.currentControlIndex = -1
-            self.update_control_ui()
             self.reload_configuration_data()
 
     def on_ircode_set(self):
