@@ -39,6 +39,7 @@ class Control:
     label: str # control label
     irCode: int # byte to transmit (uint32)
     colour: List[int] # control colour
+    disabled: int
 
 @dataclass
 class Appliance:
@@ -103,9 +104,11 @@ class ControllerConfig:
                     print("Controller configuration outdated! Creating Blank Configuration...")
                 
                 self.appliances = [Appliance(**appliance) for appliance in fileData["appliances"]]
-
                 for i in range(len(self.appliances)):
                     self.appliances[i].controls = [Control(**control) for control in fileData["appliances"][i]["controls"]]
+                self.smartIrContractAddress = fileData["smartIrContractAddress"]
+                self.smartIrContractAbi = fileData["smartIrContractAbi"]
+
             return 0
         except FileNotFoundError:
             print("No controller configuration found! Creating Blank Configuration...")
@@ -130,7 +133,7 @@ def generate_base_appliance(name):
     controls = []
     for i in range(6):
         # Add basic controls
-        control = Control(f"Control {i+1}", 55, [0, 0, 255])
+        control = Control(f"Control {i+1}", 55, [0, 0, 255], 0)
         controls.append(control)
 
     appliance = Appliance(name, ORIENTATION_UP, controls)
@@ -165,7 +168,12 @@ def rgb_to_hex(r, g, b):
     hex_value = "0x{:02x}{:02x}{:02x}".format(r, g, b)
     return hex_value
 
-CONTRACT_ADDR = "0x8BfC4B63Cb65d1004c9e9a0a8982915Dc9aAAf29"
+def action_from_control(controlIdx: int, applianceIdx:int):
+    controlNum = controlIdx + 1
+    applianceNum = applianceIdx + 1
+    return (6 * applianceIdx) + controlNum
+
+CONTRACT_ADDR = "0x95b6Dc90194fa17E498082990f2Cf542F9862191"
 CONTRACT_ABI = '''
 [
 	{

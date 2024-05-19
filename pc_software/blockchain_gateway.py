@@ -5,6 +5,7 @@ import json
 import paho.mqtt.client as mqtt
 from web3 import Web3
 from smart_ir_data import ControllerConfig, VERSION, ADDR_BOOK, CONTROLLERS, TRANSMITTER, CONTRACT_ADDR, CONTRACT_ABI
+from datetime import datetime, timedelta
 
 def on_connect(client, userdata, flags, reason_code, properties):
     if reason_code == 0:
@@ -32,6 +33,8 @@ class ControllerGateway(threading.Thread):
         self.contract = self.web3.eth.contract(address=self.contractAddress, abi=self.contractAbi)
         self.isRunning = False
         self.config = ControllerConfig(VERSION, [], ADDR_BOOK, CONTRACT_ADDR, CONTRACT_ABI)
+        self.configReceived = False
+        self.systemControlsProcessed = 0
 
     def welcome(self):
         print("Welcome to the Smart IR Peripheral Gateway & Blockchain Interface!")
@@ -51,7 +54,7 @@ class ControllerGateway(threading.Thread):
         tmpConfig = ControllerConfig(VERSION, [], ADDR_BOOK, CONTRACT_ADDR, CONTRACT_ABI)
         tmpConfig.load_from_string(msg)
         data = json.loads(msg)
-
+        
         # Check that the contracts addresses are the same
         print(f"Contract Address: {data['smartIrContractAddress']}")
         if self.config.smartIrContractAddress != data['smartIrContractAddress']:
@@ -64,10 +67,12 @@ class ControllerGateway(threading.Thread):
 
         # Save the config
         self.config.smartIrContractAddress = data['smartIrContractAddress']
+        self.config = tmpConfig
 
         # Publish the received message to the "configuration" topic
         tmpConfig.smartIrContractAbi = ''  # Remove the ABI from the config before sending to the core2 devices (in order to conserve memory)
         self.mqttClient.publish("topic/configuration", msg)
+        self.configReceived = True
 
     def on_blockchain_msg(self, client, userdata, msg):
         print(f"Received message on {msg.topic}: {msg.payload.decode()}")
@@ -108,7 +113,55 @@ class ControllerGateway(threading.Thread):
         self.welcome()
 
         while self.isRunning:
+            # Scan the blockchain every 2 seconds to fetch any new actions that have been executed
+            latestBlock = self.web3.eth.block_number
+            fromBlock = 0  # Scan the last 100 blocks
+            toBlock = latestBlock
+            self.eventFilterSysControl = self.contract.events.SystemControlAdded.create_filter(fromBlock=fromBlock, toBlock=toBlock)
+            self.activityStr = "---------------\n" # Clear activity string
+            # We want to skip all the 
+            for event in self.eventFilterSysControl.get_all_entries():
+                # Handler the block
+                if self.configReceived and len(self.config.appliances) > 0:
+                    self.handle_system_control_event(event, True)
+            
+            # Update controllers if required
+            if (len(self.eventFilterSysControl.get_all_entries()) != self.systemControlsProcessed):
+                self.mqttClient.publish("topic/configuration", json.dumps(self.config.to_dict(), indent=4))
+                self.systemControlsProcessed = len(self.eventFilterSysControl.get_all_entries())
+
             time.sleep(1)
+
+    def handle_system_control_event(self, event, printActivity=False):
+        # First get the timestamp and check if the timestamp is from the last 2hrs
+        blockNumber = event['blockNumber']
+        timestamp = self.web3.eth.get_block(blockNumber)["timestamp"]
+        timestampDt = datetime.fromtimestamp(timestamp)
+        timeDelta = timedelta(hours=2)
+        now = datetime.now()
+
+        # Enforce Transaction
+        applianceIdx = (event['args']['parentAction'] // 6)
+        applianceNum = (event['args']['parentAction'] // 6) * 6
+        controlNum = event['args']['parentAction'] % 6
+        self.config.appliances[applianceIdx].controls[controlNum - 1].disabled = event['args']['disabled']
+
+        # This transaction is old, don't display it
+        if ((timestampDt - now) > timeDelta):
+            return
+
+        # Print Activity
+        prettyTimestamp = timestampDt.strftime('%Y-%m-%d %H:%M:%S')
+        self.activityStr = self.activityStr + f"Timestamp: {prettyTimestamp}\n"
+        self.activityStr = self.activityStr + f"Block Number: {event['blockNumber']}\n"
+        self.activityStr = self.activityStr + f"Transaction Hash: {event['transactionHash'].hex()}\n"
+        self.activityStr = self.activityStr + f"Parent Action: {event['args']['parentAction']}\n"
+        self.activityStr = self.activityStr + f"Disabled: {event['args']['disabled']}\n"
+        self.activityStr = self.activityStr + f"Timeout: {event['args']['timeout']}\n"
+        self.activityStr = self.activityStr + f"Timeout Action: {event['args']['timeoutAction']}\n"
+        self.activityStr = self.activityStr + "---------------\n"
+        if printActivity:
+            print(self.activityStr)
 
     def stop(self):
         self.isRunning = False

@@ -19,7 +19,8 @@ from PyQt5.QtWidgets import (
     QTextEdit,
     QStatusBar,
     QRadioButton,
-    QColorDialog
+    QColorDialog,
+    QCheckBox
 )
 from PyQt5.QtCore import QTimer, Qt, pyqtSignal, QObject, QCoreApplication, QThread
 import paho.mqtt.client as mqtt
@@ -31,7 +32,7 @@ import json
 from datetime import datetime, timedelta
 import threading
 import pc_pb2
-from smart_ir_data import Control, Appliance, ControllerConfig, VERSION, generate_base_appliance, orientation_to_string
+from smart_ir_data import Control, Appliance, ControllerConfig, VERSION, generate_base_appliance, orientation_to_string, action_from_control
 from smart_ir_data import ORIENTATION_DOWN, ORIENTATION_LEFT, ORIENTATION_RIGHT, ORIENTATION_UP, ADDR_BOOK, CONTRACT_ADDR, CONTRACT_ABI, PC_ADDR
 from mqtt_handler import MqttHandler
 from web3 import Web3, HTTPProvider
@@ -40,6 +41,7 @@ from ab_util import formatIrCode
 from solcx import compile_source, compile_standard
 import solcx
 import argparse
+import queue
 
 # Configure command line arguments
 parser = argparse.ArgumentParser()
@@ -55,6 +57,8 @@ BASE_PATH = os.path.dirname(__file__)
 MQTT_BROKER_HOSTNAME = "192.168.1.33"
 FIRST_LAUNCH = True if args.redeploy else False
 BLOCKCHAIN_UPDATE_INTERVAL = 2
+sysControlQueue = queue.Queue()
+RELOADING_CONFIG = False
 
 class BlockchainHandler(QThread):
     isConnected: bool
@@ -77,6 +81,9 @@ class BlockchainHandler(QThread):
             print("Blockchain Connected!")
             self.isConnected = True
 
+        # Setup PC Account
+        self.account = self.w3.eth.account.from_key(PC_ADDR.key)
+
         if firstLaunch:
             # Deploy the smart contract
             with open(os.path.join(BASE_PATH, "..", "blockchain", "SmartIrContract.sol"), 'r') as file:
@@ -97,12 +104,11 @@ class BlockchainHandler(QThread):
                 contract = self.w3.eth.contract(abi=abi, bytecode=bytecode)
 
                 # Deploy contract
-                account = self.w3.eth.account.from_key(PC_ADDR.key)
                 transaction  = contract.constructor().build_transaction(({
                     'chainId': 2002,  # Update with appropriate chain ID (e.g., 1 for mainnet, 3 for Ropsten)
                     'gas': 2000000,
                     'gasPrice': self.w3.to_wei('50', 'gwei'),
-                    'nonce': self.w3.eth.get_transaction_count(account.address),
+                    'nonce': self.w3.eth.get_transaction_count(self.account.address),
                 }))
                 signed_tx = self.w3.eth.account.sign_transaction(transaction , PC_ADDR.key)
 
@@ -132,19 +138,19 @@ class BlockchainHandler(QThread):
             latestBlock = self.w3.eth.block_number
             fromBlock = 0  # Scan the last 100 blocks
             toBlock = latestBlock
-            self.eventFilter = self.contract.events.IRActionAdded.create_filter(fromBlock=fromBlock, toBlock=toBlock)
+            self.eventFilterActionAdded = self.contract.events.IRActionAdded.create_filter(fromBlock=fromBlock, toBlock=toBlock)
+            self.eventFilterSysControl = self.contract.events.SystemControlAdded.create_filter(fromBlock=fromBlock, toBlock=toBlock)
             self.activityStr = "---------------\n" # Clear activity string
             # We want to skip all the 
-            for event in self.eventFilter.get_all_entries():
-                # Only show the blocks from the last 48 hours
-                blockNumber = event['blockNumber']
-                timestamp = self.w3.eth.get_block(blockNumber)["timestamp"]
-                date = datetime.fromtimestamp(timestamp)
-                timeDelta = timedelta(hours=48)
-                
+            for event in self.eventFilterActionAdded.get_all_entries():
                 # Handler the block
                 self.handle_ir_action_event(event)
             self.updateGUI.emit()
+
+            if not sysControlQueue.empty():
+                item = sysControlQueue.get()
+                self.submit_system_control(item[0], item[1], item[2], item[3])
+
             time.sleep(BLOCKCHAIN_UPDATE_INTERVAL)
     
     def handle_ir_action_event(self, event, printActivity=False):
@@ -171,6 +177,28 @@ class BlockchainHandler(QThread):
         self.activityStr = self.activityStr + "---------------\n"
         if printActivity:
             print(self.activityStr)
+    
+    def submit_system_control(self, parentAction, disabled, timeout, timeoutAction):
+        # Build the transaction
+        print(f"Adding System Control: parentAction: {parentAction}, disabled: {disabled}, timeout: {timeout}, timeoutAction: {timeoutAction}")
+        transaction = self.contract.functions.addSystemControl(parentAction, disabled, timeout, timeoutAction).build_transaction({
+            'from': PC_ADDR.account,
+            'nonce': self.w3.eth.get_transaction_count(PC_ADDR.account),
+            'gas': 2000000,
+            'gasPrice': self.w3.to_wei('1', 'gwei')
+        })
+
+        # Sign the transaction
+        signed_txn = self.w3.eth.account.sign_transaction(transaction, private_key=PC_ADDR.key)
+
+        # Send the transaction
+        tx_hash = self.w3.eth.send_raw_transaction(signed_txn.rawTransaction)
+
+        # Wait for the transaction to be mined
+        tx_receipt = self.w3.eth.wait_for_transaction_receipt(tx_hash)
+
+        # Print the transaction receipt
+        print(f'Transaction successful with hash: {tx_hash.hex()}')
 
 class MainWindow(QMainWindow):
     # Class Private Variables
@@ -227,6 +255,7 @@ class MainWindow(QMainWindow):
         self.controlB_6 = self.findChild(QPushButton, "control6_B")
         self.blockchainActivityT = self.findChild(QTextEdit, "blockchainActivity_t")
         self.irCodeHistoryT = self.findChild(QTextEdit, "irCodeHistory_t")
+        self.parentalCheckbox = self.findChild(QCheckBox, "disableControl_cb")
 
         # Configure Buttons 
         self.connectB.clicked.connect(self.connect_to_port)
@@ -245,6 +274,7 @@ class MainWindow(QMainWindow):
         self.updateControllersB.clicked.connect(self.update_controllers)
         self.deleteApplianceB.clicked.connect(self.on_delete_appliance)
         self.irCodeT.textChanged.connect(self.on_ircode_set)
+        self.parentalCheckbox.stateChanged.connect(self.on_update_checkbox)
 
         # Serial Port Connection Timers
         self.connection_timer = QTimer(self)
@@ -324,6 +354,7 @@ class MainWindow(QMainWindow):
         self.selectedApplianceC.clear()
         self.currentApplianceIndex = appIdx
         self.currentControlIndex = conIdx
+        self.parentalCheckbox.setChecked(False)
 
     def reload_configuration_data(self, applianceName=None, applianceIndex=None, controlIndex=None):
         """
@@ -332,6 +363,8 @@ class MainWindow(QMainWindow):
         NOTE: you should provide either an applianceName or applianceIndex to restore the existing state of the application.
               If both are provided the profile_name will be used by default.
         """
+        global RELOADING_CONFIG
+        RELOADING_CONFIG = True
         data = self.configData
 
         # Flush the latest configuration to disk
@@ -380,6 +413,8 @@ class MainWindow(QMainWindow):
                 # Populate the Fields
                 self.controlLabelT.setPlainText(data.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].label)
                 self.irCodeT.setPlainText(str(hex(data.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].irCode)))
+                self.parentalCheckbox.setChecked(True if data.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].disabled else False)
+        RELOADING_CONFIG = False
 
     def update_control_ui(self, index, label, colour):
         """
@@ -467,6 +502,13 @@ class MainWindow(QMainWindow):
                     self.configData.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].irCode = uintVal
                 except ValueError:
                     print("Could not save IR Code!")
+
+    def on_update_checkbox(self):
+        if self.currentControlIndex != -1 and not RELOADING_CONFIG:
+            # Box is checked
+            disabled = 1 if self.parentalCheckbox.isChecked() else 0
+            sysControlQueue.put([action_from_control(self.currentControlIndex, self.currentApplianceIndex), self.parentalCheckbox.isChecked(), 0, 0])
+            self.configData.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].disabled = disabled
 
     def update_controllers(self):
         data = json.dumps(self.configData.to_dict(), indent=4,)
