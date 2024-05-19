@@ -14,17 +14,15 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0eproto/pc.proto\"\xb1\x01\n\x04Node\x12\x17\n\x03\x63md\x18\x01 \x01(\x0e\x32\n.PCCommand\x12\x0f\n\x07\x62leName\x18\x02 \x01(\t\x12\x0e\n\x06\x62leMac\x18\x03 \x01(\t\x12\x10\n\x08\x62leMajor\x18\x04 \x01(\r\x12\x10\n\x08\x62leMinor\x18\x05 \x01(\r\x12\r\n\x05xCord\x18\x06 \x01(\r\x12\r\n\x05yCord\x18\x07 \x01(\r\x12\x15\n\rleftNeighbour\x18\x08 \x01(\r\x12\x16\n\x0erightNeighbour\x18\t \x01(\r\"\xed\x01\n\tPCMessage\x12\x17\n\x03\x63md\x18\x01 \x01(\x0e\x32\n.PCCommand\x12\x11\n\tbeacon_id\x18\x02 \x01(\x05\x12\x0c\n\x04rssi\x18\x03 \x01(\x05\x12\x0f\n\x07\x62leName\x18\x04 \x01(\t\x12\x0e\n\x06\x62leMac\x18\x05 \x01(\t\x12\x10\n\x08\x62leMajor\x18\x06 \x01(\r\x12\x10\n\x08\x62leMinor\x18\x07 \x01(\r\x12\r\n\x05xCord\x18\x08 \x01(\r\x12\r\n\x05yCord\x18\t \x01(\r\x12\x15\n\rleftNeighbour\x18\n \x01(\r\x12\x16\n\x0erightNeighbour\x18\x0b \x01(\r\x12\x14\n\x05nodes\x18\x0c \x03(\x0b\x32\x05.Node*|\n\tPCCommand\x12\x0f\n\x0bPC_CMD_RSSI\x10\x00\x12\r\n\tPC_CMD_US\x10\x01\x12\x13\n\x0fPC_CMD_ADD_NODE\x10\x02\x12\x16\n\x12PC_CMD_REMOVE_NODE\x10\x03\x12\x15\n\x11PC_CMD_LIST_NODES\x10\x04\x12\x0b\n\x07PC_NODE\x10\x05\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0eproto/pc.proto\"4\n\tPCMessage\x12\x17\n\x03\x63md\x18\x01 \x01(\x0e\x32\n.PCCommand\x12\x0e\n\x06irCode\x18\x02 \x01(\r*\x1e\n\tPCCommand\x12\x11\n\rPC_CMD_IRCODE\x10\x00\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'proto.pc_pb2', _globals)
 if _descriptor._USE_C_DESCRIPTORS == False:
   DESCRIPTOR._options = None
-  _globals['_PCCOMMAND']._serialized_start=438
-  _globals['_PCCOMMAND']._serialized_end=562
-  _globals['_NODE']._serialized_start=19
-  _globals['_NODE']._serialized_end=196
-  _globals['_PCMESSAGE']._serialized_start=199
-  _globals['_PCMESSAGE']._serialized_end=436
+  _globals['_PCCOMMAND']._serialized_start=72
+  _globals['_PCCOMMAND']._serialized_end=102
+  _globals['_PCMESSAGE']._serialized_start=18
+  _globals['_PCMESSAGE']._serialized_end=70
 # @@protoc_insertion_point(module_scope)
