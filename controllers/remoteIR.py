@@ -697,6 +697,7 @@ def loop():
   if press == 1 and (time.time()) - debounce >= 1:
     press = 0
     irCodes_hex = []
+    disabled_values = []
     for appliance in data["appliances"]:
         if appliance["orientation"] == rotation:
             # Extract controls for this appliance
@@ -707,9 +708,11 @@ def loop():
                 irCode_hex_value = control["irCode"]
                 # Append the integer hex value to the list of IR code unsigned values
                 irCodes_hex.append(irCode_hex_value)
+                
+                disabled_value = control["disabled"]
+                disabled_values.append(disabled_value)
     
     if len(irCodes_hex) != 0:           
-        print((str('IR code sent: ') + str(irCodes_hex[button - 1])))
         message = (str("{\"IR\": ") + str(irCodes_hex[button - 1])) + str('}')
         IR_topic = "topic/ir"
         BLOCKCHAIN_TOPIC = "topic/blockchain"
@@ -717,10 +720,26 @@ def loop():
         blockchain_data = json.dumps(blockchain_data)
         # if message send fails, reconnect
         try:
-            client.publish(IR_topic, message, qos=0) # Publish the IR Topic message
-            print('Sending message %s on topic: %s' % (message, IR_topic))
-            client.publish(BLOCKCHAIN_TOPIC, blockchain_data, qos=0) # Publish blockchain message to gateway node
-            print('Sending message %s on topic: %s' % (blockchain_data, BLOCKCHAIN_TOPIC))
+            if disabled_values[button - 1] == 0:
+                print((str('IR code sent: ') + str(irCodes_hex[button - 1])))
+                client.publish(IR_topic, message, qos=0) # Publish the IR Topic message
+                print('Sending message %s on topic: %s' % (message, IR_topic))
+                client.publish(BLOCKCHAIN_TOPIC, blockchain_data, qos=0) # Publish blockchain message to gateway node
+                print('Sending message %s on topic: %s' % (blockchain_data, BLOCKCHAIN_TOPIC))
+                Speaker.tone(2000, 50)
+            else:
+                Widgets.fillScreen(0x222222)
+                Widgets.Label("DISABLED", 116, 102, 1.0, 0xffffff, 0x222222, Widgets.FONTS.DejaVu18)
+                time.sleep_ms(400)
+                # re-load rotation
+                if rotation==0:
+                    zero_degree_screen()
+                elif rotation==1:
+                    ninety_degree_screen()
+                elif rotation==2:
+                    one_eighty_degree_screen()
+                elif rotation==3:
+                    two_seventy_degree_screen()
 
         except Exception as e:
             print('Failed to publish message:', e)
