@@ -18,7 +18,7 @@
 #include "uart_module.h"
 #include "hci.h"
 #include "led_module.h"
-#include "ble_module.h"
+// #include "ble_module.h"
 
 /**
  * Validates a floating point argument

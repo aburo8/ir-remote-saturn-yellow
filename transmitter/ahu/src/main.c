@@ -16,7 +16,7 @@
 #include "ahu.h"
 #include "led_module.h"
 #include "uart_module.h"
-#include "ble_module.h"
+// #include "ble_module.h"
 #include "pc_module.h"
 #include "ir_module.h"
 
@@ -39,8 +39,8 @@ K_THREAD_DEFINE(ahu_id, AHU_STACK_SIZE, ahu_handler, NULL, NULL, NULL,
 		AHU_PRIORITY, 0, 0);
 K_THREAD_DEFINE(uart_id, UART_STACK_SIZE, uart_handler, NULL, NULL, NULL,
 		UART_PRIORITY, 0, 0);
-K_THREAD_DEFINE(ble_id, BLE_STACK_SIZE, ble_handler, NULL, NULL, NULL,
-		BLE_PRIORITY, 0, 0);
+// K_THREAD_DEFINE(ble_id, BLE_STACK_SIZE, ble_handler, NULL, NULL, NULL,
+// 		BLE_PRIORITY, 0, 0);
 K_THREAD_DEFINE(pc_transmit_id, PC_STACK_SIZE, pc_comms_transmit_handler, NULL, NULL, NULL,
 		PC_PRIORITY, 0, 0);
 K_THREAD_DEFINE(pc_receive_id, PC_STACK_SIZE, pc_comms_receive_handler, NULL, NULL, NULL,
@@ -57,7 +57,7 @@ int main(void) {
 
 	// Initialise Hardware
 	init_leds();
-	init_ble();
+	// init_ble();
 	init_ir_module();
 
 	return 0;
