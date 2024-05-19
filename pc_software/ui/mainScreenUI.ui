@@ -870,13 +870,13 @@ color:rgb(0,0,0);</string>
 color:rgb(0,0,0);</string>
      </property>
      <property name="text">
-      <string>IR Codes Received</string>
+      <string>IR Codes</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QTextEdit" name="bleNodesView_t_2">
+    <widget class="QTextEdit" name="irCodeHistory_t">
      <property name="geometry">
       <rect>
        <x>540</x>
