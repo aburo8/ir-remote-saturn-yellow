@@ -48,9 +48,25 @@ class ControllerGateway(threading.Thread):
 
     def handle_config_msg(self, msg):
         # Save a copy of the configuration
-        self.config.load_from_string(msg)
+        tmpConfig = ControllerConfig(VERSION, [], ADDR_BOOK, CONTRACT_ADDR, CONTRACT_ABI)
+        tmpConfig.load_from_string(msg)
+        data = json.loads(msg)
+
+        # Check that the contracts addresses are the same
+        print(f"Contract Address: {data['smartIrContractAddress']}")
+        if self.config.smartIrContractAddress != data['smartIrContractAddress']:
+            # Reconfigure the Smart Ir Contract
+            self.contractAddress = data['smartIrContractAddress']
+            self.contractAbi = data['smartIrContractAbi']
+            print("Reconfigured Smart IR Contract!")
+            print(f"Smart IR Contract Address: {self.contractAddress}")
+            self.contract = self.web3.eth.contract(address=self.contractAddress, abi=self.contractAbi)
+
+        # Save the config
+        self.config.smartIrContractAddress = data['smartIrContractAddress']
 
         # Publish the received message to the "configuration" topic
+        tmpConfig.smartIrContractAbi = ''  # Remove the ABI from the config before sending to the core2 devices (in order to conserve memory)
         self.mqttClient.publish("topic/configuration", msg)
 
     def on_blockchain_msg(self, client, userdata, msg):

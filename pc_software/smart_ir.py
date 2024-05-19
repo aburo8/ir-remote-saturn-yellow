@@ -32,29 +32,42 @@ from datetime import datetime, timedelta
 import threading
 import pc_pb2
 from smart_ir_data import Control, Appliance, ControllerConfig, VERSION, generate_base_appliance, orientation_to_string
-from smart_ir_data import ORIENTATION_DOWN, ORIENTATION_LEFT, ORIENTATION_RIGHT, ORIENTATION_UP, ADDR_BOOK, CONTRACT_ADDR, CONTRACT_ABI
+from smart_ir_data import ORIENTATION_DOWN, ORIENTATION_LEFT, ORIENTATION_RIGHT, ORIENTATION_UP, ADDR_BOOK, CONTRACT_ADDR, CONTRACT_ABI, PC_ADDR
 from mqtt_handler import MqttHandler
 from web3 import Web3, HTTPProvider
 from google.protobuf.message import DecodeError
 from ab_util import formatIrCode   
+from solcx import compile_source, compile_standard
+import solcx
+import argparse
+
+# Configure command line arguments
+parser = argparse.ArgumentParser()
+parser.add_argument("-r", "--redeploy", dest = "redeploy", nargs="?", const = True, default = False, help = "Redeploys the solidity smart contract")
+args = parser.parse_args()
+print("Command line args:")
+print("Redeploy: " + str(args.redeploy))
 
 # Global Variables
 portScanningState = False
 connectionStatus = 1  # 1 represent no connection; 2 represent connected sucessfully; 3 represent disconnect manually
 BASE_PATH = os.path.dirname(__file__)
 MQTT_BROKER_HOSTNAME = "192.168.1.33"
-FIRST_LAUNCH = False # TODO: add dynamic account generation and funding, dynamic blockchain smart contract creation
+FIRST_LAUNCH = True if args.redeploy else False
 BLOCKCHAIN_UPDATE_INTERVAL = 2
 
 class BlockchainHandler(QThread):
     isConnected: bool
     updateGUI = pyqtSignal()
+    contractDeployed = pyqtSignal()
     activityStr: str
 
-    def __init__(self):
+    def __init__(self, firstLaunch: bool, contractAddr, contractAbi):
         super().__init__()
         # Setup Blockchain
         self.w3 = Web3(HTTPProvider("http://localhost:8545"))
+        self.contractAddr = contractAddr
+        self.contractAbi = contractAbi
 
         # Check if connected
         if not self.w3.is_connected():
@@ -63,9 +76,51 @@ class BlockchainHandler(QThread):
         else:
             print("Blockchain Connected!")
             self.isConnected = True
-    
-        self.contract = self.w3.eth.contract(address=CONTRACT_ADDR, abi=CONTRACT_ABI)
+
+        if firstLaunch:
+            # Deploy the smart contract
+            with open(os.path.join(BASE_PATH, "..", "blockchain", "SmartIrContract.sol"), 'r') as file:
+                fileContent = file.read()
+
+                # Since this is a tesnet, it makes sense to dynamically deploy the contract
+                # On a public net though, you would want to have a single contract and just do auth checks for getting data.
+
+                # Compile the contract
+                compiledSol = compile_source(fileContent, output_values=['abi', 'bin'])
+                contractId, contractInterface = compiledSol.popitem()
+
+                # get bytecode / bin
+                bytecode = contractInterface['bin']
+
+                # get abi
+                abi = contractInterface['abi']
+                contract = self.w3.eth.contract(abi=abi, bytecode=bytecode)
+
+                # Deploy contract
+                account = self.w3.eth.account.from_key(PC_ADDR.key)
+                transaction  = contract.constructor().build_transaction(({
+                    'chainId': 2002,  # Update with appropriate chain ID (e.g., 1 for mainnet, 3 for Ropsten)
+                    'gas': 2000000,
+                    'gasPrice': self.w3.to_wei('50', 'gwei'),
+                    'nonce': self.w3.eth.get_transaction_count(account.address),
+                }))
+                signed_tx = self.w3.eth.account.sign_transaction(transaction , PC_ADDR.key)
+
+                # Send transaction
+                tx_hash = self.w3.eth.send_raw_transaction(signed_tx.rawTransaction)
+                tx_receipt = self.w3.eth.wait_for_transaction_receipt(tx_hash)
+                self.contractAddr = tx_receipt.contractAddress
+                self.contractAbi = abi
+                print(f"Updated Contract Address: {tx_receipt.contractAddress}")
+
+        self.contract = self.w3.eth.contract(address=self.contractAddr, abi=self.contractAbi)
         self.activityStr = "---------------\n"
+
+    def get_abi(self):
+        return self.contractAbi
+    
+    def get_addr(self): 
+        return self.contractAddr
 
     def run(self):
         # Check that there is a valid blockchain connected
@@ -136,12 +191,17 @@ class MainWindow(QMainWindow):
         print(BASE_PATH)
         self.configData = ControllerConfig(VERSION, [], ADDR_BOOK, CONTRACT_ADDR, CONTRACT_ABI)
         # Load configuration data
-        self.configData.load_from_disk()
+        readConfig = self.configData.load_from_disk()
         self.currentApplianceIndex = -1 # Not selected
         self.currentControlIndex = -1 # Not selected
         self.availableOrientations = [ORIENTATION_UP, ORIENTATION_RIGHT, ORIENTATION_DOWN, ORIENTATION_LEFT] # All 4 orientations are available to start with
         self.currentOrientationIndex = -1
         self.irCodeStr = ''
+
+        if readConfig:
+            # The config file was not found, assume first launch
+            global FIRST_LAUNCH
+            FIRST_LAUNCH = True
 
         # Initialise UI Elements
         self.port_select_c = self.findChild(QComboBox, "PortSelect_C")
@@ -202,9 +262,13 @@ class MainWindow(QMainWindow):
         self.signaller.port_scan_complete.connect(self.update_ports_list)
 
         # Blockchain Handler
-        self.blockchainHandler = BlockchainHandler()
+        self.blockchainHandler = BlockchainHandler(FIRST_LAUNCH, self.configData.smartIrContractAddress, self.configData.smartIrContractAbi)
         self.blockchainHandler.updateGUI.connect(self.update_blockchain_activity)
+        self.blockchainHandler.contractDeployed.connect(self.contract_deployed)
         self.blockchainHandler.start()
+
+        if FIRST_LAUNCH:
+            self.contract_deployed()
 
         # Graceful Close
         QCoreApplication.instance().aboutToQuit.connect(self.close_window)
@@ -446,6 +510,13 @@ class MainWindow(QMainWindow):
             except DecodeError:
                 print("Error parsing Packet!")
 
+    def contract_deployed(self):
+        print("Contract Redeployed!")
+        self.configData.smartIrContractAbi = self.blockchainHandler.get_abi()
+        self.configData.smartIrContractAddress = self.blockchainHandler.get_addr()
+        self.configData.save_to_disk()
+        self.update_controllers()
+
     def close_window(self):
         """
         Gracefully exits the application when the window is closed
@@ -560,13 +631,17 @@ class MainWindow(QMainWindow):
         # update scan status after finishing
         global portScanningState
         portScanningState = False
-
+    
 class Signaller(QObject):
     port_scan_complete = pyqtSignal(list)
 
 # Main Application
 if __name__ == '__main__':
     try:
+        # Install Solidity Compiler
+        solcx.install_solc('0.8.25')
+        solcx.set_solc_version('0.8.25')
+
         app = QApplication(sys.argv)
         app.setWindowIcon(QIcon(os.path.abspath(os.path.join(BASE_PATH, "ui", "smart_ir_logo.png"))))
         main_window = MainWindow()

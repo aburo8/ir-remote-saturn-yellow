@@ -106,10 +106,12 @@ class ControllerConfig:
 
                 for i in range(len(self.appliances)):
                     self.appliances[i].controls = [Control(**control) for control in fileData["appliances"][i]["controls"]]
+            return 0
         except FileNotFoundError:
             print("No controller configuration found! Creating Blank Configuration...")
         except json.JSONDecodeError:
             print("Invalid JSON - Creating New Configuration!")
+        return 1
 
     def load_from_string(self, data):
         fileData = json.loads(data)
