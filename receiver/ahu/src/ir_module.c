@@ -172,7 +172,6 @@ static void ir_signal_callback(const struct device *dev, struct gpio_callback *c
 
         // Measure
         if (is_message_pulse(pulseCount)) {
-            // TODO: save to a queue/send to PC
             k_timer_stop(&ir_rx_timeout_timer);
             LOG_INF("IR Data 0x%x", ir_data);
 
@@ -309,33 +308,6 @@ int transmit_ir_packet(IRData irData) {
                     ir_transmit_pulse(NEC_BIT_HIGH_US, NEC_BIT_ZERO_LOW_US);
                 }
             }
-
-            // const struct device *gpio_dev = DEVICE_DT_GET(DT_ALIAS(ir_tx));
-            // Check IR Device is ready
-            // if (!device_is_ready(gpio_dev)) {
-            // 	LOG_ERR("IR device not found!");
-            // 	return;
-            // }
-            // // gpio_pin_configure(gpio_dev, 26, GPIO_OUTPUT_ACTIVE);
-            // gpio_pin_set(gpio_dev, 26, 1);
-            // k_sleep(K_USEC(1000000));
-            // gpio_pin_set(gpio_dev, 26, 0);
-            // // Start the transmission timer
-            // bool timerActive = true;
-            // k_timer_start(&ir_tx_timeout_timer, K_NSEC(500), K_NSEC(500)); // Timer should fire every 500ns
-            // while (timerActive) {
-            //     // Implement each of the phases
-            //     if (txTimerUs < 9000) {
-            //         // Hold Output Pin High
-            //         gpio_pin_set_dt(&ir_tx_pin, 1);
-            //     } else if (txTimerUs >= 9000 && txTimerUs < 13500) {
-            //         gpio_pin_set_dt(&ir_tx_pin, 0);
-            //     } else {
-            //         timerActive = false;
-            //     }
-            // } 
-            // k_timer_stop(&ir_tx_timeout_timer);
-            // gpio_pin_set_dt(&ir_tx_pin, 0);
             break;
         default:
             LOG_ERR("IR Protocol Not Identified!");
