@@ -26,12 +26,13 @@ This example assumes you are flashing the NRF5280DK board with the AHU firmware.
 *Note: these steps assume you have already got a working install of zephyr and west*
 
 1. Clone this repository to your machine.
-2. In the `/transmitter` directory call `west init`.
-3. In the `/transmitter` directory call `west update`.
+2. In the `/receiver` directory call `west init`.
+3. In the `/receiver` directory call `west update`.
 4. Build the project for your board of choice using - `west build -b nrf52840dk_nrf52840 transmitter/ahu -p`
 5. Flash the code to the board by calling `west flash --recover`
 
 ## Schematic
+
 Follow the schematic below to connect IR receiver module. 
 
 ![IR receiver schematic](https://github.com/aburo8/ir-remote-saturn-yellow/blob/977f3a598cfff972f41ca59fe586d0faf8fe6172/assets/receiver_schematic.drawio.png)

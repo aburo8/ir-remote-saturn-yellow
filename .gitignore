@@ -62,7 +62,7 @@ modules/
 /*_txradio.c
 /*_txradio.h
 /mycode.tar
-transmitter/ahu/mycode/*
+receiver/ahu/mycode/*
 .cache/
 demos/
 
