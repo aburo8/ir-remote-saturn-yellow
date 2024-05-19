@@ -246,7 +246,11 @@ def load_data():
     global string
     try:
         with open("data.txt", "r") as f:
-            return ujson.load(f)
+            # Read line by line and concatenate into a single string for memory allocation safety
+            data_str = ""
+            for line in f:
+                data_str += line
+            return ujson.loads(data_str)
     except OSError:
         # If file doesn't exist, return default value
         return string
@@ -293,9 +297,10 @@ def zero_degree_screen():
     appliance_names = []
     # Iterate over each appliance in the "appliances" list
     for appliance in data["appliances"]:
-        # Extract the "label" of the appliance and append to the list
-        appliance_names.append(appliance["name"])
-    Title = Widgets.Title(appliance_names[0], 3, 0xffffff, 0x0000FF, Widgets.FONTS.DejaVu18)
+        if appliance["orientation"] == 0:
+            # Extract the "label" of the appliance and append to the list
+            appliance_names.append(appliance["name"])
+            Title = Widgets.Title(appliance_names[0] + " ID: " + str(CONTROLLER_ID), 3, 0xffffff, 0x0000FF, Widgets.FONTS.DejaVu18)
 
     rect0 = Widgets.Rectangle(40, 40, 50, 50, 0xffffff, 0xffffff)
     rect1 = Widgets.Rectangle(140, 40, 50, 50, 0xffffff, 0xffffff)
@@ -303,6 +308,7 @@ def zero_degree_screen():
     rect3 = Widgets.Rectangle(40, 140, 50, 50, 0xffffff, 0xffffff)
     rect4 = Widgets.Rectangle(140, 140, 50, 50, 0xffffff, 0xffffff)
     rect5 = Widgets.Rectangle(240, 140, 50, 50, 0xffffff, 0xffffff)
+    
     # List to store color hex values for orientation = 0
     colors_hex = []
     # Find the appliance with orientation = 0
@@ -353,10 +359,10 @@ def ninety_degree_screen():
 
     # Iterate over each appliance in the "appliances" list
     for appliance in data["appliances"]:
-        # Extract the "label" of the appliance and append to the list
-        appliance_names.append(appliance["name"])
-        
-    Title = Widgets.Title(appliance_names[1], 3, 0xffffff, 0x0000FF, Widgets.FONTS.DejaVu18)
+        if appliance["orientation"] == 1:
+            # Extract the "label" of the appliance and append to the list
+            appliance_names.append(appliance["name"])
+            Title = Widgets.Title(appliance_names[0] + " ID: " + str(CONTROLLER_ID), 3, 0xffffff, 0x0000FF, Widgets.FONTS.DejaVu18)
     
     # color in rectangles
     rect0 = Widgets.Rectangle(30, 40, 50, 50, 0xffffff, 0xffffff)
@@ -415,10 +421,10 @@ def one_eighty_degree_screen():
 
     # Iterate over each appliance in the "appliances" list
     for appliance in data["appliances"]:
-        # Extract the "label" of the appliance and append to the list
-        appliance_names.append(appliance["name"])
-        
-    Title = Widgets.Title(appliance_names[2], 3, 0xffffff, 0x0000FF, Widgets.FONTS.DejaVu18)
+        if appliance["orientation"] == 2:
+            # Extract the "label" of the appliance and append to the list
+            appliance_names.append(appliance["name"])
+            Title = Widgets.Title(appliance_names[0] + " ID: " + str(CONTROLLER_ID), 3, 0xffffff, 0x0000FF, Widgets.FONTS.DejaVu18)
 
     rect0 = Widgets.Rectangle(40, 40, 50, 50, 0xffffff, 0xffffff)
     rect1 = Widgets.Rectangle(140, 40, 50, 50, 0xffffff, 0xffffff)
@@ -478,10 +484,10 @@ def two_seventy_degree_screen():
 
     # Iterate over each appliance in the "appliances" list
     for appliance in data["appliances"]:
-        # Extract the "label" of the appliance and append to the list
-        appliance_names.append(appliance["name"])
-        
-    Title = Widgets.Title(appliance_names[3], 3, 0xffffff, 0x0000FF, Widgets.FONTS.DejaVu18)
+        if appliance["orientation"] == 3:
+            # Extract the "label" of the appliance and append to the list
+            appliance_names.append(appliance["name"])
+            Title = Widgets.Title(appliance_names[0] + " ID: " + str(CONTROLLER_ID), 3, 0xffffff, 0x0000FF, Widgets.FONTS.DejaVu18)
     
     #re-shuffle rectangles
     rect0 = Widgets.Rectangle(30, 40, 50, 50, 0xffffff, 0xffffff)
