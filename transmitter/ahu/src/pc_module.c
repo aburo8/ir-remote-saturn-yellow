@@ -28,9 +28,6 @@ K_MSGQ_DEFINE(pc_receive, PCMessage_size, 10, 64);
 struct k_msgq* pc_transmit_extern = &pc_transmit;
 struct k_msgq* pc_receive_extern = &pc_receive;
 
-// Linked list to store the iBeacon nodes
-sys_dlist_t ibeaconNodes;
-
 /* receive buffer used in UART ISR callback */
 static char rx_buf1[PCMessage_size];
 static int rx_buf_pos1;
@@ -42,49 +39,11 @@ static int rx_size;
  * Returns: void
 */
 void print_pc_message(PCMessage msg) {
-	printk("CMD: %d, beaconID: %d, RSSI: %d\n", msg.cmd, msg.beacon_id, msg.rssi);
-	printk("bleName: %s, bleMac: %s\n", msg.bleName, msg.bleMac);
-	printk("bleMajor: %d, bleMinor: %d, xCord: %d, yCord: %d\n", msg.bleMajor, msg.bleMinor, msg.xCord, msg.yCord);
-	printk("leftNeighbour: %d, rightNeighbour: %d\n", msg.leftNeighbour, msg.rightNeighbour);
-}
-
-/**
- * Lists nodes stored in the base node
- * 
- * Returns: void
-*/
-void list_nodes() {
-	// Get the current number of nodes
-	LOG_DBG("Listing Nodes");
-	PCMessage* msg = k_malloc(PCMessage_size);
-	PCMessage templateMsg = PCMessage_init_zero;
-	memcpy(msg, &templateMsg, PCMessage_size);
-
-	sys_dnode_t* node;
-	struct iBeaconNode template;
-	int counter = 0;
-	for (node = sys_dlist_peek_head(&ibeaconNodes); node != NULL; node = sys_dlist_peek_next(&ibeaconNodes, node)) {
-		// Get the container structure
-		struct iBeaconNode* beaconNode = SYS_DLIST_CONTAINER(node, &template, node);
-							
-		// Check if the data matches the one you want to remove
-		msg->nodes[counter].cmd = PCCommand_PC_NODE;
-		strcpy(msg->nodes[counter].bleName, beaconNode->data.bleName);
-		strcpy(msg->nodes[counter].bleMac, beaconNode->data.bleMac);
-		msg->nodes[counter].bleMajor = beaconNode->data.bleMajor;
-		msg->nodes[counter].bleMinor = beaconNode->data.bleMinor;
-		msg->nodes[counter].xCord = beaconNode->data.xCord;
-		msg->nodes[counter].yCord = beaconNode->data.yCord;
-		msg->nodes[counter].leftNeighbour = beaconNode->data.leftNeighbour;
-		msg->nodes[counter].rightNeighbour = beaconNode->data.rightNeighbour;
-		
-		counter++;
-	}
-
-	// Transmit Listed Nodes to PC
-	msg->cmd = PCCommand_PC_CMD_LIST_NODES;
-	k_msgq_put(pc_transmit_extern, msg, K_FOREVER);
-	k_free(msg);
+	printk("Some Message\n");
+	// printk("CMD: %d, beaconID: %d, RSSI: %d\n", msg.cmd, msg.beacon_id, msg.rssi);
+	// printk("bleName: %s, bleMac: %s\n", msg.bleName, msg.bleMac);
+	// printk("bleMajor: %d, bleMinor: %d, xCord: %d, yCord: %d\n", msg.bleMajor, msg.bleMinor, msg.xCord, msg.yCord);
+	// printk("leftNeighbour: %d, rightNeighbour: %d\n", msg.leftNeighbour, msg.rightNeighbour);
 }
 
 /**
@@ -143,42 +102,7 @@ bool decode_pc_message(PCMessage* message, uint8_t *buffer, size_t message_lengt
 
 		// Process Message
 		switch (message->cmd) {
-			case PCCommand_PC_CMD_ADD_NODE:
-				// Change the message command to be a node
-				message->cmd = PCCommand_PC_NODE;
-				
-				// Add the node to the linked list
-				struct iBeaconNode* ibeaconNode = malloc(sizeof(struct iBeaconNode));
-				memcpy(&(ibeaconNode->data), message, sizeof(*message));
-				sys_dnode_t* newNode = &(ibeaconNode->node);
-
-				sys_dlist_append(&ibeaconNodes, newNode);
-				printk("List Length: %d\n", sys_dlist_len(&ibeaconNodes));
-
-				list_nodes();
-				break;
-			case PCCommand_PC_CMD_REMOVE_NODE:
-				LOG_DBG("Received REMOVE NODE");
-				sys_dnode_t* node;
-				struct iBeaconNode template;
-				for (node = sys_dlist_peek_head(&ibeaconNodes); node != NULL; node = sys_dlist_peek_next(&ibeaconNodes, node)) {
-					// Get the container structure
-					struct iBeaconNode* beaconNode = SYS_DLIST_CONTAINER(node, &template, node);
-										
-					// Check if the data matches the one you want to remove
-					if (beaconNode->data.beacon_id == message->beacon_id) {
-						// Remove the node from the list
-						sys_dlist_remove(node);
-						break;
-					}
-				}
-
-				// Send current nodes
-				list_nodes();
-				break;
-			case PCCommand_PC_CMD_LIST_NODES:
-				LOG_DBG("Received LIST NODE");
-				list_nodes();
+			case PCCommand_PC_CMD_IRCODE:
 				break;
 		}
 	} else {
@@ -287,8 +211,6 @@ int pc_comms_receive_handler() {
 		return 0;
 	}
 	uart_irq_rx_enable(pc_dev);
-
-	sys_dlist_init(&ibeaconNodes);
 
     // Message received
     PCMessage* message = malloc(PCMessage_size);

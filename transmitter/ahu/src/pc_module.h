@@ -23,17 +23,6 @@ static const struct device *const pc_dev = DEVICE_DT_GET(UART_PC_SOFTWARE);
 extern struct k_msgq* pc_transmit_extern;
 extern struct k_msgq* pc_receive_extern;
 
-// Linked list to store the iBeacon nodes
-extern sys_dlist_t ibeaconNodes;
-
-/**
- * iBeacon node structure
-*/
-typedef struct iBeaconNode {
-	PCMessage data;
-	sys_dnode_t node;
-};
-
 /**
  * PC GUI Communication Controller. Sends and receives protocol buffers between the PC Software and the Device.
  * 

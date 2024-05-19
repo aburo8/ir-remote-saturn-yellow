@@ -18,7 +18,6 @@
 #include "uart_module.h"
 #include "pc_module.h"
 #include "src/pc.pb.h"
-#include "ble_module.h"
 
 // Register Logger
 LOG_MODULE_REGISTER(ahu);
@@ -73,15 +72,6 @@ int ahu_handler(void) {
 		#endif
 
 		#ifndef UART_SHELL
-		#ifdef THINGY52_BT
-		// Automatically start listening for the Thingy52
-		bt_addr_le_from_str(THINGY_STR, "random", &THINGY52_ADDR);
-		BLECmd cmd = {BLECON_START, THINGY52_ADDR};
-		k_msgq_put(ble_receive_extern, &cmd, K_NO_WAIT);
-		LOG_INF("Automatically Started Listening for Thingy52 - %s\n", THINGY_STR);
-		return 0;
-		#endif
-
 		// Run AHU in IR mode
 		LOG_INF("Powered On");
 		return 0;

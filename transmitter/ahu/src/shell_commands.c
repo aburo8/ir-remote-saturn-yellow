@@ -17,7 +17,7 @@
 #include "uart_module.h"
 #include "hci.h"
 #include "led_module.h"
-#include "ble_module.h"
+// #include "ble_module.h"
 #include "ab_util.h"
 
 // Setup logging
@@ -121,115 +121,6 @@ static int ahu_cmd_toggle_leds(const struct shell *sh, size_t argc, char **argv)
 	return 0;
 }
 
-/**
- * Start receiving sensor data from the Thingy:52 sensors.
- * 
- * sh: shell
- * argc: number of args
- * argv: provided args
- * 
- * Returns: 0 on success, 1 on failure
-*/
-static int ahu_cmd_blecon_s(const struct shell *sh, size_t argc, char **argv) {
-	int ret = 0;
-	bt_addr_le_t addr;
-	ret = validate_ble_addr(argv[1], &addr);
-
-	if (ret == 1) {
-		LOG_ERR("blecon -s: Invalid Command - incorrect BLE address provided!");
-		return 1;
-	}
-
-	// Start BLE Data Receiving
-	BLECmd cmd = {BLECON_START, addr};
-	k_msgq_put(ble_receive_extern, &cmd, K_NO_WAIT);
-	LOG_INF("Started Listening to %s\n", argv[1]);
-
-	return 0;
-}
-
-/**
- * Stops receiving sensor data from the Thingy:52 sensors.
- * 
- * sh: shell
- * argc: number of args
- * argv: provided args
- * 
- * Returns: 0 on success, 1 on failure
-*/
-static int ahu_cmd_blecon_p(const struct shell *sh, size_t argc, char **argv) {
-	// Stop BLE Data Receiving
-	BLECmd cmd;
-	cmd.bleCmd = BLECON_STOP;
-	k_msgq_put(ble_receive_extern, &cmd, K_NO_WAIT);
-	LOG_INF("Stopped Listening");
-
-	return 0;
-}
-
-/**
- * Start scanning for available Bluetooth Devices.
- * 
- * sh: shell
- * argc: number of args
- * argv: provided args
- * 
- * Returns: 0 on success, 1 on failure
-*/
-static int ahu_cmd_blescan_s(const struct shell *sh, size_t argc, char **argv) {
-	// Start BLE Data Receiving
-	LOG_INF("Scanning Started...\n");
-	BLECmd cmd;
-	cmd.bleCmd = BLESCAN_START;
-	k_msgq_put(ble_receive_extern, &cmd, K_NO_WAIT);
-
-	return 0;
-}
-
-/**
- * Stops scanning for available Bluetooth Devices.
- * 
- * sh: shell
- * argc: number of args
- * argv: provided args
- * 
- * Returns: 0 on success, 1 on failure
-*/
-static int ahu_cmd_blescan_p(const struct shell *sh, size_t argc, char **argv) {
-	// Stop BLE Data Receiving
-	BLECmd cmd;
-	cmd.bleCmd = BLESCAN_STOP;
-	k_msgq_put(ble_receive_extern, &cmd, K_NO_WAIT);
-
-	return 0;
-}
-
-/**
- * Start scanning for available Bluetooth Devices and filters for the specified address.
- * 
- * sh: shell
- * argc: number of args
- * argv: provided args
- * 
- * Returns: 0 on success, 1 on failure
-*/
-static int ahu_cmd_blescan_f(const struct shell *sh, size_t argc, char **argv) {
-	int ret = 0;
-	bt_addr_le_t addr;
-	ret = validate_ble_addr(argv[1], &addr);
-
-	if (ret == 1) {
-		LOG_ERR("blescan -s -f: Invalid Command - incorrect BLE address provided!");
-		return 1;
-	}
-
-	// Start BLE Data Receiving
-	BLECmd cmd = {BLESCAN_STARTF, addr};
-	k_msgq_put(ble_receive_extern, &cmd, K_NO_WAIT);
-
-	return 0;
-}
-
 // Define System Shell Commands
 SHELL_STATIC_SUBCMD_SET_CREATE(sub_time,
 	SHELL_CMD(f, NULL, "Prints Formated System Time - HH:MM:SS.", cmd_sys_time),
@@ -245,21 +136,3 @@ SHELL_STATIC_SUBCMD_SET_CREATE(sub_led,
 	SHELL_SUBCMD_SET_END
 );
 SHELL_CMD_ARG_REGISTER(led, &sub_led, "AHU Led Module - Controls onboard AHU LEDs using a 4-bit mask.\n", NULL, 1, 1);
-
-SHELL_STATIC_SUBCMD_SET_CREATE(sub_blecon,
-	SHELL_CMD_ARG(-s, NULL, "Starts receiving bluetooth sensor data from the Thingy:52 with the specified device address.\nUSAGE: blecon -s <BLE ADDR>", ahu_cmd_blecon_s, 2, 0),
-	SHELL_CMD_ARG(-p, NULL, "Stops receiving bluetooth sensor data from the Thingy:52.\nUSAGE: blecon -p", ahu_cmd_blecon_p, 1, 0),
-	SHELL_SUBCMD_SET_END
-);
-SHELL_CMD_ARG_REGISTER(blecon, &sub_blecon, "AHU Bluetooth Module - Receives data from AHU Bluetooth peripherals.\n", NULL, 1, 1);
-
-SHELL_STATIC_SUBCMD_SET_CREATE(filter_blescan,
-	SHELL_CMD_ARG(-f, NULL, "Filters the scan list for the specified Bluetooth Address.\nUSAGE: blescan -s -f <BLE ADDR>", ahu_cmd_blescan_f, 2, 0),
-	SHELL_SUBCMD_SET_END
-);
-SHELL_STATIC_SUBCMD_SET_CREATE(sub_blescan,
-	SHELL_CMD_ARG(-s, &filter_blescan, "Starts scanning for available Bluetooth devices.\nUSAGE: blescan -s <BLE ADDR>", ahu_cmd_blescan_s, 1, 0),
-	SHELL_CMD_ARG(-p, NULL, "Stops scanning for available Bluetooth devices.\nUSAGE: blescan -p", ahu_cmd_blescan_p, 1, 0),
-	SHELL_SUBCMD_SET_END
-);
-SHELL_CMD_ARG_REGISTER(blescan, &sub_blescan, "AHU Bluetooth Module - Scans for available Bluetooth peripherals.\n", NULL, 1, 1);

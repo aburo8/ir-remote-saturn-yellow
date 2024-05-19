@@ -55,33 +55,6 @@ typedef struct {
     uint32_t data;
 } IRData;
 
-// iBeacon Node Names
-#define IBEACON_CSSE_4011_A 1
-#define IBEACON_CSSE_4011_B 2
-#define IBEACON_CSSE_4011_C 3
-#define IBEACON_CSSE_4011_D 4
-#define IBEACON_CSSE_4011_E 5
-#define IBEACON_CSSE_4011_F 6
-#define IBEACON_CSSE_4011_G 7
-#define IBEACON_CSSE_4011_H 8
-#define IBEACON_CSSE_4011_I 9
-#define IBEACON_CSSE_4011_J 10
-#define IBEACON_CSSE_4011_K 11
-#define IBEACON_CSSE_4011_L 12
-
-// iBeacon Addresses
-const static char* CSSE_4011_A_STR = "F5:75:FE:85:34:67";
-const static char* CSSE_4011_B_STR = "E5:73:87:06:1E:86";
-const static char* CSSE_4011_C_STR = "CA:99:9E:FD:98:B1";
-const static char* CSSE_4011_D_STR = "CB:1B:89:82:FF:FE";
-const static char* CSSE_4011_E_STR = "D4:D2:A0:A4:5C:AC";
-const static char* CSSE_4011_F_STR = "C1:13:27:E9:B7:7C";
-const static char* CSSE_4011_G_STR = "F1:04:48:06:39:A0";
-const static char* CSSE_4011_H_STR = "CA:0C:E0:DB:CE:60";
-const static char* CSSE_4011_I_STR = "D4:7F:D4:7C:20:13";
-const static char* CSSE_4011_J_STR = "F7:0B:21:F1:C8:E1";
-const static char* CSSE_4011_K_STR = "FD:E0:8D:FA:3E:4A";
-const static char* CSSE_4011_L_STR = "EE:32:F7:28:FA:AC";
 
 // Response Types
 #define RES_OK 0x01

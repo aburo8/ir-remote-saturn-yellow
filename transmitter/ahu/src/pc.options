@@ -1,13 +1,2 @@
 # pc.proto
 # pc.options
-Node.bleName              fixed_length:true
-Node.bleMac               fixed_length:true
-PCMessage.bleName         fixed_length:true
-PCMessage.bleMac          fixed_length:true
-Node.bleName              max_length:20
-Node.bleMac               max_length:20
-PCMessage.bleName         max_length:20
-PCMessage.bleMac          max_length:20
-
-PCMessage.nodes          fixed_count:true
-PCMessage.nodes          max_count:12

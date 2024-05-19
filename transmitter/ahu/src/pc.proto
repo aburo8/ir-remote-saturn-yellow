@@ -4,38 +4,11 @@
 syntax = "proto3";
 
 enum PCCommand {
-  PC_CMD_RSSI = 0;
-  PC_CMD_US = 1;
-  PC_CMD_ADD_NODE = 2;
-  PC_CMD_REMOVE_NODE = 3;
-  PC_CMD_LIST_NODES = 4;
-  PC_NODE = 5; // Node as stored on the Base Node
-}
-
-message Node {
-    PCCommand cmd = 1; // Indicating whether to add or remove a node
-    string bleName = 2;
-    string bleMac = 3;
-    uint32 bleMajor = 4;
-    uint32 bleMinor = 5;
-    uint32 xCord = 6;
-    uint32 yCord = 7;
-    uint32 leftNeighbour = 8;
-    uint32 rightNeighbour = 9;
+  PC_CMD_IRCODE = 0;
 }
 
 // Sent from Base Node to PC
 message PCMessage {
     PCCommand cmd = 1; // Indicating whether to add or remove a node
-    int32 beacon_id = 2;
-    int32 rssi = 3;
-    string bleName = 4;
-    string bleMac = 5;
-    uint32 bleMajor = 6;
-    uint32 bleMinor = 7;
-    uint32 xCord = 8;
-    uint32 yCord = 9;
-    uint32 leftNeighbour = 10;
-    uint32 rightNeighbour = 11;
-    repeated Node nodes = 12; 
+    uint32 irCode = 2; // IR Code  
 }
