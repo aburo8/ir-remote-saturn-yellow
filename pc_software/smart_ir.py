@@ -42,6 +42,7 @@ connectionStatus = 1  # 1 represent no connection; 2 represent connected sucessf
 BASE_PATH = os.path.dirname(__file__)
 MQTT_BROKER_HOSTNAME = "192.168.1.33"
 FIRST_LAUNCH = False # TODO: add dynamic account generation and funding
+BLOCKCHAIN_UPDATE_INTERVAL = 2
 
 class BlockchainHandler(QThread):
     isConnected: bool
@@ -85,9 +86,9 @@ class BlockchainHandler(QThread):
                 timeDelta = timedelta(hours=48)
                 
                 # Handler the block
-                self.handle_ir_action_event(event, True)
+                self.handle_ir_action_event(event)
             self.updateGUI.emit()
-            time.sleep(5)
+            time.sleep(BLOCKCHAIN_UPDATE_INTERVAL)
     
     def handle_ir_action_event(self, event, printActivity=False):
         # First get the timestamp and check if the timestamp is from the last 48hrs
