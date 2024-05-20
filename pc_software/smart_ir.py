@@ -455,7 +455,7 @@ class MainWindow(QMainWindow):
         Executes when a device control is selected
         """
         # Set selected index
-        if self.currentApplianceIndex != -1:
+        if self.currentApplianceIndex != -1 and len(self.configData.appliances) > 0:
             self.currentControlIndex = idx
             print(f"Control Selected: {self.configData.appliances[self.currentApplianceIndex].controls[idx].label}")
             
