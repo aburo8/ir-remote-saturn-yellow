@@ -48,6 +48,17 @@ To run the application on unix simply install the following python packages into
 - py-solc-x
 - web3
 
-Then run the `smart_ir.py` file to launch the GUI.
+Ensure that the peripheral gateway server, MQTT broker and blockchain endpoints are all live and accessible.
+
+Run the `smart_ir.py` file to launch the GUI.
 
 Note: that this is a desktop application, so ensure you have a desktop manager installed on your unix distribution.
+
+## Backend Peripheral Gateway
+
+As explained in the project wiki. The system is built on a peripheral gateway backend server. This server must be running in order for the system to function as expeted.
+To run the peripheral gateway call the `ptython blockchain_gateway.py`.
+
+## Blockchain
+
+See the blockchain documentation for details on how to start the local blockchain network.

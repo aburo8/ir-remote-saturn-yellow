@@ -61,6 +61,9 @@ sysControlQueue = queue.Queue()
 RELOADING_CONFIG = False
 
 class BlockchainHandler(QThread):
+    """
+    Handles PC Software Blockchain interactions
+    """
     isConnected: bool
     updateGUI = pyqtSignal()
     contractDeployed = pyqtSignal()
@@ -123,12 +126,21 @@ class BlockchainHandler(QThread):
         self.activityStr = "---------------\n"
 
     def get_abi(self):
+        """
+        Returns the current contract abi
+        """
         return self.contractAbi
     
     def get_addr(self): 
+        """
+        Returns the current contract address
+        """
         return self.contractAddr
 
     def run(self):
+        """
+        Runs on thread startup
+        """
         # Check that there is a valid blockchain connected
         if not self.isConnected:
             return
@@ -154,6 +166,9 @@ class BlockchainHandler(QThread):
             time.sleep(BLOCKCHAIN_UPDATE_INTERVAL)
     
     def handle_ir_action_event(self, event, printActivity=False):
+        """
+        Handles incomming IR actions
+        """
         # First get the timestamp and check if the timestamp is from the last 48hrs
         blockNumber = event['blockNumber']
         timestamp = self.w3.eth.get_block(blockNumber)["timestamp"]
@@ -179,6 +194,9 @@ class BlockchainHandler(QThread):
             print(self.activityStr)
     
     def submit_system_control(self, parentAction, disabled, timeout, timeoutAction):
+        """
+        Subits system control requests to the blockchain
+        """
         # Build the transaction
         print(f"Adding System Control: parentAction: {parentAction}, disabled: {disabled}, timeout: {timeout}, timeoutAction: {timeoutAction}")
         transaction = self.contract.functions.addSystemControl(parentAction, disabled, timeout, timeoutAction).build_transaction({
@@ -201,6 +219,9 @@ class BlockchainHandler(QThread):
         print(f'Transaction successful with hash: {tx_hash.hex()}')
 
 class MainWindow(QMainWindow):
+    """
+    Main PC Software application
+    """
     # Class Private Variables
     configData: ControllerConfig
     currentApplianceIndex: int
@@ -463,11 +484,17 @@ class MainWindow(QMainWindow):
             self.reload_configuration_data(controlIndex=self.currentControlIndex)
 
     def on_control_label_changed(self):
+        """
+        Updates the control label
+        """
         if self.currentControlIndex != -1:
             self.configData.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].label = self.controlLabelT.toPlainText()
             self.update_control_ui(self.currentControlIndex, self.controlLabelT.toPlainText(), self.configData.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].colour)
 
     def select_control_colour(self):
+        """
+        Updates the control colour
+        """
         if self.currentControlIndex != -1:
             colour = QColorDialog.getColor()
             if (colour.isValid()):
@@ -478,6 +505,9 @@ class MainWindow(QMainWindow):
                 self.update_control_ui(self.currentControlIndex, label, rgb)
 
     def on_change_orientation(self):
+        """
+        Updates the selected orientation
+        """
         if self.currentApplianceIndex != -1:
             print("Updating Orientation")
             self.configData.appliances[self.currentApplianceIndex].orientation = self.orientationC.currentIndex()
@@ -487,6 +517,9 @@ class MainWindow(QMainWindow):
             self.reload_configuration_data(applianceIndex=self.currentApplianceIndex)
 
     def on_delete_appliance(self):
+        """
+        Deletes an appliance
+        """
         if (self.currentApplianceIndex != -1 and len(self.configData.appliances) >= 1):
             self.configData.appliances.pop(self.currentApplianceIndex)
             
@@ -497,6 +530,9 @@ class MainWindow(QMainWindow):
             self.reload_configuration_data()
 
     def on_ircode_set(self):
+        """
+        Sets an IR code
+        """
         # Check that a control is selected
         if self.currentControlIndex != -1:
             # Check that user has entered the correct number of characters
@@ -511,6 +547,9 @@ class MainWindow(QMainWindow):
                     print("Could not save IR Code!")
 
     def on_update_parental_controls(self):
+        """
+        Updaptes parental controls
+        """
         if self.currentControlIndex != -1 and not RELOADING_CONFIG:
             try:
                 disabled = 1 if self.parentalCheckbox.isChecked() else 0
@@ -525,6 +564,9 @@ class MainWindow(QMainWindow):
                 print("Invalid parental control input provided!")
 
     def update_controllers(self):
+        """
+        Updates controller configurations
+        """
         data = json.dumps(self.configData.to_dict(), indent=4,)
         print("Sending MQTT Message -")
         mqttWorker = MqttHandler("topic/gateway", MQTT_BROKER_HOSTNAME, str(data))
@@ -532,6 +574,9 @@ class MainWindow(QMainWindow):
         print(data)
 
     def update_blockchain_activity(self):
+        """
+        Updates blockchain activity box
+        """
         self.blockchainActivityT.clear()
         self.blockchainActivityT.setPlainText(self.blockchainHandler.activityStr)
         self.blockchainActivityT.moveCursor(QTextCursor.End)
