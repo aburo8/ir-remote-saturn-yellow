@@ -40,6 +40,8 @@ class Control:
     irCode: int # byte to transmit (uint32)
     colour: List[int] # control colour
     disabled: int
+    timeout: int
+    timeoutAction: int
 
 @dataclass
 class Appliance:
@@ -133,7 +135,7 @@ def generate_base_appliance(name):
     controls = []
     for i in range(6):
         # Add basic controls
-        control = Control(f"Control {i+1}", 55, [0, 0, 255], 0)
+        control = Control(f"Control {i+1}", 55, [255, 255, 255], 0, 0, 0)
         controls.append(control)
 
     appliance = Appliance(name, ORIENTATION_UP, controls)
@@ -173,7 +175,7 @@ def action_from_control(controlIdx: int, applianceIdx:int):
     applianceNum = applianceIdx + 1
     return (6 * applianceIdx) + controlNum
 
-CONTRACT_ADDR = "0x95b6Dc90194fa17E498082990f2Cf542F9862191"
+CONTRACT_ADDR = "0x6D0a2A4501cbd0DEF6fE15B4932fa02F6118b787"
 CONTRACT_ABI = '''
 [
 	{
@@ -234,6 +236,13 @@ CONTRACT_ABI = '''
 	},
 	{
 		"inputs": [],
+		"name": "checkTimeouts",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "Unauthorized",
 		"type": "error"
 	},
@@ -266,6 +275,31 @@ CONTRACT_ABI = '''
 			}
 		],
 		"name": "IRActionAdded",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "parentAction",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "timeoutAction",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "timeout",
+				"type": "uint256"
+			}
+		],
+		"name": "IRActionTimeout",
 		"type": "event"
 	},
 	{
@@ -344,6 +378,11 @@ CONTRACT_ABI = '''
 		"name": "controls",
 		"outputs": [
 			{
+				"internalType": "uint256",
+				"name": "parentAction",
+				"type": "uint256"
+			},
+			{
 				"internalType": "bool",
 				"name": "disabled",
 				"type": "bool"
@@ -356,6 +395,11 @@ CONTRACT_ABI = '''
 			{
 				"internalType": "uint256",
 				"name": "timeoutAction",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "timestamp",
 				"type": "uint256"
 			}
 		],

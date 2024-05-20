@@ -113,6 +113,9 @@ color:rgb(0,0,0);</string>
        <height>41</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Connect to the selected IR Receiver&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="styleSheet">
       <string notr="true">border-radius:20px;
 background-color:rgb(78, 66, 245);
@@ -282,7 +285,7 @@ color:rgb(0,0,0);</string>
       </rect>
      </property>
      <property name="toolTip">
-      <string>Use format &quot;XX:XX:XX:XX:XX:XX&quot;</string>
+      <string>Enter a label for the control</string>
      </property>
      <property name="readOnly">
       <bool>false</bool>
@@ -328,7 +331,7 @@ color:rgb(0,0,0);</string>
       <bool>false</bool>
      </property>
      <property name="toolTip">
-      <string>Enter in the format &quot;0xXXXX&quot;</string>
+      <string>Enter a control code in the format 0xFFFFFFFF'</string>
      </property>
      <property name="statusTip">
       <string/>
@@ -442,6 +445,9 @@ color:rgb(0,0,0);</string>
        <height>41</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Scan Serial Ports&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="styleSheet">
       <string notr="true">border-radius:20px;
 background-color:rgb(78, 66, 245);
@@ -468,7 +474,7 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
       </font>
      </property>
      <property name="toolTip">
-      <string>Use format &quot;XX:XX:XX:XX:XX:XX&quot;</string>
+      <string/>
      </property>
      <property name="readOnly">
       <bool>true</bool>
@@ -511,7 +517,7 @@ color:rgb(0,0,0);</string>
       </rect>
      </property>
      <property name="toolTip">
-      <string>Use format &quot;XX:XX:XX:XX:XX:XX&quot;</string>
+      <string>Enter an Appliance name to add an appliance</string>
      </property>
      <property name="readOnly">
       <bool>false</bool>
@@ -533,6 +539,9 @@ p, li { white-space: pre-wrap; }
        <height>31</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Add an Appliance&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="styleSheet">
       <string notr="true">border-radius:15px;
 background-color:rgb(78, 66, 245);
@@ -550,6 +559,9 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
        <width>361</width>
        <height>41</height>
       </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Update the configuration on all of the Universal Remote Controllers.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="styleSheet">
       <string notr="true">border-radius:20px;
@@ -602,9 +614,12 @@ color:rgb(0,0,0);</string>
        <height>31</height>
       </rect>
      </property>
+     <property name="toolTip">
+      <string>Select a colour for the control</string>
+     </property>
      <property name="styleSheet">
       <string notr="true">border-radius:15px;
-background-color:rgb(78, 66, 245);
+background-color:rgb(255, 255, 255);
 font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
      <property name="text">
@@ -619,6 +634,9 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
        <width>381</width>
        <height>31</height>
       </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;Delete the selected appliance&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="styleSheet">
       <string notr="true">border-radius:15px;
@@ -673,7 +691,7 @@ color:rgb(0,0,0);</string>
      </property>
      <property name="styleSheet">
       <string notr="true">border-radius:20px;
-background-color:rgb(78, 66, 245);
+background-color:rgb(255, 255, 255);
 font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
      <property name="text">
@@ -691,7 +709,7 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
      <property name="styleSheet">
       <string notr="true">border-radius:20px;
-background-color:rgb(78, 66, 245);
+background-color:rgb(255, 255, 255);
 font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
      <property name="text">
@@ -709,7 +727,7 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
      <property name="styleSheet">
       <string notr="true">border-radius:20px;
-background-color:rgb(78, 66, 245);
+background-color:rgb(255, 255, 255);
 font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
      <property name="text">
@@ -727,7 +745,7 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
      <property name="styleSheet">
       <string notr="true">border-radius:20px;
-background-color:rgb(78, 66, 245);
+background-color:rgb(255, 255, 255);
 font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
      <property name="text">
@@ -745,7 +763,7 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
      <property name="styleSheet">
       <string notr="true">border-radius:20px;
-background-color:rgb(78, 66, 245);
+background-color:rgb(255, 255, 255);
 font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
      <property name="text">
@@ -763,7 +781,7 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
      <property name="styleSheet">
       <string notr="true">border-radius:20px;
-background-color:rgb(78, 66, 245);
+background-color:rgb(255, 255, 255);
 font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
      <property name="text">
@@ -830,7 +848,7 @@ color:rgb(0,0,0);</string>
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
-    <widget class="QCheckBox" name="checkBox">
+    <widget class="QCheckBox" name="disableControl_cb">
      <property name="geometry">
       <rect>
        <x>190</x>
@@ -886,7 +904,7 @@ color:rgb(0,0,0);</string>
       </rect>
      </property>
      <property name="toolTip">
-      <string>Use format &quot;XX:XX:XX:XX:XX:XX&quot;</string>
+      <string/>
      </property>
      <property name="readOnly">
       <bool>true</bool>
@@ -917,6 +935,92 @@ color:rgb(0,0,0);</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="staticProSplit_L_16">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>470</y>
+       <width>131</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+color:rgb(0,0,0);</string>
+     </property>
+     <property name="text">
+      <string>Timeout:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QTextEdit" name="timeout_t">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>470</y>
+       <width>221</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>Enter timeout in minutes.</string>
+     </property>
+     <property name="readOnly">
+      <bool>false</bool>
+     </property>
+     <property name="html">
+      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:12pt; font-weight:600; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8.25pt; font-weight:400;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="staticProSplit_L_17">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>510</y>
+       <width>131</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+color:rgb(0,0,0);</string>
+     </property>
+     <property name="text">
+      <string>Timeout Action:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QTextEdit" name="timeoutAction_t">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>510</y>
+       <width>221</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter an action to execute at the timeout. This can be determined by reading blockchain activity. Action values should be between 1-24 (inclusive).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="readOnly">
+      <bool>false</bool>
+     </property>
+     <property name="html">
+      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:12pt; font-weight:600; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8.25pt; font-weight:400;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </widget>

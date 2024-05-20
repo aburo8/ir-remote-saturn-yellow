@@ -256,6 +256,8 @@ class MainWindow(QMainWindow):
         self.blockchainActivityT = self.findChild(QTextEdit, "blockchainActivity_t")
         self.irCodeHistoryT = self.findChild(QTextEdit, "irCodeHistory_t")
         self.parentalCheckbox = self.findChild(QCheckBox, "disableControl_cb")
+        self.timeoutT = self.findChild(QTextEdit, "timeout_t")
+        self.timeoutActionT = self.findChild(QTextEdit, "timeoutAction_t")
 
         # Configure Buttons 
         self.connectB.clicked.connect(self.connect_to_port)
@@ -274,7 +276,9 @@ class MainWindow(QMainWindow):
         self.updateControllersB.clicked.connect(self.update_controllers)
         self.deleteApplianceB.clicked.connect(self.on_delete_appliance)
         self.irCodeT.textChanged.connect(self.on_ircode_set)
-        self.parentalCheckbox.stateChanged.connect(self.on_update_checkbox)
+        self.parentalCheckbox.stateChanged.connect(self.on_update_parental_controls)
+        self.timeoutT.textChanged.connect(self.on_update_parental_controls)
+        self.timeoutActionT.textChanged.connect(self.on_update_parental_controls)
 
         # Serial Port Connection Timers
         self.connection_timer = QTimer(self)
@@ -414,6 +418,9 @@ class MainWindow(QMainWindow):
                 self.controlLabelT.setPlainText(data.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].label)
                 self.irCodeT.setPlainText(str(hex(data.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].irCode)))
                 self.parentalCheckbox.setChecked(True if data.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].disabled else False)
+                self.timeoutT.setPlainText(str(data.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].timeout))
+                self.timeoutActionT.setPlainText(str(data.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].timeoutAction))
+
         RELOADING_CONFIG = False
 
     def update_control_ui(self, index, label, colour):
@@ -503,12 +510,19 @@ class MainWindow(QMainWindow):
                 except ValueError:
                     print("Could not save IR Code!")
 
-    def on_update_checkbox(self):
+    def on_update_parental_controls(self):
         if self.currentControlIndex != -1 and not RELOADING_CONFIG:
-            # Box is checked
-            disabled = 1 if self.parentalCheckbox.isChecked() else 0
-            sysControlQueue.put([action_from_control(self.currentControlIndex, self.currentApplianceIndex), self.parentalCheckbox.isChecked(), 0, 0])
-            self.configData.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].disabled = disabled
+            try:
+                disabled = 1 if self.parentalCheckbox.isChecked() else 0
+                self.configData.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].timeout = int(self.timeoutT.toPlainText())
+                self.configData.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].timeoutAction = int(self.timeoutActionT.toPlainText())
+                self.configData.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].disabled = disabled
+                timeout = self.configData.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].timeout
+                timeoutAction = self.configData.appliances[self.currentApplianceIndex].controls[self.currentControlIndex].timeoutAction
+                if (timeoutAction >= 0 and timeoutAction <= 24):
+                    sysControlQueue.put([action_from_control(self.currentControlIndex, self.currentApplianceIndex), self.parentalCheckbox.isChecked(), timeout, timeoutAction])
+            except ValueError:
+                print("Invalid parental control input provided!")
 
     def update_controllers(self):
         data = json.dumps(self.configData.to_dict(), indent=4,)

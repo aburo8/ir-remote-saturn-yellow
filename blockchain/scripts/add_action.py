@@ -1,4 +1,4 @@
-
+# A script which adds an action
 from web3 import Web3, HTTPProvider
 w3 = Web3(HTTPProvider("http://localhost:8545"))
 # Gets all of the submitted IR Actions from a specified deployed contract instance
@@ -229,8 +229,35 @@ abi = '''
 ]
 '''
 
+# Check if connected
+if not w3.is_connected():
+    raise Exception("Unable to connect to Ethereum node")
+
 contract_instance = w3.eth.contract(address=contractAddress, abi=abi)
 
-value = contract_instance.functions.getActions().call()
+# Transaction parameters
+transmitter_address = '0xD6C8ba6cABF5586fcc92826038b3385FF19Fc1B1'
+action = 1  # Example action
+ir_code = 123456  # Example IR code
+my_address = "0x64cD35b24D7c8d468dB3F2CfEb1D2B0E7963A261"
+private_key = "0x33edf39c89424f6ecf026fc518e3c79df8687b609feacf56770cf5d8730faadf"
 
-print(value)
+# Build the transaction
+transaction = contract_instance.functions.addIRAction(my_address, transmitter_address, action, ir_code).build_transaction({
+    'from': my_address,
+    'nonce': w3.eth.get_transaction_count(my_address),
+    'gas': 2000000,
+    'gasPrice': w3.to_wei('1', 'gwei')
+})
+
+# Sign the transaction
+signed_txn = w3.eth.account.sign_transaction(transaction, private_key=private_key)
+
+# Send the transaction
+tx_hash = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
+
+# Wait for the transaction to be mined
+tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
+
+# Print the transaction receipt
+print(f'Transaction successful with hash: {tx_hash.hex()}')

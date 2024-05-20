@@ -4,7 +4,7 @@ import time
 import json
 import paho.mqtt.client as mqtt
 from web3 import Web3
-from smart_ir_data import ControllerConfig, VERSION, ADDR_BOOK, CONTROLLERS, TRANSMITTER, CONTRACT_ADDR, CONTRACT_ABI
+from smart_ir_data import ControllerConfig, VERSION, ADDR_BOOK, CONTROLLERS, TRANSMITTER, CONTRACT_ADDR, CONTRACT_ABI, PC_ADDR, TRANSMITTER_ADDR
 from datetime import datetime, timedelta
 
 def on_connect(client, userdata, flags, reason_code, properties):
@@ -35,6 +35,8 @@ class ControllerGateway(threading.Thread):
         self.config = ControllerConfig(VERSION, [], ADDR_BOOK, CONTRACT_ADDR, CONTRACT_ABI)
         self.configReceived = False
         self.systemControlsProcessed = 0
+        self.timeoutActionsProcessed = 0   
+        self.irCode = 0
 
     def welcome(self):
         print("Welcome to the Smart IR Peripheral Gateway & Blockchain Interface!")
@@ -114,21 +116,37 @@ class ControllerGateway(threading.Thread):
 
         while self.isRunning:
             # Scan the blockchain every 2 seconds to fetch any new actions that have been executed
+            # Check transactions
+            self.call_checkTimeouts()
+
             latestBlock = self.web3.eth.block_number
             fromBlock = 0  # Scan the last 100 blocks
             toBlock = latestBlock
             self.eventFilterSysControl = self.contract.events.SystemControlAdded.create_filter(fromBlock=fromBlock, toBlock=toBlock)
-            self.activityStr = "---------------\n" # Clear activity string
+            self.eventFilterIRActionTimeouts = self.contract.events.IRActionTimeout.create_filter(fromBlock=fromBlock, toBlock=toBlock)
+            self.activityStr = "System Controls Start\n---------------\n" # Clear activity string
+            self.timeoutStr = "Timeout Actions Start\n---------------\n" # Clear activity string
             # We want to skip all the 
             for event in self.eventFilterSysControl.get_all_entries():
                 # Handler the block
                 if self.configReceived and len(self.config.appliances) > 0:
                     self.handle_system_control_event(event, True)
-            
+            self.activityStr = self.activityStr + "System Controls End\n"
+            for event in self.eventFilterIRActionTimeouts.get_all_entries():
+                if self.configReceived and len(self.config.appliances) > 0:
+                    self.handle_ir_timeout_event(event)
+
             # Update controllers if required
             if (len(self.eventFilterSysControl.get_all_entries()) != self.systemControlsProcessed):
+                print(self.activityStr)
                 self.mqttClient.publish("topic/configuration", json.dumps(self.config.to_dict(), indent=4))
                 self.systemControlsProcessed = len(self.eventFilterSysControl.get_all_entries())
+
+            if (len(self.eventFilterIRActionTimeouts.get_all_entries()) != self.timeoutActionsProcessed):
+                print(self.timeoutStr)
+                print("Publishing " + "{\"IR\": " + str(self.irCode) + "}")
+                self.mqttClient.publish("topic/ir", ("{\"IR\": " + str(self.irCode) + "}"))
+                self.timeoutActionsProcessed = len(self.eventFilterIRActionTimeouts.get_all_entries())
 
             time.sleep(1)
 
@@ -160,13 +178,54 @@ class ControllerGateway(threading.Thread):
         self.activityStr = self.activityStr + f"Timeout: {event['args']['timeout']}\n"
         self.activityStr = self.activityStr + f"Timeout Action: {event['args']['timeoutAction']}\n"
         self.activityStr = self.activityStr + "---------------\n"
-        if printActivity:
-            print(self.activityStr)
+
+    def handle_ir_timeout_event(self, event):
+        # Transmit the appropriate action
+        applianceIdx = (event['args']['timeoutAction'] // 6)
+        applianceNum = (event['args']['timeoutAction'] // 6) * 6
+        controlNum = event['args']['timeoutAction'] % 6
+        self.irCode = self.config.appliances[applianceIdx].controls[controlNum - 1].irCode
+
+        # Print Activity
+        self.timeoutStr = self.timeoutStr + ("---------------\n")
+        blockNumber = event['blockNumber']
+        timestamp = self.web3.eth.get_block(blockNumber)["timestamp"]
+        timestampDt = datetime.fromtimestamp(timestamp)
+        prettyTimestamp = timestampDt.strftime('%Y-%m-%d %H:%M:%S')
+        self.timeoutStr = self.timeoutStr + f"Timestamp: {prettyTimestamp}\n"
+        self.timeoutStr = self.timeoutStr + f"Block Number: {event['blockNumber']}\n"
+        self.timeoutStr = self.timeoutStr + f"Transaction Hash: {event['transactionHash'].hex()}\n"
+        self.timeoutStr = self.timeoutStr + f"Parent Action: {event['args']['parentAction']}\n"
+        self.timeoutStr = self.timeoutStr + f"Timeout Action: {event['args']['timeoutAction']}\n"
+        self.timeoutStr = self.timeoutStr + f"Timeout: {event['args']['timeout']}\n"
+        self.timeoutStr = self.timeoutStr + "---------------\n"     
 
     def stop(self):
         self.isRunning = False
         self.mqttClient.loop_stop()
         self.mqttClient.disconnect()
+    
+    def call_checkTimeouts(self):
+        print("Checking Timeouts")
+        # Build the transaction
+        transaction = self.contract.functions.checkTimeouts().build_transaction({
+            'from': TRANSMITTER_ADDR.account,
+            'nonce': self.web3.eth.get_transaction_count(TRANSMITTER_ADDR.account),
+            'gas': 2000000,  # Adjust the gas limit as necessary
+            'gasPrice': self.web3.to_wei('20', 'gwei')  # Adjust the gas price as necessary
+        })
+
+        # Sign the transaction
+        signed_txn = self.web3.eth.account.sign_transaction(transaction, TRANSMITTER_ADDR.key)
+
+        # Send the transaction
+        tx_hash = self.web3.eth.send_raw_transaction(signed_txn.rawTransaction)
+        
+        # Wait for the transaction receipt
+        tx_receipt = self.web3.eth.wait_for_transaction_receipt(tx_hash)
+        
+        print(f"Transaction hash: {tx_hash.hex()}")
+        # print(f"Transaction receipt: {tx_receipt}")
 
 if __name__ == "__main__":
     # Configure Gateway
