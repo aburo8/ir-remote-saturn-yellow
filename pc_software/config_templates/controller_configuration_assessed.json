@@ -1,0 +1,605 @@
+{
+    "version": 1.0,
+    "appliances": [
+        {
+            "name": "Led Lights 1",
+            "orientation": 0,
+            "controls": [
+                {
+                    "label": "On",
+                    "irCode": 4228116224,
+                    "colour": [
+                        0,
+                        255,
+                        0
+                    ],
+                    "disabled": 0,
+                    "timeout": 0,
+                    "timeoutAction": 0
+                },
+                {
+                    "label": "Off",
+                    "irCode": 4244827904,
+                    "colour": [
+                        170,
+                        0,
+                        0
+                    ],
+                    "disabled": 1,
+                    "timeout": 0,
+                    "timeoutAction": 0
+                },
+                {
+                    "label": "Brightness +",
+                    "irCode": 4278251264,
+                    "colour": [
+                        255,
+                        255,
+                        0
+                    ],
+                    "disabled": 0,
+                    "timeout": 0,
+                    "timeoutAction": 0
+                },
+                {
+                    "label": "Strobe",
+                    "irCode": 4027576064,
+                    "colour": [
+                        255,
+                        0,
+                        255
+                    ],
+                    "disabled": 0,
+                    "timeout": 0,
+                    "timeoutAction": 0
+                },
+                {
+                    "label": "Fade",
+                    "irCode": 3960729344,
+                    "colour": [
+                        0,
+                        0,
+                        127
+                    ],
+                    "disabled": 0,
+                    "timeout": 0,
+                    "timeoutAction": 0
+                },
+                {
+                    "label": "Brightness -",
+                    "irCode": 4261539584,
+                    "colour": [
+                        255,
+                        255,
+                        0
+                    ],
+                    "disabled": 0,
+                    "timeout": 0,
+                    "timeoutAction": 0
+                }
+            ]
+        },
+        {
+            "name": "Led Lights 2",
+            "orientation": 1,
+            "controls": [
+                {
+                    "label": "Red",
+                    "irCode": 4211404544,
+                    "colour": [
+                        255,
+                        0,
+                        0
+                    ],
+                    "disabled": 0,
+                    "timeout": 0,
+                    "timeoutAction": 0
+                },
+                {
+                    "label": "Green",
+                    "irCode": 4177981184,
+                    "colour": [
+                        0,
+                        255,
+                        0
+                    ],
+                    "disabled": 0,
+                    "timeout": 0,
+                    "timeoutAction": 0
+                },
+                {
+                    "label": "Blue",
+                    "irCode": 4194692864,
+                    "colour": [
+                        0,
+                        0,
+                        255
+                    ],
+                    "disabled": 0,
+                    "timeout": 0,
+                    "timeoutAction": 0
+                },
+                {
+                    "label": "Pink",
+                    "irCode": 4144557824,
+                    "colour": [
+                        255,
+                        0,
+                        127
+                    ],
+                    "disabled": 0,
+                    "timeout": 0,
+                    "timeoutAction": 0
+                },
+                {
+                    "label": "White",
+                    "irCode": 4161269504,
+                    "colour": [
+                        255,
+                        255,
+                        255
+                    ],
+                    "disabled": 0,
+                    "timeout": 0,
+                    "timeoutAction": 0
+                },
+                {
+                    "label": "Aqua",
+                    "irCode": 3994152704,
+                    "colour": [
+                        75,
+                        252,
+                        255
+                    ],
+                    "disabled": 0,
+                    "timeout": 0,
+                    "timeoutAction": 0
+                }
+            ]
+        },
+        {
+            "name": "Apple TV Nav",
+            "orientation": 2,
+            "controls": [
+                {
+                    "label": "Return",
+                    "irCode": 4247095925,
+                    "colour": [
+                        115,
+                        255,
+                        227
+                    ],
+                    "disabled": 0,
+                    "timeout": 0,
+                    "timeoutAction": 0
+                },
+                {
+                    "label": "Up",
+                    "irCode": 2011254912,
+                    "colour": [
+                        135,
+                        139,
+                        135
+                    ],
+                    "disabled": 0,
+                    "timeout": 0,
+                    "timeoutAction": 0
+                },
+                {
+                    "label": "OK",
+                    "irCode": 2011249280,
+                    "colour": [
+                        115,
+                        255,
+                        227
+                    ],
+                    "disabled": 0,
+                    "timeout": 0,
+                    "timeoutAction": 0
+                },
+                {
+                    "label": "Left",
+                    "irCode": 2011271296,
+                    "colour": [
+                        135,
+                        139,
+                        135
+                    ],
+                    "disabled": 0,
+                    "timeout": 0,
+                    "timeoutAction": 0
+                },
+                {
+                    "label": "Down",
+                    "irCode": 2011246720,
+                    "colour": [
+                        135,
+                        139,
+                        135
+                    ],
+                    "disabled": 0,
+                    "timeout": 0,
+                    "timeoutAction": 0
+                },
+                {
+                    "label": "Right",
+                    "irCode": 2011259008,
+                    "colour": [
+                        135,
+                        139,
+                        135
+                    ],
+                    "disabled": 0,
+                    "timeout": 0,
+                    "timeoutAction": 0
+                }
+            ]
+        },
+        {
+            "name": "Apple TV Media",
+            "orientation": 3,
+            "controls": [
+                {
+                    "label": "Play",
+                    "irCode": 4247066855,
+                    "colour": [
+                        85,
+                        170,
+                        0
+                    ],
+                    "disabled": 0,
+                    "timeout": 0,
+                    "timeoutAction": 0
+                },
+                {
+                    "label": "Pause",
+                    "irCode": 4247099495,
+                    "colour": [
+                        170,
+                        0,
+                        255
+                    ],
+                    "disabled": 0,
+                    "timeout": 0,
+                    "timeoutAction": 0
+                },
+                {
+                    "label": "Stop",
+                    "irCode": 4247087255,
+                    "colour": [
+                        255,
+                        85,
+                        0
+                    ],
+                    "disabled": 0,
+                    "timeout": 0,
+                    "timeoutAction": 0
+                },
+                {
+                    "label": "Skip Back",
+                    "irCode": 551487735,
+                    "colour": [
+                        255,
+                        255,
+                        0
+                    ],
+                    "disabled": 0,
+                    "timeout": 0,
+                    "timeoutAction": 0
+                },
+                {
+                    "label": "Skip Forward",
+                    "irCode": 551489520,
+                    "colour": [
+                        255,
+                        255,
+                        0
+                    ],
+                    "disabled": 0,
+                    "timeout": 0,
+                    "timeoutAction": 0
+                },
+                {
+                    "label": "Fast Forward",
+                    "irCode": 4247062775,
+                    "colour": [
+                        85,
+                        255,
+                        255
+                    ],
+                    "disabled": 0,
+                    "timeout": 0,
+                    "timeoutAction": 0
+                }
+            ]
+        }
+    ],
+    "addressBook": [
+        {
+            "name": "pc",
+            "account": "0x00C928592E3635D542A8E5F7821439AAb6eF9B6D",
+            "key": "0x52485d99ad13489881ee4be5fafa6bc88f8c886d2a41726e25f15f7c8ad993d8"
+        },
+        {
+            "name": "controller1",
+            "account": "0x64cD35b24D7c8d468dB3F2CfEb1D2B0E7963A261",
+            "key": "0x33edf39c89424f6ecf026fc518e3c79df8687b609feacf56770cf5d8730faadf"
+        },
+        {
+            "name": "controller2",
+            "account": "0x4EAbe0426C3071dd4562feC540235B2De295c2e6",
+            "key": "0xd729e6c926ae46a1e60ebe1112cdb4367c3ad8f52f9fbb34c636be083c972416"
+        },
+        {
+            "name": "transmitter",
+            "account": "0x4EAbe0426C3071dd4562feC540235B2De295c2e6",
+            "key": "0xd729e6c926ae46a1e60ebe1112cdb4367c3ad8f52f9fbb34c636be083c972416"
+        }
+    ],
+    "smartIrContractAddress": "0x57AB66272cfD636e44527d921564458e63D1a933",
+    "smartIrContractAbi": [
+        {
+            "inputs": [],
+            "name": "Unauthorized",
+            "type": "error"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "internalType": "address",
+                    "name": "controller",
+                    "type": "address"
+                },
+                {
+                    "indexed": true,
+                    "internalType": "address",
+                    "name": "transmitter",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "action",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "irCode",
+                    "type": "uint256"
+                }
+            ],
+            "name": "IRActionAdded",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "internalType": "uint256",
+                    "name": "parentAction",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "timeoutAction",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "timeout",
+                    "type": "uint256"
+                }
+            ],
+            "name": "IRActionTimeout",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "internalType": "uint256",
+                    "name": "parentAction",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "bool",
+                    "name": "disabled",
+                    "type": "bool"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "timeout",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "timeoutAction",
+                    "type": "uint256"
+                }
+            ],
+            "name": "SystemControlAdded",
+            "type": "event"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "actions",
+            "outputs": [
+                {
+                    "internalType": "address",
+                    "name": "controller",
+                    "type": "address"
+                },
+                {
+                    "internalType": "address",
+                    "name": "transmitter",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "action",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "irCode",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "controller",
+                    "type": "address"
+                },
+                {
+                    "internalType": "address",
+                    "name": "transmitter",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "action",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "irCode",
+                    "type": "uint256"
+                }
+            ],
+            "name": "addIRAction",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "parentAction",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "bool",
+                    "name": "disabled",
+                    "type": "bool"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "timeout",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "timeoutAction",
+                    "type": "uint256"
+                }
+            ],
+            "name": "addSystemControl",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "checkTimeouts",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "controls",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "parentAction",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "bool",
+                    "name": "disabled",
+                    "type": "bool"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "timeout",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "timeoutAction",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "timestamp",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "getActions",
+            "outputs": [
+                {
+                    "components": [
+                        {
+                            "internalType": "address",
+                            "name": "controller",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "transmitter",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "action",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "irCode",
+                            "type": "uint256"
+                        }
+                    ],
+                    "internalType": "struct SmartIR.IRAction[]",
+                    "name": "",
+                    "type": "tuple[]"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        }
+    ]
+}

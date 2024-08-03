@@ -8,8 +8,8 @@
 const int IR_LED_PIN = 19;
 
 // WiFi credentials
-const char* ssid = "AB-DEV";
-const char* password = "AB_d3V@2024";
+const char* ssid = "ENTER_VALID_CREDENTIALS";
+const char* password = "ENTER_VALID_CREDENTIALS";
 
 // MQTT Broker credentials
 const char* mqtt_server = "192.168.1.21";
