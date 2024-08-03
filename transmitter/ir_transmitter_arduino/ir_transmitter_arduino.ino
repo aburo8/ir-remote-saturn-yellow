@@ -5,16 +5,17 @@
 #include <ArduinoJson.h>
 
 // Define the pin where your IR LED is connected
-const int IR_LED_PIN = 19;
+const int IR_LED_PIN = 33;
 
 // WiFi credentials
+// NOTE: Credentials can be found in user_data/NETWORK_CREDS.json
 const char* ssid = "ENTER_VALID_CREDENTIALS";
 const char* password = "ENTER_VALID_CREDENTIALS";
 
 // MQTT Broker credentials
-const char* mqtt_server = "192.168.1.21";
-const char* mqtt_username = "controller";
-const char* mqtt_password = "csse4011";
+const char* mqtt_server = "ENTER_VALID_CREDENTIALS";
+const char* mqtt_username = "ENTER_VALID_CREDENTIALS";
+const char* mqtt_password = "ENTER_VALID_CREDENTIALS";
 
 // MQTT client
 WiFiClient espClient;
