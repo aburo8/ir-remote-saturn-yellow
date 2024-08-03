@@ -188,8 +188,8 @@ string = """{
 }"""
 
 # WiFi connection settings
-WIFI_SSID = 'AB-DEV'
-WIFI_PASSWORD = 'AB_d3V@2024'
+WIFI_SSID = 'ENTER_VALID_CREDENTIALS'
+WIFI_PASSWORD = 'ENTER_VALID_CREDENTIALS'
 
 wifi = network.WLAN(network.STA_IF)
 wifi.active(True)
@@ -210,10 +210,10 @@ print("WiFi connected:", wifi.ifconfig())
 # wlan.ifconfig()
 
 # MQTT connection settings
-server="192.168.1.21"
+server='ENTER_VALID_CREDENTIALS'
 ClientID = f'esp32-sub-{time.time_ns()}'
-user = "controller"
-password = "csse4011"
+user = 'ENTER_VALID_CREDENTIALS'
+password = 'ENTER_VALID_CREDENTIALS'
 topic = "topic/configuration"
 msg = b'{"msg":"hello"}'
 client = MQTTClient(ClientID, server, 1883, user, password)
