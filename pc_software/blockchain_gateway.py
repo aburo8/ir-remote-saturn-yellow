@@ -3,7 +3,7 @@ import threading
 import time
 import json
 import paho.mqtt.client as mqtt
-from web3 import Web3
+from web3 import Web3, exceptions
 from smart_ir_data import ControllerConfig, VERSION, ADDR_BOOK, CONTROLLERS, TRANSMITTER, CONTRACT_ADDR, CONTRACT_ABI, PC_ADDR, TRANSMITTER_ADDR
 from datetime import datetime, timedelta
 
@@ -93,16 +93,21 @@ class ControllerGateway(threading.Thread):
         })
 
         # Sign the transaction
-        signed_txn = self.web3.eth.account.sign_transaction(transaction, private_key=controller.key)
+        try:
+            signed_txn = self.web3.eth.account.sign_transaction(transaction, private_key=controller.key)
 
-        # Send the transaction
-        tx_hash = self.web3.eth.send_raw_transaction(signed_txn.rawTransaction)
+            # Send the transaction
+            tx_hash = self.web3.eth.send_raw_transaction(signed_txn.rawTransaction)
 
-        # Wait for the transaction to be mined
-        tx_receipt = self.web3.eth.wait_for_transaction_receipt(tx_hash)
+            # Wait for the transaction to be mined
+            tx_receipt = self.web3.eth.wait_for_transaction_receipt(tx_hash)
 
-        # Print the transaction receipt
-        print(f'Transaction successful with hash: {tx_hash.hex()}')
+            # Print the transaction receipt
+            print(f'Transaction successful with hash: {tx_hash.hex()}')
+        except ValueError:
+            print(f"Replacement Transaction Underpriced - wait for existing transaction to execute.")
+        except exceptions.TimeExhausted:
+            print(f"Transactions receipts are timing out! Wait for blockchain to process current transactions!")
 
     def run(self):
         self.isRunning = True
